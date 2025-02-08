@@ -1,5 +1,5 @@
 {
-  "name": "@org/source",
+  "name": "@ng-ios/source",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -15,6 +15,7 @@
     "@angular/platform-browser": "~19.1.0",
     "@angular/platform-browser-dynamic": "~19.1.0",
     "@angular/router": "~19.1.0",
+    "hammerjs": "^2.0.8",
     "rxjs": "~7.8.0",
     "zone.js": "~0.15.0"
   },
@@ -40,6 +41,7 @@
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
+    "@types/hammerjs": "^2.0.46",
     "@types/jest": "^29.5.12",
     "@types/node": "18.16.9",
     "@typescript-eslint/utils": "^8.19.0",

@@ -1,13 +1,21 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
+
+import {
+  HomeScreenFavAppsBarComponent,
+} from '@ng-ios/ui';
+
+import { PhoneFrameComponent } from './phone-frame';
 
 @Component({
-  imports: [NxWelcomeComponent, RouterModule],
+  imports: [
+    RouterModule,
+    PhoneFrameComponent,
+    HomeScreenFavAppsBarComponent,
+  ],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'ng-ios';
 }

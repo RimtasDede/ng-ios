@@ -1,0 +1,8 @@
+:host {
+  display: block;
+  background: #f0f0f0;
+  max-width: 100%;
+  max-height: 100%;
+  width: calc(828 / 1792 * 100vh);
+  height: calc(1792 / 828 * 100vw);
+}
