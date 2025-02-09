@@ -1,10 +1,28 @@
 <!-- <app-nx-welcome></app-nx-welcome> -->
+<router-outlet></router-outlet>
 
 <app-phone-frame class="phone-frame">
-  <router-outlet></router-outlet>
 
-  <div class="fav-apps-bar">
-    <lib-home-screen-fav-apps-bar
-    ></lib-home-screen-fav-apps-bar>
+  <div class="home-grid">
+    <div class="home-grid__status-bar">
+      <div>
+        <app-time />
+      </div>
+      <div>
+        batery
+      </div>
+    </div>
+
+    <div class="home-grid__apps">
+      apps
+    </div>
+
+    <div class="home-grid__fav-apps">
+
+      <lib-home-screen-fav-apps-bar
+      ></lib-home-screen-fav-apps-bar>
+
+    </div>
   </div>
+
 </app-phone-frame>

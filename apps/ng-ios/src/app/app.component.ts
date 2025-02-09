@@ -6,12 +6,14 @@ import {
 } from '@ng-ios/ui';
 
 import { PhoneFrameComponent } from './phone-frame';
+import { TimeComponent } from './time';
 
 @Component({
   imports: [
     RouterModule,
     PhoneFrameComponent,
     HomeScreenFavAppsBarComponent,
+    TimeComponent,
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
