@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { DocumentVisibilityService } from '@ng-ios/utility';
 import {
   HomeScreenFavAppsBarComponent,
 } from '@ng-ios/ui';
@@ -16,6 +17,9 @@ import { BatteryComponent } from './battery';
     HomeScreenFavAppsBarComponent,
     TimeComponent,
     BatteryComponent,
+  ],
+  providers: [
+    DocumentVisibilityService,
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
