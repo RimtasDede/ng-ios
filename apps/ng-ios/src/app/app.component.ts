@@ -7,6 +7,7 @@ import {
 
 import { PhoneFrameComponent } from './phone-frame';
 import { TimeComponent } from './time';
+import { BatteryComponent } from './battery';
 
 @Component({
   imports: [
@@ -14,6 +15,7 @@ import { TimeComponent } from './time';
     PhoneFrameComponent,
     HomeScreenFavAppsBarComponent,
     TimeComponent,
+    BatteryComponent,
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
