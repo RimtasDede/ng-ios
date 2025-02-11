@@ -1,16 +1,24 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+import { IosBatteryService } from '@ng-ios/ios-services';
 
 @Component({
   selector: 'app-battery',
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+  ],
   templateUrl: './battery.component.svg',
   styleUrl: './battery.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BatteryComponent {
 
-  percentage = 19;
-  batteryPx = this.percentageToPx(this.percentage);
+  private iosBatteryService = inject(IosBatteryService);
+
+  percentage = this.iosBatteryService.percentage;
+  isCharging = this.iosBatteryService.isCharging;
+  batteryPx = computed(() => this.percentageToPx(this.percentage()));
 
   private percentageToPx(percent: number): number {
     const marginLeft = 125;

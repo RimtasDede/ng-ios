@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { IOS_SERVICE_PROVIDERS } from '@ng-ios/ios-services';
 import { DocumentVisibilityService } from '@ng-ios/utility';
 import {
   HomeScreenFavAppsBarComponent,
@@ -21,6 +22,7 @@ import { AppsGridComponent } from './apps-grid';
     AppsGridComponent,
   ],
   providers: [
+    ...IOS_SERVICE_PROVIDERS,
     DocumentVisibilityService,
   ],
   selector: 'app-root',
