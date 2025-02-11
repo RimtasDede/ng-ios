@@ -9,6 +9,7 @@ import {
 import { PhoneFrameComponent } from './phone-frame';
 import { TimeComponent } from './time';
 import { BatteryComponent } from './battery';
+import { AppsGridComponent } from './apps-grid';
 
 @Component({
   imports: [
@@ -17,6 +18,7 @@ import { BatteryComponent } from './battery';
     HomeScreenFavAppsBarComponent,
     TimeComponent,
     BatteryComponent,
+    AppsGridComponent,
   ],
   providers: [
     DocumentVisibilityService,
@@ -26,4 +28,5 @@ import { BatteryComponent } from './battery';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
+
 }

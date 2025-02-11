@@ -11,7 +11,7 @@ import { BrowserModule, HammerModule } from '@angular/platform-browser';
     // HammerModule,
   ],
   templateUrl: './home-screen-fav-apps-bar.component.html',
-  styleUrl: './home-screen-fav-apps-bar.component.css',
+  styleUrl: './home-screen-fav-apps-bar.component.scss',
 })
 export class HomeScreenFavAppsBarComponent {
 

@@ -1,7 +1,10 @@
 <!-- <app-nx-welcome></app-nx-welcome> -->
 <router-outlet></router-outlet>
 
-<app-phone-frame class="phone-frame">
+<app-phone-frame
+  id="phone-frame"
+  class="phone-frame"
+>
 
   <div class="home-grid">
     <div class="home-grid__status-bar">
@@ -14,13 +17,14 @@
     </div>
 
     <div class="home-grid__apps">
-      apps
+
+      <app-apps-grid />
+
     </div>
 
     <div class="home-grid__fav-apps">
 
-      <lib-home-screen-fav-apps-bar
-      ></lib-home-screen-fav-apps-bar>
+      <lib-home-screen-fav-apps-bar />
 
     </div>
   </div>

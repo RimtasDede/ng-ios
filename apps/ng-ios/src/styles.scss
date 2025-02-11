@@ -1,5 +1,9 @@
 @use './styles/all';
 
+* {
+  user-select: none;
+}
+
 html, body {
   font-family: 'SF Pro', sans-serif;
   height: 100%;
