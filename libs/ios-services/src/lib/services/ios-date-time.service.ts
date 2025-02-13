@@ -23,9 +23,6 @@ export class IosDateTimeService implements OnDestroy {
       });
   }
 
-  /**
-   * @access private
-   */
   ngOnDestroy(): void {
     this.stopTimer();
     this.visibilitySub?.unsubscribe();

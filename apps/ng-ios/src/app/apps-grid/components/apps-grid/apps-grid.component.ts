@@ -1,7 +1,8 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Application } from '@ng-ios/application';
+import { IosScreenService } from '@ng-ios/ios-services';
 
 import { apps } from './data';
 
@@ -16,6 +17,8 @@ import { apps } from './data';
 })
 export class AppsGridComponent {
 
+  iosScreen = inject(IosScreenService);
+
   applications: Application[][] = apps;
   private totalPages = this.applications.length - 1;
   private currPage = 0;
@@ -26,44 +29,129 @@ export class AppsGridComponent {
 
 
   @HostListener('panstart', ['$event'])
-  panStart(e: any) {
+  panStart(e: HammerInput) {
     this.swipeStartX = e.center.x;
   }
 
   @HostListener('panleft', ['$event'])
-  panLeft(e: any) {
+  panLeft(e: HammerInput) {
     if (!this.swipeStartX) {
       return;
     }
 
-    const pageWidth = this.getPhoneScreenSize().width;
-    const x = this.currPage * pageWidth * -1 + e.center.x - this.swipeStartX;
+    const pageWidth = this.iosScreen.state().width;
+    const x = this.currPage * pageWidth * -1 + e.deltaX;
+
+    // prevent swipe to out of pages
+    if (!this.canSwipeApps(x)) {
+      return;
+    }
 
     this.appsGrid.nativeElement.style.transform = `translateX(${x}px)`;
   }
 
   @HostListener('panright', ['$event'])
-  panRight(e: any) {
+  panRight(e: HammerInput) {
     if (!this.swipeStartX) {
       return;
     }
 
-    const pageWidth = this.getPhoneScreenSize().width;
-    const x = this.currPage * pageWidth * -1 + e.center.x - this.swipeStartX;
+    const pageWidth = this.iosScreen.state().width;
+    const x = this.currPage * pageWidth * -1 + e.deltaX;
+
+    // prevent swipe to out of pages
+    if (!this.canSwipeApps(x)) {
+      console.log('pan right', x);
+      return;
+    }
 
     this.appsGrid.nativeElement.style.transform = `translateX(${x}px)`;
   }
 
   @HostListener('panend', ['$event'])
-  panEnd(e: any) {
+  panEnd(e: HammerInput) {
     if (!this.swipeStartX) {
       return;
     }
 
-    const appsGrid = this.appsGrid.nativeElement as HTMLElement;
-    const pageWidth = this.getPhoneScreenSize().width;
+    const screenState = this.iosScreen.state();
+    const pageWidth = screenState.width;
     const halfPageWidth = pageWidth / 2;
-    const move = e.center.x - this.swipeStartX;
+    const appsGrid = this.appsGrid.nativeElement as HTMLElement;
+    const move = e.deltaX;
+    const x = this.currPage * pageWidth * -1 + e.deltaX;
+    const direction = move > 0 ? 1 : -1;
+
+    if (this.canSwipeApps(x)) {
+      // add swipe animation transition
+      appsGrid.classList.add('apps-grid--transition');
+
+      // remove swite animation transition after it ends
+      appsGrid.addEventListener('transitionend', function handleTransitionEnd() {
+        appsGrid.classList.remove('apps-grid--transition');
+        appsGrid.removeEventListener('transitionend', handleTransitionEnd);
+      });
+    }
+
+    if (
+      Math.abs(move) >= halfPageWidth
+      && (
+        (this.totalPages === this.currPage && direction > 0)
+        || (this.currPage === 0 && direction < 0)
+      )
+    ) {
+      // change page
+      const newX = this.currPage * pageWidth * -1 + pageWidth * direction;
+
+      this.currPage -= direction;
+
+      this.appsGrid.nativeElement.style.transform = `translateX(${newX}px)`;
+    } else {
+      // keep same page
+      const newX = this.currPage * pageWidth * -1;
+
+      this.appsGrid.nativeElement.style.transform = `translateX(${newX}px)`;
+    }
+
+    this.swipeStartX = undefined;
+  }
+
+  @HostListener('swipeLeft', ['$event'])
+  swipeLeft(e: HammerInput) {
+    this.swipe(e);
+  }
+
+  @HostListener('swipeRight', ['$event'])
+  swipeRight(e: HammerInput) {
+    this.swipe(e);
+  }
+
+
+  openApp(): void {
+    console.log('open app event');
+  }
+
+  /**
+   *
+   * @param x Horizontal swipe number in px
+   */
+  private canSwipeApps(x: number): boolean {
+    const pageWidth = this.iosScreen.state().width;
+
+    return x < 0 && x > this.totalPages * pageWidth * -1;
+  }
+
+  private swipe(e: HammerInput): void {
+    const screenState = this.iosScreen.state();
+    const pageWidth = screenState.width;
+    const x = this.currPage * pageWidth * -1 + e.deltaX;
+
+    if (!this.canSwipeApps(x)) {
+      return;
+    }
+
+    const appsGrid = this.appsGrid.nativeElement as HTMLElement;
+    const move = e.deltaX;
     const direction = move > 0 ? 1 : -1;
 
     // add swipe animation transition
@@ -75,64 +163,12 @@ export class AppsGridComponent {
       appsGrid.removeEventListener('transitionend', handleTransitionEnd);
     });
 
-    if (
-      Math.abs(move) >= halfPageWidth
-      && (
-        (this.totalPages === this.currPage && direction > 0)
-        || (this.currPage === 0 && direction < 0)
-      )
-    ) {
-      // change page
-      const x = this.currPage * pageWidth * -1 + pageWidth * direction;
+    // change page
+    const newX = this.currPage * pageWidth * -1 + pageWidth * direction;
 
-      this.currPage -= direction;
+    this.currPage -= direction;
 
-      this.appsGrid.nativeElement.style.transform = `translateX(${x}px)`;
-    } else {
-      // keep same page
-      const x = this.currPage * pageWidth * -1;
-
-      this.appsGrid.nativeElement.style.transform = `translateX(${x}px)`;
-    }
-
-    this.swipeStartX = undefined;
-  }
-
-
-  openApp(): void {
-    console.log('open app event');
-  }
-
-  private getPhoneScreenSize(): { width: number, height: number } {
-    const phoneFrame = document.getElementById('phone-frame') as HTMLElement;
-
-    return {
-      width: phoneFrame.offsetWidth,
-      height: phoneFrame.offsetHeight,
-    };
-  }
-
-
-
-
-  panstart(e: any): void {
-    console.log('pan start', e);
-  }
-
-  panend(e: any): void {
-    console.log('pan end', e);
-  }
-
-  panleft(e: any): void {
-    // console.log('pan left', e);
-  }
-
-  panright(e: any): void {
-    console.log('pan right', e);
-  }
-
-  pancancel(e: any): void {
-    console.log('pan cancel', e);
+    this.appsGrid.nativeElement.style.transform = `translateX(${newX}px)`;
   }
 
 }

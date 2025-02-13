@@ -3,7 +3,7 @@
     <div class="apps-grid__panel">
       @for (app of apps; track app) {
         <div class="apps-grid__panel__app">
-          <div class="app" (click)="openApp()">
+          <div class="app" (tap)="openApp()">
             <div class="app__icon">
               {{ app.icon }}
             </div>
@@ -16,8 +16,3 @@
     </div>
   }
 </div>
-
-<!-- <div
-  class="touch-overlay"
-  (panstart)="panstart($event)"
-></div> -->
