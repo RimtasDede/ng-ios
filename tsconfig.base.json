@@ -17,6 +17,7 @@
     "paths": {
       "@ng-ios/application": ["libs/application/src/index.ts"],
       "@ng-ios/ios-services": ["libs/ios-services/src/index.ts"],
+      "@ng-ios/today-view": ["libs/today-view/src/index.ts"],
       "@ng-ios/ui": ["libs/ui/src/index.ts"],
       "@ng-ios/utility": ["libs/utility/src/index.ts"]
     }

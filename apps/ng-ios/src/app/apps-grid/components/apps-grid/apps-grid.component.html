@@ -1,6 +1,6 @@
 <div #appsGrid class="apps-grid">
   @for (apps of applications; track apps) {
-    <div class="apps-grid__panel">
+    <div #appsGridPanel class="apps-grid__panel">
       @for (app of apps; track app) {
         <div class="apps-grid__panel__app">
           <div class="app" (tap)="openApp()">

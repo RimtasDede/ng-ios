@@ -5,6 +5,9 @@
   id="phone-frame"
   class="phone-frame"
 >
+  <div #todayViewBox class="today-view-box">
+    <lib-today-view />
+  </div>
 
   <div class="home-grid">
     <div class="home-grid__status-bar">
@@ -18,7 +21,12 @@
 
     <div class="home-grid__apps">
 
-      <app-apps-grid />
+      <app-apps-grid
+        (swipeBeforeFirstPage)="openTodayView($event)"
+        (swipeAfterLastPage)="openAppsSearch($event)"
+        (panBeforeFirstPage)="panToTodayView($event)"
+        (panAfterLastPage)="panToAppsSearch($event)"
+      />
 
     </div>
 
@@ -29,6 +37,6 @@
     </div>
   </div>
 
-  <div class="home-grid-blur-overlay"></div>
+  <div #blurOverlay class="home-grid-blur-overlay"></div>
 
 </app-phone-frame>

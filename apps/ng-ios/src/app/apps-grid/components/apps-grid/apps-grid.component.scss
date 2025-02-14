@@ -29,6 +29,10 @@
     flex-shrink: 0;
     width: 100%;
 
+    &--transition {
+      transition: transform 0.3s ease-in-out;
+    }
+
     &__app {
       display: flex;
       justify-content: center;

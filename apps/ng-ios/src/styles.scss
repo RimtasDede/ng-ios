@@ -9,6 +9,12 @@ html, body {
   height: 100%;
 }
 
+body {
+  background: url('/wallpaper/1.jpg') center;
+  background-size: cover;
+  backdrop-filter: blur(30px) brightness(70%);
+}
+
 app-root {
   display: block;
   height: 100%;

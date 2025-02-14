@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, inject, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Application } from '@ng-ios/application';
@@ -17,6 +17,11 @@ import { apps } from './data';
 })
 export class AppsGridComponent {
 
+  @Output() swipeBeforeFirstPage = new EventEmitter<any>();
+  @Output() swipeAfterLastPage = new EventEmitter<any>();
+  @Output() panBeforeFirstPage = new EventEmitter<any>();
+  @Output() panAfterLastPage = new EventEmitter<any>();
+
   iosScreen = inject(IosScreenService);
 
   applications: Application[][] = apps;
@@ -24,6 +29,7 @@ export class AppsGridComponent {
   private currPage = 0;
 
   @ViewChild('appsGrid') appsGrid!: ElementRef;
+  @ViewChildren('appsGridPanel') appsGridPanels!: QueryList<ElementRef>;
 
   swipeStartX?: number;
 
@@ -44,6 +50,8 @@ export class AppsGridComponent {
 
     // prevent swipe to out of pages
     if (!this.canSwipeApps(x)) {
+      this.panAfterLastPage.emit(e);
+
       return;
     }
 
@@ -61,7 +69,8 @@ export class AppsGridComponent {
 
     // prevent swipe to out of pages
     if (!this.canSwipeApps(x)) {
-      console.log('pan right', x);
+      this.panBeforeFirstPage.emit(e);
+
       return;
     }
 
@@ -105,12 +114,12 @@ export class AppsGridComponent {
 
       this.currPage -= direction;
 
-      this.appsGrid.nativeElement.style.transform = `translateX(${newX}px)`;
+      appsGrid.style.transform = `translateX(${newX}px)`;
     } else {
       // keep same page
       const newX = this.currPage * pageWidth * -1;
 
-      this.appsGrid.nativeElement.style.transform = `translateX(${newX}px)`;
+      appsGrid.style.transform = `translateX(${newX}px)`;
     }
 
     this.swipeStartX = undefined;
@@ -145,14 +154,36 @@ export class AppsGridComponent {
     const screenState = this.iosScreen.state();
     const pageWidth = screenState.width;
     const x = this.currPage * pageWidth * -1 + e.deltaX;
+    const move = e.deltaX;
+    const direction = move > 0 ? 1 : -1;
 
     if (!this.canSwipeApps(x)) {
+      if (direction === 1) {
+        this.swipeBeforeFirstPage.emit();
+
+        const activeAppsGridPanel = this.appsGridPanels.get(this.currPage)!.nativeElement;
+        console.log(activeAppsGridPanel);
+
+        // add scale animation transition
+        activeAppsGridPanel.classList.add('apps-grid__panel--transition');
+
+        // remove scale animation transition after it ends
+        activeAppsGridPanel.addEventListener('transitionend', function handleTransitionEnd() {
+          activeAppsGridPanel.classList.remove('apps-grid__panel--transition');
+          activeAppsGridPanel.removeEventListener('transitionend', handleTransitionEnd);
+        });
+
+        activeAppsGridPanel.style.transform = 'scale(0.94)';
+
+
+      } else {
+        this.swipeAfterLastPage.emit();
+      }
+
       return;
     }
 
     const appsGrid = this.appsGrid.nativeElement as HTMLElement;
-    const move = e.deltaX;
-    const direction = move > 0 ? 1 : -1;
 
     // add swipe animation transition
     appsGrid.classList.add('apps-grid--transition');
@@ -168,7 +199,7 @@ export class AppsGridComponent {
 
     this.currPage -= direction;
 
-    this.appsGrid.nativeElement.style.transform = `translateX(${newX}px)`;
+    appsGrid.style.transform = `translateX(${newX}px)`;
   }
 
 }

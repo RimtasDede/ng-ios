@@ -25,16 +25,32 @@ interface IosScreenState {
 @Injectable()
 export class IosScreenService {
 
-  private screen = document.getElementById('phone-frame') as HTMLElement;
+  state = signal<IosScreenState>({
+    top: 0,
+    left: 0,
+    width: 0,
+    height: 0,
+  });
 
-  state = signal<IosScreenState>(this.getScreenState());
+  constructor() {
+    setTimeout(() => {
+      this.state.set(this.getScreenState());
+    });
+  }
 
   private getScreenState(): IosScreenState {
+    const {
+      offsetTop,
+      offsetLeft,
+      offsetWidth,
+      offsetHeight,
+    } = document.getElementById('iphone-screen') as HTMLElement;
+
     return {
-      top: this.screen.offsetTop,
-      left: this.screen.offsetLeft,
-      width: this.screen.offsetWidth,
-      height: this.screen.offsetHeight,
+      top: offsetTop,
+      left: offsetLeft,
+      width: offsetWidth,
+      height: offsetHeight,
     };
   }
 
