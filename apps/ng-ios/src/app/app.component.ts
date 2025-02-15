@@ -33,13 +33,14 @@ import { AppsGridComponent } from './apps-grid';
 })
 export class AppComponent {
 
+  @ViewChild('homeApps') homeApps!: ElementRef;
   @ViewChild(AppsGridComponent) appsGrid!: AppsGridComponent;
   @ViewChild('todayViewBox') todayViewBox!: ElementRef;
   @ViewChild('blurOverlay') blurOverlay!: ElementRef;
 
   openTodayView(a: any) {
     this.overlayBlur(20, 0.15, true);
-    this.appsGrid.scaleCurrentPage();
+    this.scaleHomeApps();
 
     const todayViewBox = this.todayViewBox.nativeElement as HTMLElement;
 
@@ -57,7 +58,7 @@ export class AppComponent {
 
   closeTodayView(e: any) {
     this.overlayBlur(0, 0, true);
-    this.appsGrid.resetScaleCurrentPage();
+    this.resetScaleHomeApps();
 
     const todayViewBox = this.todayViewBox.nativeElement as HTMLElement;
 
@@ -89,11 +90,11 @@ export class AppComponent {
 
     if (useTransition) {
       // add swipe animation transition
-      blurOverlay.classList.add('home-grid-blur-overlay--transition');
+      blurOverlay.classList.add('home-blur-overlay--transition');
 
       // remove swipe animation transition after it ends
       blurOverlay.addEventListener('transitionend', function handleTransitionEnd() {
-        blurOverlay.classList.remove('home-grid-blur-overlay--transition');
+        blurOverlay.classList.remove('home-blur-overlay--transition');
         blurOverlay.removeEventListener('transitionend', handleTransitionEnd);
       });
     }
@@ -101,5 +102,29 @@ export class AppComponent {
     blurOverlay.style.backdropFilter = `blur(${x}px)`;
     blurOverlay.style.backgroundColor = `rgba(0, 0, 0, ${opacity})`;
   }
+
+  /**
+   * Change current page scale
+   * @param scale transform: scale() value
+   */
+  scaleHomeApps(scale: number = 0.94) {
+    const activeAppsGridPanel = this.homeApps.nativeElement;
+
+    // add scale animation transition
+    activeAppsGridPanel.classList.add('home-apps--transition');
+
+    // remove scale animation transition after it ends
+    activeAppsGridPanel.addEventListener('transitionend', function handleTransitionEnd() {
+      activeAppsGridPanel.classList.remove('home-apps--transition');
+      activeAppsGridPanel.removeEventListener('transitionend', handleTransitionEnd);
+    });
+
+    activeAppsGridPanel.style.transform = `scale(${scale})`;
+  }
+
+  resetScaleHomeApps() {
+    this.scaleHomeApps(1);
+  }
+
 
 }

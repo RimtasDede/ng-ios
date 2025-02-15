@@ -13,8 +13,8 @@
     <lib-today-view />
   </div>
 
-  <div class="home-grid">
-    <div class="home-grid__status-bar">
+  <div class="home">
+    <div class="status-bar">
       <div>
         <app-time />
       </div>
@@ -23,24 +23,22 @@
       </div>
     </div>
 
-    <div class="home-grid__apps">
+    <div #homeApps class="home-apps">
+      <div class="home-apps__apps">
+        <app-apps-grid
+          (swipeBeforeFirstPage)="openTodayView($event)"
+          (swipeAfterLastPage)="openAppsSearch($event)"
+          (panBeforeFirstPage)="panToTodayView($event)"
+          (panAfterLastPage)="panToAppsSearch($event)"
+        />
+      </div>
 
-      <app-apps-grid
-        (swipeBeforeFirstPage)="openTodayView($event)"
-        (swipeAfterLastPage)="openAppsSearch($event)"
-        (panBeforeFirstPage)="panToTodayView($event)"
-        (panAfterLastPage)="panToAppsSearch($event)"
-      />
-
-    </div>
-
-    <div class="home-grid__fav-apps">
-
-      <lib-home-screen-fav-apps-bar />
-
+      <div class="home-apps__fav-apps">
+        <lib-home-screen-fav-apps-bar />
+      </div>
     </div>
   </div>
 
-  <div #blurOverlay class="home-grid-blur-overlay"></div>
+  <div #blurOverlay class="home-blur-overlay"></div>
 
 </app-phone-frame>
