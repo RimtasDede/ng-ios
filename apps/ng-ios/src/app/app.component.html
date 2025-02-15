@@ -5,7 +5,11 @@
   id="phone-frame"
   class="phone-frame"
 >
-  <div #todayViewBox class="today-view-box">
+  <div
+    #todayViewBox
+    class="today-view-box"
+    (swipeleft)="closeTodayView($event)"
+  >
     <lib-today-view />
   </div>
 

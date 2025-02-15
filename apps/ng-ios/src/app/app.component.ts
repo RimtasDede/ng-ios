@@ -33,13 +33,13 @@ import { AppsGridComponent } from './apps-grid';
 })
 export class AppComponent {
 
+  @ViewChild(AppsGridComponent) appsGrid!: AppsGridComponent;
   @ViewChild('todayViewBox') todayViewBox!: ElementRef;
   @ViewChild('blurOverlay') blurOverlay!: ElementRef;
 
   openTodayView(a: any) {
-    console.log('Before First Page', a);
-
-    this.overlayBlur(20, true);
+    this.overlayBlur(20, 0.15, true);
+    this.appsGrid.scaleCurrentPage();
 
     const todayViewBox = this.todayViewBox.nativeElement as HTMLElement;
 
@@ -55,18 +55,36 @@ export class AppComponent {
     todayViewBox.style.transform = 'translateX(100%)';
   }
 
+  closeTodayView(e: any) {
+    this.overlayBlur(0, 0, true);
+    this.appsGrid.resetScaleCurrentPage();
+
+    const todayViewBox = this.todayViewBox.nativeElement as HTMLElement;
+
+    // add swipe animation transition
+    todayViewBox.classList.add('today-view-box--transition');
+
+    // remove swipe animation transition after it ends
+    todayViewBox.addEventListener('transitionend', function handleTransitionEnd() {
+      todayViewBox.classList.remove('today-view-box--transition');
+      todayViewBox.removeEventListener('transitionend', handleTransitionEnd);
+    });
+
+    todayViewBox.style.transform = 'translateX(0)';
+  }
+
   openAppsSearch(a: any) {
-    console.log('After Last Page', a);
+    // console.log('After Last Page', a);
   }
 
   panToTodayView(e: any) {
-    console.log('panToTodayView', e);
+    // console.log('panToTodayView', e);
   }
 
   panToAppsSearch(e: any) {}
 
 
-  private overlayBlur(x: number, useTransition: boolean = false) {
+  private overlayBlur(x: number, opacity: number, useTransition: boolean = false) {
     const blurOverlay = this.blurOverlay.nativeElement as HTMLElement;
 
     if (useTransition) {
@@ -81,6 +99,7 @@ export class AppComponent {
     }
 
     blurOverlay.style.backdropFilter = `blur(${x}px)`;
+    blurOverlay.style.backgroundColor = `rgba(0, 0, 0, ${opacity})`;
   }
 
 }

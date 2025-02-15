@@ -162,7 +162,6 @@ export class AppsGridComponent {
         this.swipeBeforeFirstPage.emit();
 
         const activeAppsGridPanel = this.appsGridPanels.get(this.currPage)!.nativeElement;
-        console.log(activeAppsGridPanel);
 
         // add scale animation transition
         activeAppsGridPanel.classList.add('apps-grid__panel--transition');
@@ -174,8 +173,6 @@ export class AppsGridComponent {
         });
 
         activeAppsGridPanel.style.transform = 'scale(0.94)';
-
-
       } else {
         this.swipeAfterLastPage.emit();
       }
@@ -200,6 +197,29 @@ export class AppsGridComponent {
     this.currPage -= direction;
 
     appsGrid.style.transform = `translateX(${newX}px)`;
+  }
+
+  /**
+   * Change current page scale
+   * @param scale transform: scale() value
+   */
+  scaleCurrentPage(scale: number = 0.94) {
+    const activeAppsGridPanel = this.appsGridPanels.get(this.currPage)!.nativeElement;
+
+    // add scale animation transition
+    activeAppsGridPanel.classList.add('apps-grid__panel--transition');
+
+    // remove scale animation transition after it ends
+    activeAppsGridPanel.addEventListener('transitionend', function handleTransitionEnd() {
+      activeAppsGridPanel.classList.remove('apps-grid__panel--transition');
+      activeAppsGridPanel.removeEventListener('transitionend', handleTransitionEnd);
+    });
+
+    activeAppsGridPanel.style.transform = `scale(${scale})`;
+  }
+
+  resetScaleCurrentPage() {
+    this.scaleCurrentPage(1);
   }
 
 }

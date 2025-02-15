@@ -19,6 +19,7 @@ $phone-vertical-frame: calc(111 / 1962 * 100%);
   background: url('/iphone11-frame.png') no-repeat;
   background-size: 127% 106%;
   background-position: 45% -1px;
+  z-index: 9999;
   pointer-events: none;
 }
 
