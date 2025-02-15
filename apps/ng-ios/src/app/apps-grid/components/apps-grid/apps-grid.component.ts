@@ -24,13 +24,17 @@ export class AppsGridComponent {
 
   iosScreen = inject(IosScreenService);
 
+  @ViewChild('appsGrid') appsGrid!: ElementRef;
+  @ViewChildren('appsGridPanel') appsGridPanels!: QueryList<ElementRef>;
+
   applications: Application[][] = apps;
   private totalPages = this.applications.length - 1;
   private currPage = 0;
 
-  @ViewChild('appsGrid') appsGrid!: ElementRef;
-  @ViewChildren('appsGridPanel') appsGridPanels!: QueryList<ElementRef>;
-
+  /**
+   * Indicates do page change animation is in progress
+   */
+  private isPageAnimating = false;
   swipeStartX?: number;
 
 
@@ -92,14 +96,19 @@ export class AppsGridComponent {
     const direction = move > 0 ? 1 : -1;
 
     if (this.canSwipeApps(x)) {
+      const handleTransitionEnd = () => {
+        appsGrid.classList.remove('apps-grid--transition');
+        appsGrid.removeEventListener('transitionend', handleTransitionEnd);
+        this.isPageAnimating = false;
+      };
+
+      this.isPageAnimating = true;
+
       // add swipe animation transition
       appsGrid.classList.add('apps-grid--transition');
 
       // remove swite animation transition after it ends
-      appsGrid.addEventListener('transitionend', function handleTransitionEnd() {
-        appsGrid.classList.remove('apps-grid--transition');
-        appsGrid.removeEventListener('transitionend', handleTransitionEnd);
-      });
+      appsGrid.addEventListener('transitionend', handleTransitionEnd);
     }
 
     if (
@@ -127,11 +136,25 @@ export class AppsGridComponent {
 
   @HostListener('swipeLeft', ['$event'])
   swipeLeft(e: HammerInput) {
+    if (
+      this.isPageAnimating
+      && this.currPage === this.totalPages
+    ) {
+      return;
+    }
+
     this.swipe(e);
   }
 
   @HostListener('swipeRight', ['$event'])
   swipeRight(e: HammerInput) {
+    if (
+      this.isPageAnimating
+      && this.currPage === 0
+    ) {
+      return;
+    }
+
     this.swipe(e);
   }
 
