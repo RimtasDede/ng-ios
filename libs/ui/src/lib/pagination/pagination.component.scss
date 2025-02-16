@@ -1,0 +1,52 @@
+:host {
+  display: block;
+  font-size: 16px;
+  overflow: hidden;
+}
+
+.pages-box {
+  display: flex;
+  align-items: center;
+  transition: transform 0.15s ease-in-out;
+}
+
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+
+  &::before {
+    transition: transform 0.15s ease-in-out;
+  }
+
+  // page dot
+  &::before {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background-color: rgba(#fff, 0.5);
+  }
+
+  &--active {
+    &::before {
+      background-color: #fff;
+    }
+  }
+
+  &--more {
+    &::before {
+      transform: scale(0.7);
+    }
+  }
+
+  &--hide {
+    &::before {
+      transform: scale(0);
+    }
+  }
+}

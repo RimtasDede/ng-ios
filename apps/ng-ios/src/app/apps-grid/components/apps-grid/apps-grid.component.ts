@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { Application } from '@ng-ios/application';
 import { IosScreenService } from '@ng-ios/ios-services';
+import { PaginationComponent } from '@ng-ios/ui';
 
 import { apps } from './data';
 
@@ -11,6 +12,7 @@ import { apps } from './data';
   selector: 'app-apps-grid',
   imports: [
     CommonModule,
+    PaginationComponent,
   ],
   templateUrl: './apps-grid.component.html',
   styleUrl: './apps-grid.component.scss',
@@ -28,8 +30,8 @@ export class AppsGridComponent {
   @ViewChildren('appsGridPanel') appsGridPanels!: QueryList<ElementRef>;
 
   applications: Application[][] = apps;
-  private totalPages = this.applications.length - 1;
-  private currPage = 0;
+  totalPages = this.applications.length - 1;
+  currPage = 0;
 
   /**
    * Indicates do page change animation is in progress

@@ -93,6 +93,7 @@ export const apps = [
       icon: '',
     },
   ],
+
   [
     {
       label: 'Calendar',
@@ -138,6 +139,34 @@ export const apps = [
       label: 'Calendar',
       icon: '',
     },
+    {
+      label: 'Photos',
+      icon: '',
+    },
+  ],
+
+  [
+    {
+      label: 'Photos',
+      icon: '',
+    },
+  ],
+
+  [
+    {
+      label: 'Photos',
+      icon: '',
+    },
+  ],
+
+  [
+    {
+      label: 'Photos',
+      icon: '',
+    },
+  ],
+
+  [
     {
       label: 'Photos',
       icon: '',

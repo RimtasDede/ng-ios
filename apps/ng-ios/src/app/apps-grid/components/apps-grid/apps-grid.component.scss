@@ -1,6 +1,9 @@
 :host {
   position: relative;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
   padding: 0 20px;
 }
 
@@ -65,4 +68,16 @@
     overflow: hidden;
     white-space: nowrap;
   }
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 75px;
+  height: 28px;
+  background: rgba(#000, 0.3);
+  backdrop-filter: blur(6px);
+  border-radius: 15px;
+  margin: 0 auto;
 }

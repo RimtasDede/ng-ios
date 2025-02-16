@@ -1,0 +1,17 @@
+<div
+  class="pages-box"
+  [style]="{
+    transform: 'translateX(-' + showFrom + 'em)'
+  }"
+>
+  @for (page of pagesArr; track page; let first = $first) {
+    <div
+      class="page"
+      [class]="{
+        'page--active': page === currentPage,
+        'page--more': (page === showFrom && showFrom > 0) || (page === showFrom + maxWidth -1 && showFrom + maxWidth - 1 < pagesTotal),
+        'page--hide': (page < showFrom) || (page > showFrom + maxWidth -1),
+      }"
+    ></div>
+  }
+</div>
