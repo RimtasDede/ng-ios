@@ -1,5 +1,7 @@
 import { Component, ElementRef, EventEmitter, HostListener, inject, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { SvgIconComponent } from 'angular-svg-icon';
 
 import { Application } from '@ng-ios/application';
 import { IosScreenService } from '@ng-ios/ios-services';
@@ -13,9 +15,26 @@ import { apps } from './data';
   imports: [
     CommonModule,
     PaginationComponent,
+    SvgIconComponent,
   ],
   templateUrl: './apps-grid.component.html',
   styleUrl: './apps-grid.component.scss',
+  animations: [
+    trigger('fadeOut', [
+      state('visible', style({
+        opacity: 1,
+      })),
+      state('hidden', style({
+        opacity: 0,
+      })),
+      transition('visible => hidden', [
+        animate('0.2s')
+      ]),
+      transition('hidden => visible', [
+        animate('0.2s')
+      ]),
+    ])
+  ]
 })
 export class AppsGridComponent {
 
@@ -38,11 +57,16 @@ export class AppsGridComponent {
    */
   private isPageAnimating = false;
   swipeStartX?: number;
+  searchBtnVisibility: 'visible' | 'hidden' = 'visible';
+  paginationVisibility: 'visible' | 'hidden' = 'hidden';
+  paginationHideTimer: ReturnType<typeof setInterval> | undefined;
 
 
   @HostListener('panstart', ['$event'])
   panStart(e: HammerInput) {
     this.swipeStartX = e.center.x;
+
+    this.showPagination();
   }
 
   @HostListener('panleft', ['$event'])
@@ -60,6 +84,8 @@ export class AppsGridComponent {
 
       return;
     }
+
+    this.showPagination();
 
     this.appsGrid.nativeElement.style.transform = `translateX(${x}px)`;
   }
@@ -79,6 +105,8 @@ export class AppsGridComponent {
 
       return;
     }
+
+    this.showPagination();
 
     this.appsGrid.nativeElement.style.transform = `translateX(${x}px)`;
   }
@@ -134,6 +162,8 @@ export class AppsGridComponent {
     }
 
     this.swipeStartX = undefined;
+
+    this.hidePagination();
   }
 
   @HostListener('swipeLeft', ['$event'])
@@ -209,6 +239,33 @@ export class AppsGridComponent {
     this.currPage -= direction;
 
     appsGrid.style.transform = `translateX(${newX}px)`;
+  }
+
+  /**
+   * Hide search button and show pagination
+   */
+  private showPagination() {
+    if (this.searchBtnVisibility !== 'hidden') {
+      this.searchBtnVisibility = 'hidden';
+    }
+
+    if (this.paginationHideTimer) {
+      clearInterval(this.paginationHideTimer);
+    }
+  }
+
+  /**
+   * After delay hide pagination and show search button
+   */
+  private hidePagination() {
+    this.paginationHideTimer = setTimeout(() => {
+      this.paginationVisibility = 'hidden';
+      this.paginationHideTimer = undefined;
+    }, 1500);
+  }
+
+  openSearch() {
+    console.log('open search');
   }
 
 }

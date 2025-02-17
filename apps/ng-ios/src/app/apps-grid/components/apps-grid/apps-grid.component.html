@@ -18,7 +18,28 @@
 </div>
 
 <div class="search">
+  <button
+    class="search__btn"
+    [@fadeOut]="searchBtnVisibility"
+    (@fadeOut.start)="searchBtnVisibility === 'visible' ? $event.element.style.display = '' : null"
+    (@fadeOut.done)="
+      searchBtnVisibility === 'hidden' ? paginationVisibility = 'visible' : null;
+      searchBtnVisibility === 'hidden' ? $event.element.style.display = 'none' : null;
+    "
+    (click)="openSearch()"
+  >
+    <svg-icon src="/icons/search.svg" [svgStyle]="{ 'fill': 'white' }"></svg-icon>
+    <span>Search</span>
+  </button>
+
   <lib-pagination
+    class="pagination"
+    [@fadeOut]="paginationVisibility"
+    (@fadeOut.start)="paginationVisibility === 'visible' ? $event.element.style.display = '' : null"
+    (@fadeOut.done)="
+      paginationVisibility === 'hidden' ? searchBtnVisibility = 'visible' : null;
+      paginationVisibility === 'hidden' ? $event.element.style.display = 'none' : null;
+    "
     [pagesTotal]="totalPages"
     [currentPage]="currPage"
   />
