@@ -71,6 +71,7 @@
 }
 
 .search {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -96,4 +97,13 @@
     letter-spacing: 0.5px;
     border: none;
   }
+}
+
+.pagination {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
 }

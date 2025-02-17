@@ -23,9 +23,11 @@ import { apps } from './data';
     trigger('fadeOut', [
       state('visible', style({
         opacity: 1,
+        visibility: 'visible',
       })),
       state('hidden', style({
         opacity: 0,
+        visibility: 'hidden',
       })),
       transition('visible => hidden', [
         animate('0.2s')
