@@ -4,10 +4,10 @@ import { Injectable, signal } from '@angular/core';
 export class IosBatteryService {
 
   readonly percentage = signal<number>(0);
-  readonly isCharging = signal<boolean>(false);
+  readonly isCharging = signal<boolean>(true);
 
   constructor() {
-    this.percentage.set(19);
+    this.percentage.set(50);
   }
 
 }

@@ -18,6 +18,15 @@ export class BatteryComponent {
 
   percentage = this.iosBatteryService.percentage;
   isCharging = this.iosBatteryService.isCharging;
+  batteryColorClass = computed(() => {
+    if (this.isCharging()) {
+      return 'battery-charging';
+    }
+
+    return this.percentage() > 20
+      ? 'battery-regular'
+      : 'battery-low';
+  });
   batteryPx = computed(() => this.percentageToPx(this.percentage()));
 
   private percentageToPx(percent: number): number {
