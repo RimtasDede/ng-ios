@@ -263,7 +263,7 @@ export class AppsGridComponent {
     this.paginationHideTimer = setTimeout(() => {
       this.paginationVisibility = 'hidden';
       this.paginationHideTimer = undefined;
-    }, 1500);
+    }, 1000);
   }
 
   openSearch() {
