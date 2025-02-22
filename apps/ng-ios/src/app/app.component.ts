@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { IOS_SERVICE_PROVIDERS } from '@ng-ios/ios-services';
 import { DocumentVisibilityService } from '@ng-ios/utility';
 import { TodayViewComponent } from '@ng-ios/today-view';
+import { AppLibraryComponent } from '@ng-ios/app-library';
 import {
   HomeScreenFavAppsBarComponent,
 } from '@ng-ios/ui';
@@ -22,6 +23,7 @@ import { AppsGridComponent } from './apps-grid';
     BatteryComponent,
     AppsGridComponent,
     TodayViewComponent,
+    AppLibraryComponent,
   ],
   providers: [
     ...IOS_SERVICE_PROVIDERS,
@@ -36,6 +38,7 @@ export class AppComponent {
   @ViewChild('homeApps') homeApps!: ElementRef;
   @ViewChild(AppsGridComponent) appsGrid!: AppsGridComponent;
   @ViewChild('todayViewBox') todayViewBox!: ElementRef;
+  @ViewChild('appLibraryBox') appLibraryBox!: ElementRef;
   @ViewChild('blurOverlay') blurOverlay!: ElementRef;
 
   openTodayView(a: any) {
@@ -74,9 +77,44 @@ export class AppComponent {
     todayViewBox.style.transform = 'translateX(0)';
   }
 
-  openAppsSearch(a: any) {
-    // console.log('After Last Page', a);
+
+  openAppLibrary(a: any) {
+    this.overlayBlur(20, 0.15, true);
+    this.scaleHomeApps();
+
+    const appLibraryBox = this.appLibraryBox.nativeElement as HTMLElement;
+
+    // add swipe animation transition
+    appLibraryBox.classList.add('app-library-box--transition');
+
+    // remove swipe animation transition after it ends
+    appLibraryBox.addEventListener('transitionend', function handleTransitionEnd() {
+      appLibraryBox.classList.remove('app-library-box--transition');
+      appLibraryBox.removeEventListener('transitionend', handleTransitionEnd);
+    });
+
+    appLibraryBox.style.transform = 'translateX(-100%)';
   }
+
+  closeAppLibrary(e: any) {
+    this.overlayBlur(0, 0, true);
+    this.resetScaleHomeApps();
+
+    const appLibraryBox = this.appLibraryBox.nativeElement as HTMLElement;
+
+    // add swipe animation transition
+    appLibraryBox.classList.add('app-library-box--transition');
+
+    // remove swipe animation transition after it ends
+    appLibraryBox.addEventListener('transitionend', function handleTransitionEnd() {
+      appLibraryBox.classList.remove('app-library-box--transition');
+      appLibraryBox.removeEventListener('transitionend', handleTransitionEnd);
+    });
+
+    appLibraryBox.style.transform = 'translateX(0)';
+  }
+
+
 
   panToTodayView(e: any) {
     // console.log('panToTodayView', e);

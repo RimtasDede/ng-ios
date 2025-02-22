@@ -165,11 +165,4 @@ export const apps = [
       icon: '',
     },
   ],
-
-  [
-    {
-      label: 'Photos',
-      icon: '',
-    },
-  ],
 ];

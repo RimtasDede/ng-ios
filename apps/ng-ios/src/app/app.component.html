@@ -5,12 +5,22 @@
   id="phone-frame"
   class="phone-frame"
 >
+  <!-- Today View -->
   <div
     #todayViewBox
     class="today-view-box"
     (swipeleft)="closeTodayView($event)"
   >
     <lib-today-view />
+  </div>
+
+  <!-- App Library -->
+  <div
+    #appLibraryBox
+    class="app-library-box"
+    (swiperight)="closeAppLibrary($event)"
+  >
+    <lib-app-library />
   </div>
 
   <div class="home">
@@ -27,7 +37,7 @@
       <div class="home-apps__apps">
         <app-apps-grid
           (swipeBeforeFirstPage)="openTodayView($event)"
-          (swipeAfterLastPage)="openAppsSearch($event)"
+          (swipeAfterLastPage)="openAppLibrary($event)"
           (panBeforeFirstPage)="panToTodayView($event)"
           (panAfterLastPage)="panToAppsSearch($event)"
         />
