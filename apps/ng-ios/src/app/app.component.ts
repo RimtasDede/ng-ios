@@ -13,6 +13,7 @@ import { PhoneFrameComponent } from './phone-frame';
 import { TimeComponent } from './time';
 import { BatteryComponent } from './battery';
 import { WifiStrComponent } from './wifi-str';
+import { SignalStrComponent } from './signal-str';
 import { AppsGridComponent } from './apps-grid';
 
 @Component({
@@ -23,6 +24,7 @@ import { AppsGridComponent } from './apps-grid';
     TimeComponent,
     BatteryComponent,
     WifiStrComponent,
+    SignalStrComponent,
     AppsGridComponent,
     TodayViewComponent,
     AppLibraryComponent,
