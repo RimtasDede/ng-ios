@@ -12,6 +12,7 @@ import {
 import { PhoneFrameComponent } from './phone-frame';
 import { TimeComponent } from './time';
 import { BatteryComponent } from './battery';
+import { WifiStrComponent } from './wifi-str';
 import { AppsGridComponent } from './apps-grid';
 
 @Component({
@@ -21,10 +22,11 @@ import { AppsGridComponent } from './apps-grid';
     HomeScreenFavAppsBarComponent,
     TimeComponent,
     BatteryComponent,
+    WifiStrComponent,
     AppsGridComponent,
     TodayViewComponent,
     AppLibraryComponent,
-  ],
+],
   providers: [
     ...IOS_SERVICE_PROVIDERS,
     DocumentVisibilityService,
