@@ -1,8 +1,6 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { IOS_SERVICE_PROVIDERS } from '@ng-ios/ios-services';
-import { DocumentVisibilityService } from '@ng-ios/utility';
 import { TodayViewComponent } from '@ng-ios/today-view';
 import { AppLibraryComponent } from '@ng-ios/app-library';
 import {
@@ -15,6 +13,7 @@ import { BatteryComponent } from './battery';
 import { WifiStrComponent } from './wifi-str';
 import { SignalStrComponent } from './signal-str';
 import { AppsGridComponent } from './apps-grid';
+import { IosWallpaperService } from '../../../../libs/ios-services/src/lib/services/ios-wallpaper.service';
 
 @Component({
   imports: [
@@ -28,10 +27,6 @@ import { AppsGridComponent } from './apps-grid';
     AppsGridComponent,
     TodayViewComponent,
     AppLibraryComponent,
-],
-  providers: [
-    ...IOS_SERVICE_PROVIDERS,
-    DocumentVisibilityService,
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -39,11 +34,29 @@ import { AppsGridComponent } from './apps-grid';
 })
 export class AppComponent {
 
+  iosWallpaperService = inject(IosWallpaperService);
+
   @ViewChild('homeApps') homeApps!: ElementRef;
   @ViewChild(AppsGridComponent) appsGrid!: AppsGridComponent;
   @ViewChild('todayViewBox') todayViewBox!: ElementRef;
   @ViewChild('appLibraryBox') appLibraryBox!: ElementRef;
   @ViewChild('blurOverlay') blurOverlay!: ElementRef;
+
+  constructor() {
+    this.iosWallpaperService.active$
+      .subscribe(res => {
+        const body = document.querySelector('body');
+        const screen = document.querySelector('.screen') as HTMLElement;
+
+        if (body) {
+          body.style.backgroundImage = `url('${res}')`;
+        }
+
+        if (screen) {
+          screen.style.backgroundImage = `url('${res}')`;
+        }
+      });
+  }
 
   openTodayView(a: any) {
     this.overlayBlur(20, 0.15, true);

@@ -5,6 +5,8 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideAngularSvgIcon } from 'angular-svg-icon';
 
+import { DocumentVisibilityService } from '@ng-ios/utility';
+import { IOS_SERVICE_PROVIDERS } from '@ng-ios/ios-services';
 import { appRoutes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -15,5 +17,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     importProvidersFrom(HammerModule),
     provideAngularSvgIcon(),
+    DocumentVisibilityService,
+    ...IOS_SERVICE_PROVIDERS,
   ],
 };
