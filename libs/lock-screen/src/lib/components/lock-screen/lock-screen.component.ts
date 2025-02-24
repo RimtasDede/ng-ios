@@ -1,24 +1,20 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SvgIconComponent } from 'angular-svg-icon';
 
-import { IosDateTimeService, IosLockService } from '@ng-ios/ios-services';
+import { LockScreenPanelComponent } from '../lock-screen-panel/lock-screen-panel.component';
+import { UnlockScreenPanelComponent } from '../unlock-screen-panel/unlock-screen-panel.component';
 
 @Component({
   selector: 'lib-lock-screen',
   imports: [
     CommonModule,
-    SvgIconComponent,
+    LockScreenPanelComponent,
+    UnlockScreenPanelComponent,
   ],
   templateUrl: './lock-screen.component.html',
   styleUrl: './lock-screen.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LockScreenComponent {
-
-  private readonly iosDateTimeService = inject(IosDateTimeService);
-  private readonly iosLockService = inject(IosLockService);
-
-  isLocked = this.iosLockService.isLocked;
-  datetime = this.iosDateTimeService.datetime;
 
 }

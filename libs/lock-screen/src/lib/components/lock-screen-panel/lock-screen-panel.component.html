@@ -1,0 +1,14 @@
+<div class="status-bar-placeholder"></div>
+
+<div class="locked">
+  @if (isLocked()) {
+    <svg-icon src="/icons/lock.svg" [svgStyle]="{ 'width.px': 17, 'height.px': 17 }"></svg-icon>
+  }
+</div>
+
+<div class="datetime">
+  <time [attr.datetime]="datetime() | date: 'y-MM-dd H:mm'">
+    <span class="date">{{ datetime() | date: 'EEEE, d MMMM' }}</span>
+    <span class="time">{{ datetime() | date: 'H:mm' }}</span>
+  </time>
+</div>

@@ -1,0 +1,19 @@
+<div class="keypad">
+
+  @for (key of displayKeys; track key) {
+    <button type="button" class="key key--{{ key.type }} {{ key.class }}">
+      @if (key.type === 'number') {
+        <span class="number">{{ key.number }}</span>
+
+        @if (key.letters !== null) {
+          <span class="letters">{{ key.letters }}</span>
+        }
+      }
+
+      @if (key.type === 'icon') {
+        <svg-icon [src]="key.icon" [svgStyle]="{ 'font-size': key.fontSize }" />
+      }
+    </button>
+  }
+
+</div>
