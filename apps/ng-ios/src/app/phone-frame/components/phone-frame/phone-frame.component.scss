@@ -29,7 +29,7 @@ $phone-vertical-frame: calc(111 / 1962 * 100%);
   left: calc($phone-horizontal-frame / 2);;
   width: calc(100% - $phone-horizontal-frame);
   height: calc(100% - $phone-vertical-frame);
-  // background-image: url('/wallpapers/1.jpg');
+  background-position: top center;
   background-size: cover;
   overflow: hidden;
 }

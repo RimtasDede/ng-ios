@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 
 import { TodayViewComponent } from '@ng-ios/today-view';
 import { AppLibraryComponent } from '@ng-ios/app-library';
+import { LockScreenComponent } from '@ng-ios/lock-screen';
 import {
   HomeScreenFavAppsBarComponent,
 } from '@ng-ios/ui';
@@ -27,6 +28,7 @@ import { IosWallpaperService } from '../../../../libs/ios-services/src/lib/servi
     AppsGridComponent,
     TodayViewComponent,
     AppLibraryComponent,
+    LockScreenComponent,
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
