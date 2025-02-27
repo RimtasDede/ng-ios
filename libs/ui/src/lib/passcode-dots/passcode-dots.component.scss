@@ -3,6 +3,11 @@
   gap: 20px;
 }
 
+:host(.invalid) {
+  animation: shake 0.5s;
+  animation-timing-function: ease-in-out;
+}
+
 .dot {
   width: 13px;
   height: 13px;
@@ -14,4 +19,18 @@
     background-color: #fff;
     transition: background-color 0s;
   }
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  10% { transform: translateX(-4px); }
+  20% { transform: translateX(7px); }
+  30% { transform: translateX(-10px); }
+  40% { transform: translateX(18px); }
+  50% { transform: translateX(-18px); }
+  60% { transform: translateX(18px); }
+  70% { transform: translateX(-10px); }
+  80% { transform: translateX(7px); }
+  90% { transform: translateX(-4px); }
+  100% { transform: translateX(0); }
 }

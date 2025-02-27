@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -19,5 +19,11 @@ export class PasscodeDotsComponent {
    * Entered passcode length
    */
   @Input() passCodeEntered: number[] = [];
+
+  /**
+   * Is entered code is invalid.
+   * This adds shake animation for this component.
+   */
+  @HostBinding('class.invalid') @Input() invalid: boolean = false;
 
 }

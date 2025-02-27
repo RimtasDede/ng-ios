@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject, Input, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { delay, filter } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
 
 import { KeypadComponent, PasscodeDotsComponent, PressId } from '@ng-ios/ui';
 import { IosLockService, PassCode } from '@ng-ios/ios-services';
-import { delay, filter } from 'rxjs';
 
 @Component({
   selector: 'lib-unlock-screen-panel',
@@ -26,6 +26,7 @@ export class UnlockScreenPanelComponent implements OnInit {
   readonly passCode = this.iosLockService.passCode;
   readonly enteredCode = signal<PassCode>([]);
   readonly enteredCode$ = toObservable(this.enteredCode);
+  isPassCodeInvalid: boolean = false;
 
   ngOnInit(): void {
     this.enteredCode$
@@ -34,12 +35,17 @@ export class UnlockScreenPanelComponent implements OnInit {
         filter(val => this.passCode().length === val.length),
       )
       .subscribe(val => {
-        const codePass = this.iosLockService.testPassCode(val);
+        const isValid = this.iosLockService.testPassCode(val);
 
-        if (codePass) {
+        if (isValid) {
           this.iosLockService.unlock();
         } else {
           this.enteredCode.set([]);
+          this.isPassCodeInvalid = true;
+
+          setTimeout(() => {
+            this.isPassCodeInvalid = false;
+          }, 500);
         }
       });
   }

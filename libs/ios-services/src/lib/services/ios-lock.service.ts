@@ -13,6 +13,9 @@ export class IosLockService {
     this.isLocked.set(true);
   }
 
+  /**
+   * Test passcode validity
+   */
   testPassCode(passCode: PassCode): boolean {
     return this.passCode().every((val, i) => val === passCode[i]);
   }
