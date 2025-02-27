@@ -3,7 +3,7 @@ import { Provider } from '@angular/core';
 import { IosBatteryService } from './lib/services/ios-battery.service';
 import { IosCommonService } from './lib/services/ios-common.service';
 import { IosDateTimeService } from './lib/services/ios-date-time.service';
-import { IosLockService } from './lib/services/ios-lock.service';
+import { IosLockService, PassCode } from './lib/services/ios-lock.service';
 import { IosScreenService } from './lib/services/ios-screen.service';
 import { IosSignalService } from './lib/services/ios-signal.service';
 import { IosWallpaperService } from './lib/services/ios-wallpaper.service';
@@ -18,6 +18,8 @@ export {
   IosSignalService,
   IosWallpaperService,
   IosWifiService,
+
+  PassCode,
 };
 
 export const IOS_SERVICE_PROVIDERS: Provider[] = [

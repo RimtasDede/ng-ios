@@ -1,7 +1,15 @@
-<br><br><br><br><br><br>
-<br><br><br><br><br><br>
+<div class="passcode-box">
+  <span class="passcode-title">
+    Enter Passcode
+  </span>
+
+  <lib-passcode-dots
+    [passCode]="passCode()"
+    [passCodeEntered]="enteredCode()"
+  />
+</div>
 
 <lib-keypad
   type="unlock"
-  (keyPress)="appendKey($event)"
+  (keyPress)="appendCode($event)"
 />

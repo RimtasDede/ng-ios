@@ -1,0 +1,17 @@
+:host {
+  display: flex;
+  gap: 20px;
+}
+
+.dot {
+  width: 13px;
+  height: 13px;
+  border: 2px solid #fff;
+  border-radius: 9px;
+  transition: background-color 0.3s ease-out;
+
+  &--filled {
+    background-color: #fff;
+    transition: background-color 0s;
+  }
+}

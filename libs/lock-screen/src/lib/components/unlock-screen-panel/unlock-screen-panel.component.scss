@@ -8,3 +8,17 @@
   width: 100%;
   height: 100%;
 }
+
+.passcode-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 155px;
+  margin-bottom: 95px;
+}
+
+.passcode-title {
+  font-size: 21px;
+  color: #fff;
+}

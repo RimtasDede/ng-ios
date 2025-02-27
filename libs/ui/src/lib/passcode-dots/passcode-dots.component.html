@@ -1,0 +1,8 @@
+@for (char of passCode; track char; let i = $index) {
+  <div
+    class="dot"
+    [class]="{
+      'dot--filled': i < passCodeEntered.length
+    }"
+  ></div>
+}

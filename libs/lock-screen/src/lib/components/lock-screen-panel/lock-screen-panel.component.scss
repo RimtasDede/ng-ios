@@ -10,9 +10,11 @@
 }
 
 .locked {
+  position: relative;
   height: 40px;
   text-align: center;
   padding-top: 4px;
+  z-index: 1;
 }
 
 .datetime {
