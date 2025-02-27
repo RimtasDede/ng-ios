@@ -20,6 +20,7 @@
       "@ng-ios/ios-services": ["libs/ios-services/src/index.ts"],
       "@ng-ios/lock-screen": ["libs/lock-screen/src/index.ts"],
       "@ng-ios/today-view": ["libs/today-view/src/index.ts"],
+      "@ng-ios/touch": ["libs/touch/src/index.ts"],
       "@ng-ios/ui": ["libs/ui/src/index.ts"],
       "@ng-ios/utility": ["libs/utility/src/index.ts"]
     }

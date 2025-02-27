@@ -2,13 +2,24 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Out
 import { CommonModule } from '@angular/common';
 import { SvgIconComponent } from 'angular-svg-icon';
 
-export enum KeypadKey {
+export enum PressId {
+  Key0 = '0',
   Key1 = '1',
   Key2 = '2',
-
+  Key3 = '3',
+  Key4 = '4',
+  Key5 = '5',
+  Key6 = '6',
+  Key7 = '7',
+  Key8 = '8',
+  Key9 = '9',
+  KeyHash = '#',
+  KeyAsterisk = '*',
+  KeyCall = 'call',
 }
 
 interface NumberKey {
+  id: PressId;
   type: 'number';
   number: number;
   /**
@@ -20,6 +31,7 @@ interface NumberKey {
 }
 
 interface IconKey {
+  id: PressId;
   type: 'icon';
   icon: string;
   fontSize: number;
@@ -52,66 +64,79 @@ export class KeypadComponent implements OnChanges {
    */
   private readonly keys: Key[] = [
     {
+      id: PressId.Key1,
       type: 'number',
       number: 1,
       letters: '',
     },
     {
+      id: PressId.Key2,
       type: 'number',
       number: 2,
       letters: 'A B C',
     },
     {
+      id: PressId.Key3,
       type: 'number',
       number: 3,
       letters: 'D E F',
     },
     {
+      id: PressId.Key4,
       type: 'number',
       number: 4,
       letters: 'G H I',
     },
     {
+      id: PressId.Key5,
       type: 'number',
       number: 5,
       letters: 'J K L',
     },
     {
+      id: PressId.Key6,
       type: 'number',
       number: 6,
       letters: 'M N O',
     },
     {
+      id: PressId.Key7,
       type: 'number',
       number: 7,
       letters: 'P Q R S',
     },
     {
+      id: PressId.Key8,
       type: 'number',
       number: 8,
       letters: 'T U V',
     },
     {
+      id: PressId.Key9,
       type: 'number',
       number: 9,
       letters: 'W X Y Z',
     },
     {
+      id: PressId.KeyAsterisk,
       type: 'icon',
       icon: '/icons/asterisk.svg',
       fontSize: 24,
     },
     {
+      id: PressId.Key0,
       type: 'number',
       number: 0,
       letters: null,
     },
     {
+      id: PressId.KeyHash,
       type: 'icon',
       icon: '/icons/hash.svg',
       fontSize: 30,
     },
     {
+      id: PressId.KeyCall,
       type: 'icon',
       icon: '/icons/call.svg',
       fontSize: 30,
@@ -124,7 +149,7 @@ export class KeypadComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     const type = changes['type'];
 
-    if (type) {
+    if (type.currentValue === 'unlock') {
       this.displayKeys = [
         this.keys[0],
         this.keys[1],
@@ -137,7 +162,14 @@ export class KeypadComponent implements OnChanges {
         this.keys[8],
         this.keys[10],
       ];
+    } else if (type.currentValue === 'call') {
+
     }
+  }
+
+  onKeyPress(key: Key) {
+    // console.log('key', key);
+    this.keyPress.emit(key.id);
   }
 
 }

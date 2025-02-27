@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { KeypadComponent } from '@ng-ios/ui';
+import { KeypadComponent, PressId } from '@ng-ios/ui';
 import { IosLockService } from '@ng-ios/ios-services';
 
 @Component({
@@ -22,8 +22,9 @@ export class UnlockScreenPanelComponent {
 
   enteredCode = [];
 
-  appendKey(e: any) {
+  appendKey(id: PressId) {
     // this.enteredCode
+    console.log('id', id);
   }
 
 }

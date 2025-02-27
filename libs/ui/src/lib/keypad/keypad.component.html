@@ -1,7 +1,11 @@
 <div class="keypad">
 
   @for (key of displayKeys; track key) {
-    <button type="button" class="key key--{{ key.type }} {{ key.class }}">
+    <button
+      type="button"
+      class="key key--{{ key.type }} {{ key.class }}"
+      (mousedown)="onKeyPress(key)"
+    >
       @if (key.type === 'number') {
         <span class="number">{{ key.number }}</span>
 
