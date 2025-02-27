@@ -2,11 +2,10 @@
   position: absolute;
   top: 0;
   left: 0;
-  background: rgba(red, 0.5);
-
   display: block;
   width: 100%;
   height: 100%;
+  background: rgba(red, 0.5);
 }
 
 .passcode-box {
@@ -21,4 +20,20 @@
 .passcode-title {
   font-size: 21px;
   color: #fff;
+}
+
+.controls-box {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 46px 46px 46px;
+}
+
+.btn {
+  background: none;
+  color: #fff;
+  border: 0;
 }

@@ -56,4 +56,10 @@ export class UnlockScreenPanelComponent implements OnInit {
     });
   }
 
+  deletePassCode() {
+    this.enteredCode.update(values => {
+      return values.slice(0, -1);
+    });
+  }
+
 }
