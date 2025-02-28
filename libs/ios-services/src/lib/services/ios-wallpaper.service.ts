@@ -25,10 +25,11 @@ export class IosWallpaperService {
     '/wallpapers/8.jpg',
     '/wallpapers/9.jpg',
     '/wallpapers/10.jpg',
+    '/wallpapers/11.webp',
   ];
 
   constructor() {
-    this.active.set(this.wallpapers[0]);
+    this.active.set(this.wallpapers[10]);
   }
 
 }
