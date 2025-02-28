@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, Renderer2, ViewChild, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { TodayViewComponent } from '@ng-ios/today-view';
@@ -36,7 +36,8 @@ import { IosWallpaperService } from '../../../../libs/ios-services/src/lib/servi
 })
 export class AppComponent {
 
-  iosWallpaperService = inject(IosWallpaperService);
+  private readonly renderer = inject(Renderer2);
+  private readonly iosWallpaperService = inject(IosWallpaperService);
 
   @ViewChild('homeApps') homeApps!: ElementRef;
   @ViewChild(AppsGridComponent) appsGrid!: AppsGridComponent;
@@ -47,16 +48,15 @@ export class AppComponent {
   constructor() {
     this.iosWallpaperService.active$
       .subscribe(res => {
-        const body = document.querySelector('body');
-        const screen = document.querySelector('.screen') as HTMLElement;
+        const elements = [
+          document.querySelector('body'),
+          document.querySelector('.screen') as HTMLElement,
+          document.querySelector('.lock-screen-box') as HTMLElement,
+        ];
 
-        if (body) {
-          body.style.backgroundImage = `url('${res}')`;
-        }
-
-        if (screen) {
-          screen.style.backgroundImage = `url('${res}')`;
-        }
+        elements.forEach(el => {
+          this.renderer.setStyle(el, 'background-image', `url('${res}')`);
+        });
       });
   }
 

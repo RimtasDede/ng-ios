@@ -1,3 +1,10 @@
+<div
+  class="overlay"
+  [class]="{
+    'overlay--active': showUnlock
+  }"
+></div>
+
 <lib-lock-screen-panel />
 
 @if (showUnlock) {

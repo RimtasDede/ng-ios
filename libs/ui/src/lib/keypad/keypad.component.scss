@@ -18,7 +18,8 @@
   border: 0;
   border-radius: 45px;
   color: #fff;
-  background-color: rgba(#fff, 0.5);
+  background-color: transparent; // rgba(#fff, 0.1);
+  backdrop-filter: brightness(140%); // brightness(60%);
 
   &--call-key {
     background-color: #2fcf59;

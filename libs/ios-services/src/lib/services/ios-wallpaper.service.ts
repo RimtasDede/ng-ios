@@ -26,6 +26,7 @@ export class IosWallpaperService {
     '/wallpapers/9.jpg',
     '/wallpapers/10.jpg',
     '/wallpapers/11.webp',
+    '/wallpapers/12.jpg',
   ];
 
   constructor() {
