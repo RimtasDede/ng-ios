@@ -1,5 +1,7 @@
 <lib-lock-screen-panel />
 
-<lib-unlock-screen-panel
-  [display]="true"
-/>
+@if (showUnlock) {
+  <lib-unlock-screen-panel
+    (hide)="hideUnlock()"
+  />
+}

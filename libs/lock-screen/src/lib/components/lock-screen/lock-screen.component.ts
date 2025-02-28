@@ -17,4 +17,10 @@ import { UnlockScreenPanelComponent } from '../unlock-screen-panel/unlock-screen
 })
 export class LockScreenComponent {
 
+  showUnlock = true;
+
+  hideUnlock() {
+    this.showUnlock = false;
+  }
+
 }

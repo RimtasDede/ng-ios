@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject, Input, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, OnInit, Output, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { delay, filter } from 'rxjs';
-import { toObservable } from '@angular/core/rxjs-interop';
 
 import { KeypadComponent, PasscodeDotsComponent, PressId } from '@ng-ios/ui';
 import { IosLockService, PassCode } from '@ng-ios/ios-services';
@@ -19,7 +19,7 @@ import { IosLockService, PassCode } from '@ng-ios/ios-services';
 })
 export class UnlockScreenPanelComponent implements OnInit {
 
-  @Input() display: boolean = false;
+  @Output() hide = new EventEmitter();
 
   private readonly iosLockService = inject(IosLockService);
 
@@ -60,6 +60,10 @@ export class UnlockScreenPanelComponent implements OnInit {
     this.enteredCode.update(values => {
       return values.slice(0, -1);
     });
+  }
+
+  close() {
+    this.hide.emit();
   }
 
 }
