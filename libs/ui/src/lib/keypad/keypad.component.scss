@@ -18,8 +18,14 @@
   border: 0;
   border-radius: 45px;
   color: #fff;
-  background-color: transparent; // rgba(#fff, 0.1);
-  backdrop-filter: brightness(140%); // brightness(60%);
+  background-color: transparent;
+  backdrop-filter: brightness(140%);
+  transition: background-color 0.4s ease-out;
+
+  &:active {
+    background-color: rgba(#fff, 0.5);
+    transition: background-color 0.1s;
+  }
 
   &--call-key {
     background-color: #2fcf59;
