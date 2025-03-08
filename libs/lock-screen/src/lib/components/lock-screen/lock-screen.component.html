@@ -1,14 +1,22 @@
-<div
-  class="overlay"
-  [class]="{
-    'overlay--active': showUnlock
-  }"
-></div>
+<div class="lock-screen-wallpaper-box" [m-panup-options]="{ threshold: 55 }" (m-panup)="homeIndicatorPanUp($event)">
 
-<lib-lock-screen-panel />
+  <div
+    class="overlay"
+    [class]="{
+      'overlay--active': displayUnlock
+    }"
+  ></div>
 
-@if (showUnlock) {
-  <lib-unlock-screen-panel
-    (hide)="hideUnlock()"
+  <lib-lock-screen-panel />
+
+  @if (displayUnlock) {
+    <lib-unlock-screen-panel
+      (hide)="hideUnlock()"
+    />
+  }
+
+  <lib-home-indicator
+    (m-panup)="homeIndicatorPanUp($event)"
   />
-}
+
+</div>

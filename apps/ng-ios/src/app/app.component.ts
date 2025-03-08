@@ -51,7 +51,7 @@ export class AppComponent {
         const elements = [
           document.querySelector('body'),
           document.querySelector('.screen') as HTMLElement,
-          document.querySelector('.lock-screen-box') as HTMLElement,
+          document.querySelector('.lock-screen-wallpaper-box') as HTMLElement,
         ];
 
         elements.forEach(el => {
