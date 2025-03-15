@@ -1,7 +1,19 @@
-# touch
+# Touch gestures library
 
-This library was generated with [Nx](https://nx.dev).
+# Events table
 
-## Running unit tests
-
-Run `nx test touch` to execute the unit tests.
+| Event        | Description      |
+|--------------|---------------|
+| m-pan        |  |
+| m-panstart   |  |
+| m-panup      |  |
+| m-panleft    |  |
+| m-panright   |  |
+| m-pandown    |  |
+| m-panend     |  |
+|              |  |
+| m-swipe      |  |
+| m-swipeup    |  |
+| m-swipeleft  |  |
+| m-swiperight |  |
+| m-swipedown  |  |

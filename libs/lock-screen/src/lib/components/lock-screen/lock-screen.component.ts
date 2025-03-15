@@ -1,10 +1,13 @@
-import { ChangeDetectionStrategy, Component, HostListener } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { HomeIndicatorComponent } from '@ng-ios/ui';
-import { PanUpDirective } from '@ng-ios/touch';
+import { MoveEvent } from '@ng-ios/touch';
+
 import { LockScreenPanelComponent } from '../lock-screen-panel/lock-screen-panel.component';
 import { UnlockScreenPanelComponent } from '../unlock-screen-panel/unlock-screen-panel.component';
+
+const UNLOCK_SWIPE_DELTAY_BP = -28;
 
 @Component({
   selector: 'lib-lock-screen',
@@ -13,7 +16,6 @@ import { UnlockScreenPanelComponent } from '../unlock-screen-panel/unlock-screen
     LockScreenPanelComponent,
     UnlockScreenPanelComponent,
     HomeIndicatorComponent,
-    PanUpDirective,
   ],
   templateUrl: './lock-screen.component.html',
   styleUrl: './lock-screen.component.scss',
@@ -21,22 +23,9 @@ import { UnlockScreenPanelComponent } from '../unlock-screen-panel/unlock-screen
 })
 export class LockScreenComponent {
 
-  // @HostListener('panstart', ['$event'])
-  // pan1(e: any) {
-  //   console.log('pan start', e.distance);
-  // }
+  @ViewChild('wpBox') wpBox!: ElementRef<HTMLElement>;
 
-
-  // @HostListener('panleft', ['$event'])
-  // pan2(e: any) {
-  //   console.log('pan', e.velocityX);
-  // }
-
-  @HostListener('m-panup', ['$event'])
-  mPanUp(e: any) {
-    console.log('m-panup', e);
-  }
-
+  private renderer = inject(Renderer2);
 
   displayUnlock = false;
 
@@ -48,8 +37,19 @@ export class LockScreenComponent {
     this.displayUnlock = true;
   }
 
-  homeIndicatorPanUp(e: any) {
-    console.log('m-panup velocity', e.velocityY);
+  homeIndicatorPanUp(e: CustomEvent<MoveEvent>) {
+    // console.log('m-panup velocity', e);
+
+    const deltaY = e.detail.deltaY;
+    const el = this.wpBox.nativeElement;
+
+    // over bp
+    if (deltaY < UNLOCK_SWIPE_DELTAY_BP) {
+      this.renderer.removeStyle(el, 'transform');
+      this.showUnlock();
+    } else {
+      this.renderer.setStyle(el, 'transform', `translateY(${deltaY}px)`);
+    }
   }
 
 }

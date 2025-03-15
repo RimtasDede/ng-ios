@@ -1,4 +1,4 @@
-<div class="lock-screen-wallpaper-box" [m-panup-options]="{ threshold: 55 }" (m-panup)="homeIndicatorPanUp($event)">
+<div #wpBox class="lock-screen-wallpaper-box">
 
   <div
     class="overlay"
@@ -16,7 +16,7 @@
   }
 
   <lib-home-indicator
-    (m-panup)="homeIndicatorPanUp($event)"
+    (m-panup)="homeIndicatorPanUp($any($event))"
   />
 
 </div>

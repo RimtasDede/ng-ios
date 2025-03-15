@@ -1,10 +1,9 @@
 export * from './lib/directives/pan-up.directive';
+export * from './lib/directives/touch-options.directive';
 
 export * from './lib/directives/press.directive';
 export * from './lib/directives/press-ani.directive';
 
-import { TouchService } from './lib/services/touch.service';
+export * from './lib/providers';
 
-export const TOUCH_PROVIDERS = [
-  TouchService,
-];
+export * from './lib/types';

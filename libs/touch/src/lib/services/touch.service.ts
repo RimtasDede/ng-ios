@@ -2,64 +2,22 @@ import { DOCUMENT } from '@angular/common';
 import { inject, Injectable, Renderer2 } from '@angular/core';
 import { Subject } from 'rxjs';
 
-export interface TouchOptions {
-  /**
-   * Minimal pan distance required before recognizing
-   */
-  threshold: number;
-}
+import { MoveEvent, MoveEventType, TouchOptions } from '../types';
 
-export interface MoveEvent {
-  /**
-   * The horizontal scroll amount.
-   * Positive values indicate scrolling to the right, and negative values indicate scrolling to the left.
-   */
-  deltaX: number;
-
-  /**
-   * The vertical scroll amount.
-   * Positive values indicate scrolling down, and negative values indicate scrolling up.
-   */
-  deltaY: number;
-
-  // distance: number;
-
-  /**
-   * Move angle from mouse down point
-   *
-   * 0 - Moves directly to right
-   * 90 - directly to bottom
-   * up to 180 - to left
-   * upper value are negative
-   */
-  angle: number;
-
-  /**
-   * Move duration in milliseconds from move start.
-   */
-  duration: number;
-
-  /**
-   * How many px moves
-   */
-  velocityX: number;
-
-  /**
-   *
-   */
-  velocityY: number;
-}
 
 @Injectable()
 export class TouchService {
 
   private readonly document = inject(DOCUMENT);
+  private readonly options: TouchOptions = {
+    threshold: 0,
+  };
   // private readonly renderer = inject(Renderer2);
 
   private isMouseDown = false;
   private startEvent?: MouseEvent;
   private prevMoveEvent?: MoveEvent;
-  private options?: TouchOptions;
+  // private options?: TouchOptions;
 
   pan$ = new Subject<MoveEvent>();
   panUp$ = new Subject<MoveEvent>();
@@ -77,6 +35,7 @@ export class TouchService {
   private mouseUpHandler!: (e: MouseEvent) => void;
 
   private addDocumentListeners() {
+    console.log('options', this.options);
     this.mouseMoveHandler = e => this.documentMoveHandler(e);
     this.mouseUpHandler = e => this.documentUpHandler(e);
 
@@ -95,11 +54,7 @@ export class TouchService {
 
     if (this.prevMoveEvent) {
       // pan up
-      if (
-        this.panUp$.observed
-        && this.prevMoveEvent.deltaY > moveEvent.deltaY
-        && Math.abs(moveEvent.deltaY) >= (this.options?.threshold ?? 0)
-      ) {
+      if (moveEvent.type === MoveEventType.PanUp) {
         // console.log(
         //   'aaaaa',
         //   this.panUp$.observed,
@@ -112,26 +67,17 @@ export class TouchService {
       }
 
       // pan left
-      if (
-        this.panLeft$.observed
-        && this.prevMoveEvent.deltaX > moveEvent.deltaX
-      ) {
+      if (moveEvent.type === MoveEventType.PanLeft) {
         this.panLeft$.next(moveEvent);
       }
 
       // pan right
-      if (
-        this.panRight$.observed
-        && this.prevMoveEvent.deltaX < moveEvent.deltaX
-      ) {
+      if (moveEvent.type === MoveEventType.PanRight) {
         this.panRight$.next(moveEvent);
       }
 
       // pan down
-      if (
-        this.panDown$.observed
-        && this.prevMoveEvent.deltaY < moveEvent.deltaY
-      ) {
+      if (moveEvent.type === MoveEventType.PanDown) {
         this.panDown$.next(moveEvent);
       }
     }
@@ -150,14 +96,14 @@ export class TouchService {
     this.isMouseDown = false;
     this.startEvent = undefined;
 
-    // remove listeners
+    // remove global listeners
     this.document.removeEventListener('mousemove', this.mouseMoveHandler);
     this.document.removeEventListener('mouseup', this.mouseUpHandler);
   }
 
-  mouseDown(e: MouseEvent, options: TouchOptions) {
+  mouseDown(e: MouseEvent, options?: TouchOptions) {
     this.isMouseDown = true;
-    this.options = options;
+    // this.options = options;
     this.startEvent = e;
     this.addDocumentListeners();
   }
@@ -165,6 +111,7 @@ export class TouchService {
   private calcMoveEvent(event: MouseEvent): MoveEvent {
     if (!this.startEvent) {
       return {
+        type: null,
         deltaX: 0,
         deltaY: 0,
         angle: 0,
@@ -180,8 +127,10 @@ export class TouchService {
     const duration = event.timeStamp - this.startEvent.timeStamp;
     const velocityX = deltaX / duration;
     const velocityY = deltaY / duration;
+    const type = this.identifyEventType(event);
 
     return {
+      type: type,
       deltaX: deltaX,
       deltaY: deltaY,
       angle: angle,
@@ -190,5 +139,52 @@ export class TouchService {
       velocityY: velocityY,
     };
   }
+
+  private identifyEventType(e: MouseEvent): MoveEventType | null {
+    if (!this.startEvent) {
+      return null;
+    }
+
+    const deltaX = this.startEvent.clientX - e.clientX;
+    const deltaY = e.clientY - this.startEvent.clientY;
+
+    if (this.prevMoveEvent) {
+      // pan up
+      if (
+        this.panUp$.observed
+        && this.prevMoveEvent.deltaY > deltaY
+        && Math.abs(deltaY) >= this.options.threshold
+      ) {
+        return MoveEventType.PanUp;
+      }
+
+      // pan left
+      if (
+        this.panLeft$.observed
+        && this.prevMoveEvent.deltaX > deltaX
+      ) {
+        return MoveEventType.PanLeft;
+      }
+
+      // pan right
+      if (
+        this.panRight$.observed
+        && this.prevMoveEvent.deltaX < deltaX
+      ) {
+        return MoveEventType.PanRight;
+      }
+
+      // pan down
+      if (
+        this.panDown$.observed
+        && this.prevMoveEvent.deltaY < deltaY
+      ) {
+        return MoveEventType.PanDown;
+      }
+    }
+
+    return null;
+  }
+
 
 }
