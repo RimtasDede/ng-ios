@@ -9,7 +9,15 @@
   gap: 14px 29px;
 }
 
+.keypad-row {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 29px;
+}
+
 .key {
+  position: relative;
   width: 81px;
   height: 81px;
   flex-shrink: 0;

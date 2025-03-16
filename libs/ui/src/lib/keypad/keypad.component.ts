@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
 import { SvgIconComponent } from 'angular-svg-icon';
 
 export enum PressId {
@@ -49,6 +50,59 @@ type Key = NumberKey | IconKey;
   templateUrl: './keypad.component.html',
   styleUrl: './keypad.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('componentFade', [
+      transition(':enter', [
+        query(
+          '.keypad-row',
+          [
+            stagger(-50, [
+              query(
+                '.key',
+                [
+                  style({
+                    opacity: 0,
+                    transform: 'scale(0.3)',
+                  }),
+                  animate(
+                    '300ms ease-out',
+                    style({
+                      opacity: 1,
+                      transform: 'scale(1)',
+                    })
+                  ),
+                ],
+              )
+            ])
+          ],
+        )
+      ]),
+
+      transition(':leave', [
+        query(
+          '.keypad-row',
+          [
+            query(
+              '.key',
+              [
+                style({
+                  opacity: 1,
+                  transform: 'scale(1)',
+                }),
+                animate(
+                  '300ms ease-out',
+                  style({
+                    opacity: 0,
+                    transform: 'scale(0.3)',
+                  })
+                ),
+              ],
+            )
+          ],
+        )
+      ]),
+    ]),
+  ],
 })
 export class KeypadComponent implements OnChanges {
 
@@ -58,6 +112,8 @@ export class KeypadComponent implements OnChanges {
   @Input({ required: true }) type!: 'unlock' | 'call';
 
   @Output() keyPress = new EventEmitter<any>();
+
+  @HostBinding('@componentFade') componentFade = true;
 
   /**
    * All possible keys
@@ -144,23 +200,31 @@ export class KeypadComponent implements OnChanges {
     },
   ];
 
-  displayKeys: Key[] = [];
+  displayKeys: (Key | null)[][] = [];
 
   ngOnChanges(changes: SimpleChanges): void {
     const type = changes['type'];
 
     if (type.currentValue === 'unlock') {
       this.displayKeys = [
-        this.keys[0],
-        this.keys[1],
-        this.keys[2],
-        this.keys[3],
-        this.keys[4],
-        this.keys[5],
-        this.keys[6],
-        this.keys[7],
-        this.keys[8],
-        this.keys[10],
+        [
+          this.keys[0],
+          this.keys[1],
+          this.keys[2],
+        ],
+        [
+          this.keys[3],
+          this.keys[4],
+          this.keys[5],
+        ],
+        [
+          this.keys[6],
+          this.keys[7],
+          this.keys[8],
+        ],
+        [
+          this.keys[10],
+        ],
       ];
     } else if (type.currentValue === 'call') {
 

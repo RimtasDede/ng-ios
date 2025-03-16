@@ -25,7 +25,7 @@ export class LockScreenComponent {
 
   @ViewChild('wpBox') wpBox!: ElementRef<HTMLElement>;
 
-  private renderer = inject(Renderer2);
+  private readonly renderer = inject(Renderer2);
 
   displayUnlock = false;
 

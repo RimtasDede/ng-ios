@@ -35,7 +35,6 @@ export class TouchService {
   private mouseUpHandler!: (e: MouseEvent) => void;
 
   private addDocumentListeners() {
-    console.log('options', this.options);
     this.mouseMoveHandler = e => this.documentMoveHandler(e);
     this.mouseUpHandler = e => this.documentUpHandler(e);
 

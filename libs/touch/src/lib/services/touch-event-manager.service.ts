@@ -22,7 +22,6 @@ export class TouchEventManagerService extends EventManagerPlugin {
     @Inject(DOCUMENT) doc: Document,
   ) {
     super(doc);
-    console.log('TouchEventManagerService construct');
   }
 
   supports(eventName: string): boolean {

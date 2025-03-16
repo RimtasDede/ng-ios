@@ -1,23 +1,29 @@
 <div class="keypad">
 
-  @for (key of displayKeys; track key) {
-    <button
-      type="button"
-      class="key key--{{ key.type }} {{ key.class }}"
-      (mousedown)="onKeyPress(key)"
-    >
-      @if (key.type === 'number') {
-        <span class="number">{{ key.number }}</span>
+  @for (keysRow of displayKeys; track keysRow) {
+    <div class="keypad-row">
+      @for (key of keysRow; track key) {
+        @if (key) {
+          <button
+            type="button"
+            class="key key--{{ key.type }} {{ key.class }}"
+            (mousedown)="onKeyPress(key)"
+          >
+            @if (key.type === 'number') {
+              <span class="number">{{ key.number }}</span>
 
-        @if (key.letters !== null) {
-          <span class="letters">{{ key.letters }}</span>
+              @if (key.letters !== null) {
+                <span class="letters">{{ key.letters }}</span>
+              }
+            }
+
+            @if (key.type === 'icon') {
+              <svg-icon [src]="key.icon" [svgStyle]="{ 'font-size': key.fontSize }" />
+            }
+          </button>
         }
       }
-
-      @if (key.type === 'icon') {
-        <svg-icon [src]="key.icon" [svgStyle]="{ 'font-size': key.fontSize }" />
-      }
-    </button>
+    </div>
   }
 
 </div>
