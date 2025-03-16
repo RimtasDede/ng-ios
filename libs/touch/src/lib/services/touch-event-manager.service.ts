@@ -2,13 +2,17 @@ import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, inject } from '@angular/core';
 import { EventManagerPlugin } from '@angular/platform-browser';
 
+import { MoveEvent, MoveEventType } from '../types';
 import { TouchService } from './touch.service';
 
 const TOUCH_EVENTS: string[] = [
-  'm-panup',
-  'm-panleft',
-  'm-panright',
-  'm-pandown',
+  MoveEventType.Pan,
+  MoveEventType.PanStart,
+  MoveEventType.PanUp,
+  MoveEventType.PanLeft,
+  MoveEventType.PanRight,
+  MoveEventType.PanDown,
+  MoveEventType.PanEnd,
 ];
 
 @Injectable()
@@ -36,36 +40,28 @@ export class TouchEventManagerService extends EventManagerPlugin {
     // m-pan-up
     element.addEventListener('mousedown', e => {
       this.touchService.mouseDown(e);
-      // dispatch custom event
-      const customEvent = new CustomEvent('m-panstart', {
-        bubbles: true,
-        detail: {
-          start: 'yes'
-        }
-      });
-      element.dispatchEvent(customEvent);
+
+      const panStartSub = this.touchService.panStart$
+        .subscribe(e => {
+          console.log('pan start', e);
+
+          panStartSub.unsubscribe();
+
+          this.dispatchEvent(element, 'm-panstart', e);
+        });
 
       const panSub = this.touchService.panUp$
         .subscribe(e => {
-          // this.panUpEvent.emit(e);
-          const customEvent = new CustomEvent('m-panup', {
-            bubbles: true,
-            detail: e,
-          });
-          element.dispatchEvent(customEvent);
+          this.dispatchEvent(element, 'm-panup', e);
         });
 
       const panEndSub = this.touchService.panEnd$
-        .subscribe(() => {
-          // console.log('pan end');
+        .subscribe(e => {
+          console.log('pan end', e);
           panSub.unsubscribe();
           panEndSub.unsubscribe();
 
-          const customEvent = new CustomEvent('m-panend', {
-            bubbles: true,
-            detail: e,
-          });
-          element.dispatchEvent(customEvent);
+          this.dispatchEvent(element, 'm-panend', e);
         });
 
     });
@@ -75,6 +71,18 @@ export class TouchEventManagerService extends EventManagerPlugin {
       console.log('Touch event manager listener remove');
       element.removeEventListener(eventName, customHandler);
     };
+  }
+
+  /**
+   * Dispatch custom event
+   */
+  private dispatchEvent(element: HTMLElement, eventName: string, e: MoveEvent): void {
+    const customEvent = new CustomEvent(eventName, {
+      bubbles: true,
+      detail: e,
+    });
+
+    element.dispatchEvent(customEvent);
   }
 
 }

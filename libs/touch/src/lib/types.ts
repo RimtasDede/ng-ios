@@ -1,10 +1,12 @@
 export enum MoveEventType {
+  Pan = 'm-pan',
   PanStart = 'm-panstart',
   PanUp = 'm-panup',
   PanLeft = 'm-panleft',
   PanRight = 'm-panright',
   PanDown = 'm-pandown',
   PanEnd = 'm-panend',
+
   Swipe = 'm-swipe', // by velocity between mousedown and mouseup
   SwipeUp = 'm-swipeup',
   SwipeLeft = 'm-swipeleft',

@@ -1,12 +1,5 @@
 <div #wpBox class="lock-screen-wallpaper-box">
 
-  <!-- <div
-    class="overlay"
-    [class]="{
-      'overlay--active': displayUnlock
-    }"
-  ></div> -->
-
   <lib-lock-screen-panel />
 
   @if (displayUnlock) {
@@ -16,7 +9,9 @@
   }
 
   <lib-home-indicator
+    (m-panstart)="start($event)"
     (m-panup)="homeIndicatorPanUp($any($event))"
+    (m-panend)="resetPanUpState($event)"
   />
 
 </div>

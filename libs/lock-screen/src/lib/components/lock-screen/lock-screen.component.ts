@@ -38,18 +38,26 @@ export class LockScreenComponent {
   }
 
   homeIndicatorPanUp(e: CustomEvent<MoveEvent>) {
-    // console.log('m-panup velocity', e);
-
     const deltaY = e.detail.deltaY;
     const el = this.wpBox.nativeElement;
 
     // over bp
     if (deltaY < UNLOCK_SWIPE_DELTAY_BP) {
-      this.renderer.removeStyle(el, 'transform');
+      this.resetPanUpState(0);
       this.showUnlock();
     } else {
       this.renderer.setStyle(el, 'transform', `translateY(${deltaY}px)`);
     }
+  }
+
+  start(e: any) {
+    // console.log('pan start', e);
+  }
+
+  resetPanUpState(e: any) {
+    const el = this.wpBox.nativeElement;
+
+    this.renderer.removeStyle(el, 'transform');
   }
 
 }

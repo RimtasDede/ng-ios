@@ -9,17 +9,20 @@ import { MoveEvent, MoveEventType, TouchOptions } from '../types';
 export class TouchService {
 
   private readonly document = inject(DOCUMENT);
+
   private readonly options: TouchOptions = {
     threshold: 0,
   };
   // private readonly renderer = inject(Renderer2);
 
   private isMouseDown = false;
+  // private isMoved = false;
   private startEvent?: MouseEvent;
   private prevMoveEvent?: MoveEvent;
   // private options?: TouchOptions;
 
   pan$ = new Subject<MoveEvent>();
+  panStart$ = new Subject<MoveEvent>();
   panUp$ = new Subject<MoveEvent>();
   panLeft$ = new Subject<MoveEvent>();
   panRight$ = new Subject<MoveEvent>();
@@ -42,10 +45,29 @@ export class TouchService {
     this.document.addEventListener('mouseup', this.mouseUpHandler);
   }
 
+  /**
+   * Handle any mouse move event
+   */
   private documentMoveHandler(e: MouseEvent) {
     // console.log('mouse move', e);
 
     const moveEvent = this.calcMoveEvent(e);
+
+    // Pan Start event
+    if (!this.prevMoveEvent) {
+      const panStartEvent = {
+        ...moveEvent,
+        type: MoveEventType.PanStart,
+      };
+
+      if (this.pan$.observed) {
+        this.pan$.next(panStartEvent);
+      }
+
+      if (this.panStart$.observed) {
+        this.panStart$.next(panStartEvent);
+      }
+    }
 
     if (this.pan$.observed) {
       this.pan$.next(moveEvent);
@@ -54,14 +76,6 @@ export class TouchService {
     if (this.prevMoveEvent) {
       // pan up
       if (moveEvent.type === MoveEventType.PanUp) {
-        // console.log(
-        //   'aaaaa',
-        //   this.panUp$.observed,
-        //   this.prevMoveEvent,
-        //   this.prevMoveEvent.deltaY,
-        //   moveEvent,
-        //   moveEvent.deltaY,
-        // );
         this.panUp$.next(moveEvent);
       }
 
@@ -81,19 +95,21 @@ export class TouchService {
       }
     }
 
-    // console.log('moveEvent', moveEvent);
     this.prevMoveEvent = moveEvent;
   }
 
   private documentUpHandler(e: MouseEvent) {
-    // console.log('mouse up', e);
-
     const moveEvent = this.calcMoveEvent(e);
 
-    this.panEnd$.next(moveEvent);
+    this.panEnd$.next({
+      ...moveEvent,
+      type: MoveEventType.PanEnd,
+    });
 
     this.isMouseDown = false;
+    // this.isMoved = false;
     this.startEvent = undefined;
+    this.prevMoveEvent = undefined;
 
     // remove global listeners
     this.document.removeEventListener('mousemove', this.mouseMoveHandler);
