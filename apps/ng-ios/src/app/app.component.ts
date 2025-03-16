@@ -1,6 +1,7 @@
 import { Component, ElementRef, Renderer2, ViewChild, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { IosWallpaperService } from '@ng-ios/ios-services';
 import { TodayViewComponent } from '@ng-ios/today-view';
 import { AppLibraryComponent } from '@ng-ios/app-library';
 import { LockScreenComponent } from '@ng-ios/lock-screen';
@@ -14,7 +15,6 @@ import { BatteryComponent } from './battery';
 import { WifiStrComponent } from './wifi-str';
 import { SignalStrComponent } from './signal-str';
 import { AppsGridComponent } from './apps-grid';
-import { IosWallpaperService } from '../../../../libs/ios-services/src/lib/services/ios-wallpaper.service';
 
 @Component({
   imports: [
