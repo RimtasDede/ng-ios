@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { inject, Injectable, Renderer2 } from '@angular/core';
 import { Subject } from 'rxjs';
 
-import { MoveEvent, MoveEventType, TouchOptions } from '../types';
+import { MoveEvent, MoveEventNullableType, MoveEventType, TouchOptions } from '../types';
 
 
 @Injectable()
@@ -12,45 +12,38 @@ export class TouchService {
 
   private readonly options: TouchOptions = {
     threshold: 0,
+    swipeVelocity: 0.3,
   };
   // private readonly renderer = inject(Renderer2);
 
+  private documentListenersAdded = false;
   private isMouseDown = false;
-  // private isMoved = false;
   private startEvent?: MouseEvent;
-  private prevMoveEvent?: MoveEvent;
-  // private options?: TouchOptions;
+  private prevMoveEvent?: MoveEventNullableType;
 
-  pan$ = new Subject<MoveEvent>();
-  panStart$ = new Subject<MoveEvent>();
-  panUp$ = new Subject<MoveEvent>();
-  panLeft$ = new Subject<MoveEvent>();
-  panRight$ = new Subject<MoveEvent>();
-  panDown$ = new Subject<MoveEvent>();
-  panEnd$ = new Subject<MoveEvent>();
-
-  swipeUp$ = new Subject<MoveEvent>();
-  swipeLeft$ = new Subject<MoveEvent>();
-  swipeRight$ = new Subject<MoveEvent>();
-  swipeDown$ = new Subject<MoveEvent>();
+  readonly event$ = new Subject<MoveEvent>();
 
   private mouseMoveHandler!: (e: MouseEvent) => void;
   private mouseUpHandler!: (e: MouseEvent) => void;
 
   private addDocumentListeners() {
+    if (this.documentListenersAdded) {
+      return;
+    }
+
     this.mouseMoveHandler = e => this.documentMoveHandler(e);
     this.mouseUpHandler = e => this.documentUpHandler(e);
 
     this.document.addEventListener('mousemove', this.mouseMoveHandler);
     this.document.addEventListener('mouseup', this.mouseUpHandler);
+
+    this.documentListenersAdded = true;
   }
 
   /**
    * Handle any mouse move event
    */
   private documentMoveHandler(e: MouseEvent) {
-    // console.log('mouse move', e);
-
     const moveEvent = this.calcMoveEvent(e);
 
     // Pan Start event
@@ -60,54 +53,45 @@ export class TouchService {
         type: MoveEventType.PanStart,
       };
 
-      if (this.pan$.observed) {
-        this.pan$.next(panStartEvent);
-      }
-
-      if (this.panStart$.observed) {
-        this.panStart$.next(panStartEvent);
-      }
-    }
-
-    if (this.pan$.observed) {
-      this.pan$.next(moveEvent);
-    }
-
-    if (this.prevMoveEvent) {
-      // pan up
-      if (moveEvent.type === MoveEventType.PanUp) {
-        this.panUp$.next(moveEvent);
-      }
-
-      // pan left
-      if (moveEvent.type === MoveEventType.PanLeft) {
-        this.panLeft$.next(moveEvent);
-      }
-
-      // pan right
-      if (moveEvent.type === MoveEventType.PanRight) {
-        this.panRight$.next(moveEvent);
-      }
-
-      // pan down
-      if (moveEvent.type === MoveEventType.PanDown) {
-        this.panDown$.next(moveEvent);
+      if (this.event$.observed) {
+        this.event$.next(panStartEvent);
       }
     }
 
     this.prevMoveEvent = moveEvent;
+
+    // Most probably event was emited but with no position changes
+    // Lets skip this kind of events
+    if (!moveEvent.type) {
+      return;
+    }
+
+    this.event$.next(moveEvent as MoveEvent);
   }
 
   private documentUpHandler(e: MouseEvent) {
     const moveEvent = this.calcMoveEvent(e);
 
-    this.panEnd$.next({
+    // check maybe it is swipe event also
+    if (
+      Math.abs(moveEvent.velocityX) > this.options.swipeVelocity
+      || Math.abs(moveEvent.velocityY) > this.options.swipeVelocity
+    ) {
+      const eventType = this.angleToSwipeEventType(moveEvent.angle);
+
+      this.event$.next({
+        ...moveEvent,
+        type: eventType,
+      });
+    }
+
+    this.event$.next({
       ...moveEvent,
       type: MoveEventType.PanEnd,
     });
 
+    this.documentListenersAdded = false;
     this.isMouseDown = false;
-    // this.isMoved = false;
     this.startEvent = undefined;
     this.prevMoveEvent = undefined;
 
@@ -118,12 +102,11 @@ export class TouchService {
 
   mouseDown(e: MouseEvent, options?: TouchOptions) {
     this.isMouseDown = true;
-    // this.options = options;
     this.startEvent = e;
     this.addDocumentListeners();
   }
 
-  private calcMoveEvent(event: MouseEvent): MoveEvent {
+  private calcMoveEvent(event: MouseEvent): MoveEventNullableType {
     if (!this.startEvent) {
       return {
         type: null,
@@ -166,8 +149,7 @@ export class TouchService {
     if (this.prevMoveEvent) {
       // pan up
       if (
-        this.panUp$.observed
-        && this.prevMoveEvent.deltaY > deltaY
+        this.prevMoveEvent.deltaY > deltaY
         && Math.abs(deltaY) >= this.options.threshold
       ) {
         return MoveEventType.PanUp;
@@ -175,24 +157,21 @@ export class TouchService {
 
       // pan left
       if (
-        this.panLeft$.observed
-        && this.prevMoveEvent.deltaX > deltaX
+        this.prevMoveEvent.deltaX > deltaX
       ) {
         return MoveEventType.PanLeft;
       }
 
       // pan right
       if (
-        this.panRight$.observed
-        && this.prevMoveEvent.deltaX < deltaX
+        this.prevMoveEvent.deltaX < deltaX
       ) {
         return MoveEventType.PanRight;
       }
 
       // pan down
       if (
-        this.panDown$.observed
-        && this.prevMoveEvent.deltaY < deltaY
+        this.prevMoveEvent.deltaY < deltaY
       ) {
         return MoveEventType.PanDown;
       }
@@ -201,5 +180,16 @@ export class TouchService {
     return null;
   }
 
+  private angleToSwipeEventType(angle: number): MoveEventType {
+    if (angle > -135 && angle < -45) {
+      return MoveEventType.SwipeUp;
+    } else if (angle <= -135 || angle > 135) {
+      return MoveEventType.SwipeLeft;
+    } else if (angle >= -45 && angle < 45) {
+      return MoveEventType.SwipeRight;
+    } else {
+      return MoveEventType.SwipeDown;
+    }
+  }
 
 }

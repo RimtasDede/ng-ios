@@ -50,10 +50,6 @@ export class LockScreenComponent {
     }
   }
 
-  start(e: any) {
-    // console.log('pan start', e);
-  }
-
   resetPanUpState(e: any) {
     const el = this.wpBox.nativeElement;
 

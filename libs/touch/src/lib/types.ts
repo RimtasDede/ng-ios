@@ -15,14 +15,22 @@ export enum MoveEventType {
 }
 
 export interface TouchOptions {
+  /**
+   * Minimal distance required before recognizing
+   */
   threshold: number;
+
+  /**
+   * Minimal velocity required before recognizing (px/ms)
+   */
+  swipeVelocity: number;
 }
 
 export interface MoveEvent {
   /**
    * Event type
    */
-  type: MoveEventType | null;
+  type: MoveEventType;
 
   /**
    * The horizontal scroll amount.
@@ -62,4 +70,8 @@ export interface MoveEvent {
    * How many px moves per milliseconds on Y axis (px/ms)
    */
   velocityY: number;
+}
+
+export interface MoveEventNullableType extends Omit<MoveEvent, 'type'> {
+  type: MoveEventType | null;
 }

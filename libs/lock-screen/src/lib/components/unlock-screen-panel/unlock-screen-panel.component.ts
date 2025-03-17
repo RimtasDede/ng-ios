@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, inject, OnDestroy, OnInit, Output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, inject, OnInit, Output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { animate, animateChild, group, query, style, transition, trigger } from '@angular/animations';
@@ -85,7 +85,7 @@ import { IosLockService, PassCode } from '@ng-ios/ios-services';
     ]),
   ]
 })
-export class UnlockScreenPanelComponent implements OnInit, OnDestroy {
+export class UnlockScreenPanelComponent implements OnInit {
 
   @Output() hide = new EventEmitter();
 
@@ -118,10 +118,6 @@ export class UnlockScreenPanelComponent implements OnInit, OnDestroy {
           }, 500);
         }
       });
-  }
-
-  ngOnDestroy(): void {
-    console.log('destroy');
   }
 
   appendCode(id: PressId) {

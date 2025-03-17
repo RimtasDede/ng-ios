@@ -5,7 +5,23 @@ import { EventManagerPlugin } from '@angular/platform-browser';
 import { MoveEvent, MoveEventType } from '../types';
 import { TouchService } from './touch.service';
 
-const TOUCH_EVENTS: string[] = [
+
+const TOUCH_EVENTS: MoveEventType[] = [
+  MoveEventType.Pan,
+  MoveEventType.PanStart,
+  MoveEventType.PanUp,
+  MoveEventType.PanLeft,
+  MoveEventType.PanRight,
+  MoveEventType.PanDown,
+  MoveEventType.PanEnd,
+  MoveEventType.Swipe,
+  MoveEventType.SwipeUp,
+  MoveEventType.SwipeLeft,
+  MoveEventType.SwipeRight,
+  MoveEventType.SwipeDown,
+];
+
+const TOUCH_PAN_EVENTS: MoveEventType[] = [
   MoveEventType.Pan,
   MoveEventType.PanStart,
   MoveEventType.PanUp,
@@ -15,12 +31,19 @@ const TOUCH_EVENTS: string[] = [
   MoveEventType.PanEnd,
 ];
 
+const TOUCH_SWIPE_EVENTS: MoveEventType[] = [
+  MoveEventType.Swipe,
+  MoveEventType.SwipeUp,
+  MoveEventType.SwipeLeft,
+  MoveEventType.SwipeRight,
+  MoveEventType.SwipeDown,
+];
+
+
 @Injectable()
 export class TouchEventManagerService extends EventManagerPlugin {
 
   private readonly touchService = inject(TouchService);
-  // private readonly options = inject(TOUCH_OPTIONS);
-
 
   constructor(
     @Inject(DOCUMENT) doc: Document,
@@ -29,46 +52,48 @@ export class TouchEventManagerService extends EventManagerPlugin {
   }
 
   supports(eventName: string): boolean {
-    return TOUCH_EVENTS.includes(eventName);
+    return (TOUCH_EVENTS as string[]).includes(eventName);
   }
 
-  addEventListener(element: HTMLElement, eventName: string, handler: Function): Function {
+  addEventListener(element: HTMLElement, eventName: MoveEventType, handler: Function): Function {
     const customHandler = (event: Event) => handler(event);
 
     element.addEventListener(eventName, customHandler);
 
-    // m-pan-up
     element.addEventListener('mousedown', e => {
       this.touchService.mouseDown(e);
 
-      const panStartSub = this.touchService.panStart$
+      const sub = this.touchService.event$
         .subscribe(e => {
-          console.log('pan start', e);
+          // Pan
+          if (
+            eventName === MoveEventType.Pan
+            && TOUCH_PAN_EVENTS.includes(e.type)
+          ) {
+            this.dispatchEvent(element, MoveEventType.Pan, e);
+          }
 
-          panStartSub.unsubscribe();
+          // Swipe
+          if (
+            eventName === MoveEventType.Swipe
+            && TOUCH_SWIPE_EVENTS.includes(e.type)
+          ) {
+            this.dispatchEvent(element, MoveEventType.Swipe, e);
+          }
 
-          this.dispatchEvent(element, 'm-panstart', e);
+          // Any event
+          if (eventName === e.type) {
+            this.dispatchEvent(element, e.type, e);
+          }
+
+          if (e.type === MoveEventType.PanEnd) {
+            sub.unsubscribe();
+          }
         });
-
-      const panSub = this.touchService.panUp$
-        .subscribe(e => {
-          this.dispatchEvent(element, 'm-panup', e);
-        });
-
-      const panEndSub = this.touchService.panEnd$
-        .subscribe(e => {
-          console.log('pan end', e);
-          panSub.unsubscribe();
-          panEndSub.unsubscribe();
-
-          this.dispatchEvent(element, 'm-panend', e);
-        });
-
     });
 
     // Return cleanup logic for removing the event listener
     return () => {
-      console.log('Touch event manager listener remove');
       element.removeEventListener(eventName, customHandler);
     };
   }

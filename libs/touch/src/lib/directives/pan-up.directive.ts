@@ -18,6 +18,7 @@ export class PanUpDirective {
 
   @Input('m-panup-options') options: TouchOptions = {
     threshold: 0,
+    swipeVelocity: 0.3,
   };
 
   @Output('m-panup2') panUpEvent = new EventEmitter<MoveEvent>();
@@ -40,17 +41,17 @@ export class PanUpDirective {
     });
     this.host.nativeElement.dispatchEvent(customEvent);
 
-    const panSub = this.touchService.panUp$
-      .subscribe(e => {
-        this.panUpEvent.emit(e);
-      });
+    // const panSub = this.touchService.panUp$
+    //   .subscribe(e => {
+    //     this.panUpEvent.emit(e);
+    //   });
 
-    const panEndSub = this.touchService.panEnd$
-      .subscribe(() => {
-        // console.log('pan end');
-        panSub.unsubscribe();
-        panEndSub.unsubscribe();
-      });
+    // const panEndSub = this.touchService.panEnd$
+    //   .subscribe(() => {
+    //     // console.log('pan end');
+    //     panSub.unsubscribe();
+    //     panEndSub.unsubscribe();
+    //   });
   }
 
 }
