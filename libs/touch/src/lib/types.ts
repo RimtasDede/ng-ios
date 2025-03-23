@@ -29,6 +29,18 @@ export interface TouchOptions {
   swipeVelocity: number;
 }
 
+export interface TouchPressOptions {
+  /**
+   * Minimal movement that is allowed while pressing
+   */
+  threshold: number;
+
+  /**
+   * Minimal press time in ms
+   */
+  time: number;
+}
+
 export interface MoveEvent {
   /**
    * Event type

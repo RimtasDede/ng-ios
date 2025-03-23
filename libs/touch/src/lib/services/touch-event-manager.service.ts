@@ -14,11 +14,15 @@ const TOUCH_EVENTS: MoveEventType[] = [
   MoveEventType.PanRight,
   MoveEventType.PanDown,
   MoveEventType.PanEnd,
+
   MoveEventType.Swipe,
   MoveEventType.SwipeUp,
   MoveEventType.SwipeLeft,
   MoveEventType.SwipeRight,
   MoveEventType.SwipeDown,
+
+  MoveEventType.Press,
+  MoveEventType.PressUp,
 ];
 
 const TOUCH_PAN_EVENTS: MoveEventType[] = [

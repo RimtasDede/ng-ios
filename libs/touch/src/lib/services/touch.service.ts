@@ -2,8 +2,13 @@ import { DOCUMENT } from '@angular/common';
 import { inject, Injectable, Renderer2 } from '@angular/core';
 import { Subject } from 'rxjs';
 
-import { MoveEvent, MoveEventNullableType, MoveEventType, TouchOptions } from '../types';
+import { MoveEvent, MoveEventNullableType, MoveEventType, TouchOptions, TouchPressOptions } from '../types';
 
+
+const PRESS_OPTIONS: TouchPressOptions = {
+  threshold: 5,
+  time: 500,
+};
 
 @Injectable()
 export class TouchService {
@@ -38,6 +43,27 @@ export class TouchService {
     this.document.addEventListener('mouseup', this.mouseUpHandler);
 
     this.documentListenersAdded = true;
+
+    // press
+    setTimeout(() => {
+      if (!this.startEvent) {
+        return;
+      }
+
+      const moveEvent = this.prevMoveEvent
+        ? this.prevMoveEvent
+        : this.calcMoveEvent(this.startEvent);
+
+      if (
+        Math.abs(moveEvent.deltaX) <= PRESS_OPTIONS.threshold
+        && Math.abs(moveEvent.deltaY) <= PRESS_OPTIONS.threshold
+      ) {
+        this.event$.next({
+          ...moveEvent,
+          type: MoveEventType.Press,
+        });
+      }
+    }, PRESS_OPTIONS.time);
   }
 
   /**
@@ -82,6 +108,18 @@ export class TouchService {
       this.event$.next({
         ...moveEvent,
         type: eventType,
+      });
+    }
+
+    // press up
+    if (
+      moveEvent.duration <= PRESS_OPTIONS.time
+      && Math.abs(moveEvent.deltaX) <= PRESS_OPTIONS.threshold
+      && Math.abs(moveEvent.deltaY) <= PRESS_OPTIONS.threshold
+    ) {
+      this.event$.next({
+        ...moveEvent,
+        type: MoveEventType.PressUp,
       });
     }
 
