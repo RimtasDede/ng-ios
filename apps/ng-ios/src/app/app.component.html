@@ -1,4 +1,3 @@
-<!-- <app-nx-welcome></app-nx-welcome> -->
 <router-outlet></router-outlet>
 
 <app-phone-frame
@@ -25,7 +24,11 @@
 
   <div class="home">
     <div class="status-bar">
-      <div>
+      <div
+        (m-panup)="lockScreenVerticalPan($any($event))"
+        (m-pandown)="lockScreenVerticalPan($any($event))"
+        (m-panend)="lockScreenVerticalPanRelease($any($event))"
+      >
         <app-time />
       </div>
 
@@ -52,9 +55,13 @@
     </div>
   </div>
 
-  <div class="lock-screen-box">
-    <lib-lock-screen />
-  </div>
+  @if (lockScreenDeltaY) {
+    <lib-lock-screen-box
+      [deltaY]="lockScreenDeltaY"
+      [swipeRelease]="lockScreenReleaseDeltaY"
+      (close)="lockScreenClose()"
+    />
+  }
 
   <div #blurOverlay class="home-blur-overlay"></div>
 

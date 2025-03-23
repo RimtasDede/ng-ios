@@ -39,13 +39,14 @@ export class LockScreenComponent {
 
   homeIndicatorPanUp(e: CustomEvent<MoveEvent>) {
     const deltaY = e.detail.deltaY;
-    const el = this.wpBox.nativeElement;
 
     // over bp
     if (deltaY < UNLOCK_SWIPE_DELTAY_BP) {
       this.resetPanUpState(0);
       this.showUnlock();
     } else {
+      const el = this.wpBox.nativeElement;
+
       this.renderer.setStyle(el, 'transform', `translateY(${deltaY}px)`);
     }
   }

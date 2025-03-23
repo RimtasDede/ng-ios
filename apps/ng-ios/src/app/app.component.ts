@@ -4,7 +4,8 @@ import { RouterModule } from '@angular/router';
 import { IosWallpaperService } from '@ng-ios/ios-services';
 import { TodayViewComponent } from '@ng-ios/today-view';
 import { AppLibraryComponent } from '@ng-ios/app-library';
-import { LockScreenComponent } from '@ng-ios/lock-screen';
+import { LockScreenBoxComponent } from '@ng-ios/lock-screen';
+import { MoveEvent } from '@ng-ios/touch';
 import {
   HomeScreenFavAppsBarComponent,
 } from '@ng-ios/ui';
@@ -28,7 +29,7 @@ import { AppsGridComponent } from './apps-grid';
     AppsGridComponent,
     TodayViewComponent,
     AppLibraryComponent,
-    LockScreenComponent,
+    LockScreenBoxComponent,
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -39,11 +40,17 @@ export class AppComponent {
   private readonly renderer = inject(Renderer2);
   private readonly iosWallpaperService = inject(IosWallpaperService);
 
-  @ViewChild('homeApps') homeApps!: ElementRef;
+  @ViewChild('homeApps') homeApps!: ElementRef<HTMLElement>;
   @ViewChild(AppsGridComponent) appsGrid!: AppsGridComponent;
-  @ViewChild('todayViewBox') todayViewBox!: ElementRef;
-  @ViewChild('appLibraryBox') appLibraryBox!: ElementRef;
-  @ViewChild('blurOverlay') blurOverlay!: ElementRef;
+  @ViewChild('todayViewBox') todayViewBox!: ElementRef<HTMLElement>;
+  @ViewChild('appLibraryBox') appLibraryBox!: ElementRef<HTMLElement>;
+  @ViewChild('lockScreenWp') lockScreenWp!: ElementRef<HTMLElement>;
+  @ViewChild('lockScreenFilter') lockScreenFilter!: ElementRef<HTMLElement>;
+  @ViewChild('lockScreenContent') lockScreenContent!: ElementRef<HTMLElement>;
+  @ViewChild('blurOverlay') blurOverlay!: ElementRef<HTMLElement>;
+
+  lockScreenDeltaY?: number;
+  lockScreenReleaseDeltaY?: number;
 
   constructor() {
     this.iosWallpaperService.active$
@@ -51,7 +58,6 @@ export class AppComponent {
         const elements = [
           document.querySelector('body'),
           document.querySelector('.screen') as HTMLElement,
-          document.querySelector('.lock-screen-wallpaper-box') as HTMLElement,
         ];
 
         elements.forEach(el => {
@@ -183,5 +189,17 @@ export class AppComponent {
     this.scaleHomeApps(1);
   }
 
+  lockScreenVerticalPan(e: CustomEvent<MoveEvent>) {
+    this.lockScreenDeltaY = e.detail.deltaY;
+  }
+
+  lockScreenVerticalPanRelease(e: CustomEvent<MoveEvent>) {
+    this.lockScreenReleaseDeltaY = e.detail.deltaY;
+  }
+
+  lockScreenClose() {
+    this.lockScreenDeltaY = undefined;
+    this.lockScreenReleaseDeltaY = undefined;
+  }
 
 }
