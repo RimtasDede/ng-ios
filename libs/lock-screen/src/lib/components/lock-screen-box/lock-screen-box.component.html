@@ -1,5 +1,7 @@
-<div #lockScreenWp ios-wallpaper class="lock-screen-wp"></div>
-<div #lockScreenFilter class="lock-screen-filter"></div>
-<div #lockScreenContent class="lock-screen-content">
-  <lib-lock-screen />
+<div #wallpaper ios-wallpaper class="wallpaper"></div>
+<div #blurFilter class="blur-filter"></div>
+<div #content class="content">
+  <lib-lock-screen
+    [inTransition]="!isOpened()"
+  />
 </div>

@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject, Renderer2 } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject, Renderer2, Input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { HomeIndicatorComponent } from '@ng-ios/ui';
 import { MoveEvent } from '@ng-ios/touch';
+import { IosWallpaperService } from '@ng-ios/ios-services';
 
 import { LockScreenPanelComponent } from '../lock-screen-panel/lock-screen-panel.component';
 import { UnlockScreenPanelComponent } from '../unlock-screen-panel/unlock-screen-panel.component';
@@ -20,14 +21,27 @@ const UNLOCK_SWIPE_DELTAY_BP = -28;
   templateUrl: './lock-screen.component.html',
   styleUrl: './lock-screen.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.in-transition]': 'inTransition',
+    '[class.in-customization-mode]': 'customizationMode()',
+  },
 })
 export class LockScreenComponent {
+
+  /**
+   * Is in transition and some content should not be rendered
+   */
+  @Input() inTransition = false;
 
   @ViewChild('wpBox') wpBox!: ElementRef<HTMLElement>;
 
   private readonly renderer = inject(Renderer2);
+  private readonly iosWallpaperService = inject(IosWallpaperService);
 
   displayUnlock = false;
+  wallpapers = this.iosWallpaperService.all;
+  activeWallpaper = this.iosWallpaperService.active;
+  customizationMode = signal<boolean>(false);
 
   hideUnlock() {
     this.displayUnlock = false;
@@ -55,6 +69,10 @@ export class LockScreenComponent {
     const el = this.wpBox.nativeElement;
 
     this.renderer.removeStyle(el, 'transform');
+  }
+
+  enterCustomizationMode() {
+    this.customizationMode.set(!this.customizationMode());
   }
 
 }

@@ -1,16 +1,41 @@
-<div #wpBox class="lock-screen-wallpaper-box">
+<ng-container
+  [ngTemplateOutlet]="screen"
+  [ngTemplateOutletContext]="{
+    wallpaper: inTransition ? null : activeWallpaper()
+  }"
+/>
 
-  <lib-lock-screen-panel />
+<ng-template
+  #screen
+  let-wallpaper="wallpaper"
+>
+  <div
+    #wpBox
+    class="lock-screen-wallpaper-box"
+    [style]="{
+      'background-image': wallpaper ? 'url(' + wallpaper + ')' : ''
+    }"
+  >
+    <button
+      (click)="enterCustomizationMode()"
+      [style]="{
+        'position': 'relative',
+        'top': '220px',
+        'left': '100px',
+      }"
+    >Open {{ customizationMode() }}</button>
 
-  @if (displayUnlock) {
-    <lib-unlock-screen-panel
-      (hide)="hideUnlock()"
+    <lib-lock-screen-panel />
+
+    @if (displayUnlock) {
+      <lib-unlock-screen-panel
+        (hide)="hideUnlock()"
+      />
+    }
+
+    <lib-home-indicator
+      (m-panup)="homeIndicatorPanUp($any($event))"
+      (m-panend)="resetPanUpState($event)"
     />
-  }
-
-  <lib-home-indicator
-    (m-panup)="homeIndicatorPanUp($any($event))"
-    (m-panend)="resetPanUpState($event)"
-  />
-
-</div>
+  </div>
+</ng-template>

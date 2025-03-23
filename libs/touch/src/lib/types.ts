@@ -12,6 +12,9 @@ export enum MoveEventType {
   SwipeLeft = 'm-swipeleft',
   SwipeRight = 'm-swiperight',
   SwipeDown = 'm-swipedown',
+
+  Press = 'm-press',
+  PressUp = 'm-pressup',
 }
 
 export interface TouchOptions {

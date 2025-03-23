@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostBinding, inject, Input, Output, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, inject, Input, Output, Renderer2, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { WallpaperDirective } from '@ng-ios/ios-services';
@@ -16,6 +16,9 @@ import { LockScreenComponent } from '../lock-screen/lock-screen.component';
   templateUrl: './lock-screen-box.component.html',
   styleUrl: './lock-screen-box.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.opened]': 'isOpened()',
+  },
 })
 export class LockScreenBoxComponent {
 
@@ -41,20 +44,19 @@ export class LockScreenBoxComponent {
   @Output() close = new EventEmitter<void>();
 
 
-  @HostBinding('class.open') open = false;
-
-  @ViewChild('lockScreenWp') lockScreenWp!: ElementRef<HTMLElement>;
-  @ViewChild('lockScreenFilter') lockScreenFilter!: ElementRef<HTMLElement>;
-  @ViewChild('lockScreenContent') lockScreenContent!: ElementRef<HTMLElement>;
+  @ViewChild('wallpaper') lockScreenWp!: ElementRef<HTMLElement>;
+  @ViewChild('blurFilter') lockScreenFilter!: ElementRef<HTMLElement>;
+  @ViewChild('content') lockScreenContent!: ElementRef<HTMLElement>;
 
   private readonly renderer = inject(Renderer2);
   private readonly cd = inject(ChangeDetectorRef);
 
+  isOpened = signal<boolean>(false);
   private animationDuration = 500;
   private releaseDelay: number = 0;
 
   private lockScreenVerticalPan(deltaY: number) {
-    this.open = false;
+    this.isOpened.set(false);
 
     const animationDelay = this.calcAnimationDelay(deltaY);
 
@@ -81,7 +83,7 @@ export class LockScreenBoxComponent {
 
     this.renderer.listen(lockScreenContent, 'animationiteration', () => {
       if (show) {
-        this.open = true;
+        this.isOpened.set(true);
       } else {
         this.close.emit();
       }

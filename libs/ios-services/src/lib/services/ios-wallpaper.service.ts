@@ -1,8 +1,11 @@
 import { Injectable, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 
+
 @Injectable()
 export class IosWallpaperService {
+
+  readonly all = signal<string[]>([]);
 
   /**
    * Active wallpaper state
@@ -30,6 +33,7 @@ export class IosWallpaperService {
   ];
 
   constructor() {
+    this.all.set(this.wallpapers);
     this.active.set(this.wallpapers[10]);
   }
 

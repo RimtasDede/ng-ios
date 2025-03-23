@@ -3,7 +3,18 @@
   display: block;
   width: 100%;
   height: 100%;
-  // background-color: #000;
+  background-color: #000;
+  overflow: hidden;
+}
+
+:host(.in-transition) {
+  background-color: transparent;
+}
+
+:host(.in-customization-mode) {
+  .lock-screen-wallpaper-box {
+    transform: scale(0.7);
+  }
 }
 
 .lock-screen-wallpaper-box {
@@ -12,4 +23,5 @@
   height: 100%;
   background-size: cover;
   background-position: top center;
+  transition: transform 0.25s ease-in-out;
 }

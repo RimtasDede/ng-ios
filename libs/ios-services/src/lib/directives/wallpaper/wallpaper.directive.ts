@@ -4,6 +4,9 @@ import { Directive, effect, ElementRef, inject, Renderer2 } from '@angular/core'
 import { IosWallpaperService } from '../../services/ios-wallpaper.service';
 
 
+/**
+ * Add activated wallpaper to host element as background-image
+ */
 @Directive({
   selector: '[ios-wallpaper]',
 })
