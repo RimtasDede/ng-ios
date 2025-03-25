@@ -1,0 +1,15 @@
+@forward './variables';
+@use './fonts';
+@use './reset';
+
+* {
+  user-select: none;
+}
+
+html, body {
+  font-family: 'SF Pro', sans-serif;
+}
+
+svg-icon {
+  display: inline-block;
+}

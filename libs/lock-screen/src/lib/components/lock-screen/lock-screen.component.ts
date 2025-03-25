@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject, Renderer2, Input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { HomeIndicatorComponent } from '@ng-ios/ui';
+import { HomeIndicatorComponent, SliderComponent, SliderSlideDirective } from '@ng-ios/ui';
 import { MoveEvent } from '@ng-ios/touch';
-import { IosWallpaperService } from '@ng-ios/ios-services';
+import { IosScreenService, IosWallpaperService } from '@ng-ios/ios-services';
 
 import { LockScreenPanelComponent } from '../lock-screen-panel/lock-screen-panel.component';
 import { UnlockScreenPanelComponent } from '../unlock-screen-panel/unlock-screen-panel.component';
@@ -17,6 +17,8 @@ const UNLOCK_SWIPE_DELTAY_BP = -28;
     LockScreenPanelComponent,
     UnlockScreenPanelComponent,
     HomeIndicatorComponent,
+    SliderComponent,
+    SliderSlideDirective,
   ],
   templateUrl: './lock-screen.component.html',
   styleUrl: './lock-screen.component.scss',
@@ -24,6 +26,7 @@ const UNLOCK_SWIPE_DELTAY_BP = -28;
   host: {
     '[class.in-transition]': 'inTransition',
     '[class.in-customization-mode]': 'customizationMode()',
+    '[class.is-customization-mode-toggled]': 'customizationModeToggled',
   },
 })
 export class LockScreenComponent {
@@ -36,12 +39,15 @@ export class LockScreenComponent {
   @ViewChild('wpBox') wpBox!: ElementRef<HTMLElement>;
 
   private readonly renderer = inject(Renderer2);
+  private readonly iosScreenService = inject(IosScreenService);
   private readonly iosWallpaperService = inject(IosWallpaperService);
 
+  screen = this.iosScreenService.state;
   displayUnlock = false;
   wallpapers = this.iosWallpaperService.all;
   activeWallpaper = this.iosWallpaperService.active;
-  customizationMode = signal<boolean>(false);
+  customizationMode = signal<boolean>(true);
+  customizationModeToggled = false;
 
   hideUnlock() {
     this.displayUnlock = false;
@@ -71,8 +77,9 @@ export class LockScreenComponent {
     this.renderer.removeStyle(el, 'transform');
   }
 
-  enterCustomizationMode() {
+  toggleCustomizationMode() {
     this.customizationMode.set(!this.customizationMode());
+    this.customizationModeToggled = true;
   }
 
 }

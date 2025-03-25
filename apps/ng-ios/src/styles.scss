@@ -1,11 +1,8 @@
-@use './styles/all';
-
-* {
-  user-select: none;
-}
+@use './styles/index' with (
+  $fonts-path: ''
+);
 
 html, body {
-  font-family: 'SF Pro', sans-serif;
   height: 100%;
 }
 
@@ -18,8 +15,4 @@ body {
 app-root {
   display: block;
   height: 100%;
-}
-
-svg-icon {
-  display: inline-block;
 }

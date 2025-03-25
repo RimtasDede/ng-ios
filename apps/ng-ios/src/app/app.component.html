@@ -55,8 +55,9 @@
     </div>
   </div>
 
-  @if (lockScreenDeltaY) {
+  @if (lockScreenDeltaY || true) {
     <lib-lock-screen-box
+      [open]="true"
       [deltaY]="lockScreenDeltaY"
       [swipeRelease]="lockScreenReleaseDeltaY"
       (close)="lockScreenClose()"

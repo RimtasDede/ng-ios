@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 
-interface IosScreenState {
+export interface IosScreenState {
   /**
    * Screen position from top
    */
@@ -25,7 +25,7 @@ interface IosScreenState {
 @Injectable()
 export class IosScreenService {
 
-  state = signal<IosScreenState>({
+  readonly state = signal<IosScreenState>({
     top: 0,
     left: 0,
     width: 0,

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, inject, Input, Output, Renderer2, signal, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, inject, Input, Output, Renderer2, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { WallpaperDirective } from '@ng-ios/ios-services';
@@ -22,6 +22,18 @@ import { LockScreenComponent } from '../lock-screen/lock-screen.component';
 })
 export class LockScreenBoxComponent {
 
+  /**
+   * Is initially opened
+   */
+  @Input() set open(value: boolean | undefined) {
+    const isOpened = value || false;
+
+    this.isOpened.set(isOpened);
+  }
+
+  /**
+   * How much lock screen is swiped down
+   */
   @Input() set deltaY(deltaY: number | undefined) {
     if (deltaY === undefined || !this.lockScreenContent) {
       return;
@@ -30,6 +42,9 @@ export class LockScreenBoxComponent {
     this.lockScreenVerticalPan(deltaY);
   };
 
+  /**
+   * Swipe end event deltaY
+   */
   @Input() set swipeRelease(deltaY: number | undefined) {
     if (deltaY === undefined) {
       return;
@@ -49,7 +64,6 @@ export class LockScreenBoxComponent {
   @ViewChild('content') lockScreenContent!: ElementRef<HTMLElement>;
 
   private readonly renderer = inject(Renderer2);
-  private readonly cd = inject(ChangeDetectorRef);
 
   isOpened = signal<boolean>(false);
   private animationDuration = 500;
