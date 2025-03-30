@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject, Renderer2, Input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject, Renderer2, Input, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { HomeIndicatorComponent, SliderComponent, SliderSlideDirective } from '@ng-ios/ui';
@@ -45,7 +45,7 @@ export class LockScreenComponent {
   screen = this.iosScreenService.state;
   displayUnlock = false;
   wallpapers = this.iosWallpaperService.all;
-  activeWallpaper = this.iosWallpaperService.active;
+  activeWallpaper = computed(() => this.wallpapers().findIndex(val => val === this.iosWallpaperService.active()));
   customizationMode = signal<boolean>(true);
   customizationModeToggled = false;
 

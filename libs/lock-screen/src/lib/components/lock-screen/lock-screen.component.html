@@ -4,13 +4,13 @@
 
 @if (inCustomizationMode) {
   <lib-slider
-    [active]="activeWp"
-    [overflowHidden]="false"
+    [initialSlide]="activeWp"
+    [slidesGap]="10"
   >
     @for (wallpaper of wallpapers(); track $index) {
       @if (
         inCustomizationMode
-        || wallpaper === activeWp
+        || $index === activeWp
       ) {
         <ng-container
           *libSliderSlide="wallpaper"

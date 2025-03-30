@@ -5,18 +5,13 @@ const config: StorybookConfig = {
   addons: [
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
-    // {
-    //   name: '@storybook/addon-styling',
-    //   options: {
-    //     sass: {
-    //       implementation: require('sass'),
-    //     },
-    //   },
-    // },
   ],
   framework: {
     name: '@storybook/angular',
     options: {},
+  },
+  core: {
+    disableTelemetry: true,
   },
 };
 

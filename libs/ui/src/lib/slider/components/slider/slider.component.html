@@ -1,7 +1,28 @@
-<div class="track">
-  @for (slide of slides; track $index) {
-    <div class="slide">
+<div
+  #track
+  class="track"
+  [style]="{
+    gap: slidesGap() + 'px',
+    transform: 'translateX(' + trackTranslateX() + 'px)',
+  }"
+  (mousedown)="stopAnimation()"
+  (m-panstart)="panStart($any($event))"
+  (m-panleft)="panLeftRight($any($event))"
+  (m-panright)="panLeftRight($any($event))"
+  (m-panend)="panEnd($any($event))"
+  (m-swipeleft)="swipeLeft($any($event))"
+  (m-swiperight)="swipeRight($any($event))"
+>
+  @for (slide of slideTemplates(); track $index) {
+    <div
+      class="slide"
+      [style]="{
+        width: slideWidth() + 'px'
+      }"
+    >
       <ng-container [ngTemplateOutlet]="slide.template"></ng-container>
     </div>
   }
 </div>
+
+{{ trackTranslateX() }} | {{ currTr() }}

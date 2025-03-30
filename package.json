@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve ng-ios",
+    "start-test": "nx serve test --port=4201",
     "sb-ui": "nx storybook ui"
   },
   "private": true,
