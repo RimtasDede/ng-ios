@@ -1,3 +1,7 @@
+:host {
+  display: block;
+}
+
 :host(.opened) {
   .blur-filter {
     transform: translateY(100%) !important;

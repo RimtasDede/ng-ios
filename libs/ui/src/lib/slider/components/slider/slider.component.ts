@@ -1,4 +1,4 @@
-import { AfterContentInit, ChangeDetectionStrategy, Component, computed, contentChildren, ElementRef, inject, input, Renderer2, signal, viewChild } from '@angular/core';
+import { AfterContentInit, ChangeDetectionStrategy, Component, computed, contentChildren, ElementRef, inject, input, OnInit, Renderer2, signal, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { MoveEvent } from '@ng-ios/touch';
@@ -21,7 +21,7 @@ const SWIPE_ANIMATION_DURATION = 3000;
     '[style.padding]': '"0 " + padding() + "%"',
   },
 })
-export class SliderComponent implements AfterContentInit {
+export class SliderComponent implements OnInit, AfterContentInit {
 
   initialSlide = input<number>(0);
 
@@ -62,6 +62,10 @@ export class SliderComponent implements AfterContentInit {
   maxTrackTranslateX = computed(() => this.calcMaxTrackTranslateX());
   swipeAnimation?: AnimationObject;
 
+  ngOnInit(): void {
+    this.sliderWidth = this.host.nativeElement.offsetWidth;
+  }
+
   ngAfterContentInit(): void {
     this.trackTranslateX.set(
       this.calcSlideTranslateX(
@@ -69,7 +73,7 @@ export class SliderComponent implements AfterContentInit {
       )
     );
 
-    // console.log('slider width', this.sliderWidth);
+    console.log('slider width', this.sliderWidth, this.host.nativeElement.offsetWidth);
     console.log('slide width', this.slideWidth());
     console.log('max translate x', this.maxTrackTranslateX());
 
@@ -170,8 +174,6 @@ export class SliderComponent implements AfterContentInit {
     const slidesGap = this.slidesGap() * (this.showSlides() - 1);
     const slideWidth = (this.sliderWidth - slidesGap - sliderPadding) / this.showSlides();
 
-    console.log('slideWidth', this.sliderWidth);
-
     return slideWidth;
   }
 
@@ -194,25 +196,26 @@ export class SliderComponent implements AfterContentInit {
    * Find slide to which should slider stick and calculate new translateX
    */
   findSlideCurr() {
+    const slidesNum = this.slidesNum();
     const currTranslateX = this.trackTranslateX();
     const sliderPaddingLeft = this.sliderWidth * this.padding() / 100;
     const slideWidth = this.slideWidth();
     const gap = this.slidesGap();
 
-    console.log('curr translate x', currTranslateX);
-    console.log('slide width', slideWidth);
-    console.log('gap', gap);
-    console.log('padding left', sliderPaddingLeft);
+    // console.log('curr translate x', currTranslateX);
+    // console.log('slide width', slideWidth);
+    // console.log('gap', gap);
+    // console.log('padding left', sliderPaddingLeft);
+
     /**
      * suveikia tik kai per pirma active slide kerta breakpointas.
      * Reikia padaryti kad paimtu slide is sono ir ziuretu ar praeina jau.
      */
 
-    for (let i = 0; i < this.slidesNum(); i++) {
+    for (let i = 0; i < slidesNum; i++) {
       const centerTranslateX = -i * (slideWidth + gap) - sliderPaddingLeft - slideWidth / 2;
 
-      console.log(`slide ${i} translateX`, centerTranslateX);
-      // console.log('sliderPaddingLeft', sliderPaddingLeft);
+      // console.log(`slide ${i} translateX`, centerTranslateX);
 
       // console.log(centerTranslateX - (slideWidth + gap) / 2, '<', currTranslateX);
       // console.log(centerTranslateX + (slideWidth + gap) / 2, '>=', currTranslateX);
@@ -220,15 +223,24 @@ export class SliderComponent implements AfterContentInit {
         centerTranslateX - (slideWidth + gap) / 2 < currTranslateX
         && centerTranslateX + (slideWidth + gap) / 2 >= currTranslateX
       ) {
-        const slideIndex = centerTranslateX < currTranslateX
+        let slideIndex = centerTranslateX < currTranslateX
           ? i
           : i + 1;
+        slideIndex = slideIndex === slidesNum ? slidesNum - 1 : slideIndex;
+
+
+        console.log('slide index', slideIndex);
 
         return this.calcSlideTranslateX(slideIndex);
       }
     }
 
     return 0;
+  }
+
+  cdCount = 0;
+  cd() {
+    return this.cdCount++;
   }
 
 }
