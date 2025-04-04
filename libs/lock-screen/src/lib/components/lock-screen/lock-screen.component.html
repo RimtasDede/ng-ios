@@ -36,9 +36,7 @@
 
     <div></div>
   </div>
-}
-
-@if (!inCustomizationMode) {
+} @else {
   <div class="main-screen-box">
     <ng-container
       [ngTemplateOutlet]="screenTemplate"
@@ -47,27 +45,13 @@
       }"
     />
   </div>
-}
 
-
-<!-- <lib-slider
-  [active]="activeWp"
->
-  @for (wallpaper of wallpapers(); track $index) {
-    @if (
-      inCustomizationMode
-      || wallpaper === activeWp
-    ) {
-      <ng-container
-        *libSliderSlide="wallpaper"
-        [ngTemplateOutlet]="screenTemplate"
-        [ngTemplateOutletContext]="{
-          wallpaper: inTransition ? null : wallpaper,
-        }"
-      />
-    }
+  @if (displayUnlock) {
+    <lib-unlock-screen-panel
+      (hide)="hideUnlock()"
+    />
   }
-</lib-slider> -->
+}
 
 
 <ng-template
@@ -88,11 +72,6 @@
   >
     <lib-lock-screen-panel />
 
-    @if (displayUnlock) {
-      <lib-unlock-screen-panel
-        (hide)="hideUnlock()"
-      />
-    }
 
     <lib-home-indicator
       (m-panup)="homeIndicatorPanUp($any($event))"

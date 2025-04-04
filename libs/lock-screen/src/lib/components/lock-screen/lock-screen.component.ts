@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject, Renderer2, Input, signal, computed, viewChild, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, inject, Renderer2, Input, signal, computed, viewChild, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { HomeIndicatorComponent, SliderComponent, SliderSlideDirective } from '@ng-ios/ui';
@@ -27,7 +27,7 @@ const UNLOCK_SWIPE_DELTAY_BP = -28;
     '[class.in-transition]': 'inTransition',
   },
 })
-export class LockScreenComponent implements AfterViewChecked {
+export class LockScreenComponent {
 
   /**
    * Is in transition and some content should not be rendered
@@ -40,19 +40,15 @@ export class LockScreenComponent implements AfterViewChecked {
   private readonly iosScreenService = inject(IosScreenService);
   private readonly iosWallpaperService = inject(IosWallpaperService);
 
-  @ViewChild('wpBox') wpBox!: ElementRef<HTMLElement>;
+  private wpBox = viewChild<ElementRef<HTMLElement>>('wpBox');
   private slider = viewChild('slider', { read: ElementRef });
 
   screen = this.iosScreenService.state;
   displayUnlock = false;
-  displayLockScreen = true;
   wallpapers = this.iosWallpaperService.all;
   activeWallpaper = this.iosWallpaperService.active;
   activeWallpaperIndex = computed(() => this.wallpapers().findIndex(val => val === this.iosWallpaperService.active()));
   customizationMode = signal<boolean>(false);
-
-  ngAfterViewChecked(): void {
-  }
 
 
   hideUnlock() {
@@ -71,14 +67,14 @@ export class LockScreenComponent implements AfterViewChecked {
       this.resetPanUpState(0);
       this.showUnlock();
     } else {
-      const el = this.wpBox.nativeElement;
+      const el = this.wpBox()?.nativeElement;
 
       this.renderer.setStyle(el, 'transform', `translateY(${deltaY}px)`);
     }
   }
 
   resetPanUpState(e: any) {
-    const el = this.wpBox.nativeElement;
+    const el = this.wpBox()?.nativeElement;
 
     this.renderer.removeStyle(el, 'transform');
   }
