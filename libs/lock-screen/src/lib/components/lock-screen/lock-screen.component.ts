@@ -83,24 +83,6 @@ export class LockScreenComponent implements AfterViewChecked {
     this.renderer.removeStyle(el, 'transform');
   }
 
-  toggleCustomizationMode() {
-    const isCurrCustomizationMode = this.customizationMode();
-
-    if (isCurrCustomizationMode) { // close customization mode
-      const listener = this.renderer.listen(this.slider()?.nativeElement, 'transitionend', () => {
-        this.customizationMode.set(false);
-        listener();
-      });
-
-      this.renderer.setStyle(this.slider()?.nativeElement, 'scale', 1 / 0.7);
-    } else { // open customization mode
-      this.customizationMode.set(true);
-      this.cd.detectChanges();
-
-      this.renderer.setStyle(this.slider()?.nativeElement, 'scale', '1');
-    }
-  }
-
   enterCustomizationMode() {
     this.customizationMode.set(true);
     this.cd.detectChanges();

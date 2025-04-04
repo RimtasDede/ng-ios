@@ -1,4 +1,4 @@
-import { Component, ElementRef, Renderer2, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Renderer2, ViewChild, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { IosWallpaperService } from '@ng-ios/ios-services';
@@ -34,6 +34,7 @@ import { AppsGridComponent } from './apps-grid';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
 
