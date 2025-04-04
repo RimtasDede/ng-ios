@@ -55,14 +55,14 @@
     </div>
   </div>
 
-  <!-- @if (lockScreenDeltaY || true) { -->
+  @if (lockScreenDeltaY) {
     <lib-lock-screen-box
-      [open]="true"
+      [open]="false"
       [deltaY]="lockScreenDeltaY"
       [swipeRelease]="lockScreenReleaseDeltaY"
       (close)="lockScreenClose()"
     />
-  <!-- } -->
+  }
 
   <div #blurOverlay class="home-blur-overlay"></div>
 

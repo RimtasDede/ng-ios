@@ -26,7 +26,7 @@
               [ngTemplateOutletContext]="{
                 width: screenState.width + 'px',
                 height: screenState.height + 'px',
-                wallpaper: inTransition ? null : wallpaper,
+                wallpaper: inTransition() ? null : wallpaper,
               }"
             />
           }
@@ -41,7 +41,7 @@
     <ng-container
       [ngTemplateOutlet]="screenTemplate"
       [ngTemplateOutletContext]="{
-        wallpaper: inTransition ? null : activeWp,
+        wallpaper: inTransition() ? null : activeWp,
       }"
     />
   </div>
@@ -71,7 +71,6 @@
     (m-press)="inCustomizationMode ? leaveCustomizationMode(wallpaper) : enterCustomizationMode()"
   >
     <lib-lock-screen-panel />
-
 
     <lib-home-indicator
       (m-panup)="homeIndicatorPanUp($any($event))"

@@ -23,6 +23,9 @@ const SWIPE_ANIMATION_DURATION = 3000;
 })
 export class SliderComponent implements OnInit, AfterContentInit {
 
+  /**
+   * Initial slide index
+   */
   initialSlide = input<number>(0);
 
   /**

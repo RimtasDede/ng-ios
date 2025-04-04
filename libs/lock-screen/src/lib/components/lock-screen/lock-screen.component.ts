@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, inject, Renderer2, Input, signal, computed, viewChild, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, inject, Renderer2, Input, signal, computed, viewChild, ChangeDetectorRef, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { HomeIndicatorComponent, SliderComponent, SliderSlideDirective } from '@ng-ios/ui';
@@ -24,7 +24,7 @@ const UNLOCK_SWIPE_DELTAY_BP = -28;
   styleUrl: './lock-screen.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    '[class.in-transition]': 'inTransition',
+    '[class.in-transition]': 'inTransition()',
   },
 })
 export class LockScreenComponent {
@@ -32,7 +32,7 @@ export class LockScreenComponent {
   /**
    * Is in transition and some content should not be rendered
    */
-  @Input() inTransition = false;
+  inTransition = input<boolean>(false);
 
 
   private readonly renderer = inject(Renderer2);
