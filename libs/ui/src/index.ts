@@ -6,4 +6,5 @@ export * from './lib/pagination/pagination.component';
 export * from './lib/passcode-dots/passcode-dots.component';
 export * from './lib/signal-str';
 export * from './lib/slider';
+export * from './lib/time';
 export * from './lib/wifi-str';
