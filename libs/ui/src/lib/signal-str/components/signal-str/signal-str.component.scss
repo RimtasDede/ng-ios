@@ -1,0 +1,40 @@
+:host {
+  display: inline-block;
+}
+
+.icon {
+  width: 20px;
+  vertical-align: middle;
+  fill: rgba(#fff, 0.5);
+  overflow: hidden;
+}
+
+.signal-str-1 {
+  rect:nth-of-type(1) {
+    fill: #fff;
+  }
+}
+
+.signal-str-2 {
+  rect:nth-of-type(1),
+  rect:nth-of-type(2) {
+    fill: #fff;
+  }
+}
+
+.signal-str-3 {
+  rect:nth-of-type(1),
+  rect:nth-of-type(2),
+  rect:nth-of-type(3) {
+    fill: #fff;
+  }
+}
+
+.signal-str-4 {
+  rect:nth-of-type(1),
+  rect:nth-of-type(2),
+  rect:nth-of-type(3),
+  rect:nth-of-type(4) {
+    fill: #fff;
+  }
+}
