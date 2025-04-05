@@ -8,7 +8,7 @@ export class IosDateTimeService implements OnDestroy {
 
   private readonly documentVisibilityService = inject(DocumentVisibilityService);
 
-  readonly datetime = signal<Date>(new Date());
+  readonly datetime = signal<number>(new Date().valueOf());
   private intervalId?: ReturnType<typeof setInterval>;
   private visibilitySub?: Subscription;
 
@@ -29,10 +29,10 @@ export class IosDateTimeService implements OnDestroy {
   }
 
   private startTimer() {
-    this.datetime.set(new Date());
+    this.datetime.set(new Date().valueOf());
 
     this.intervalId = setInterval(() => {
-      this.datetime.set(new Date());
+      this.datetime.set(new Date().valueOf());
     }, 1000);
   }
 

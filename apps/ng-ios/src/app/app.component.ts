@@ -2,35 +2,42 @@ import { ChangeDetectionStrategy, Component, ElementRef, Renderer2, ViewChild, i
 import { RouterModule } from '@angular/router';
 
 import { IosWallpaperService } from '@ng-ios/ios-services';
+import { StatusBarComponent, TimeDirective, SignalStrDirective, BatteryDirective, WifiStrDirective, STATUS_BAR_IMPORTS } from '@ng-ios/status-bar';
 import { TodayViewComponent } from '@ng-ios/today-view';
 import { AppLibraryComponent } from '@ng-ios/app-library';
 import { LockScreenBoxComponent } from '@ng-ios/lock-screen';
 import { MoveEvent } from '@ng-ios/touch';
 import {
   HomeScreenFavAppsBarComponent,
+  TimeComponent,
+  BatteryComponent,
+  WifiStrComponent,
+  SignalStrComponent,
 } from '@ng-ios/ui';
 
 import { PhoneFrameComponent } from './phone-frame';
-import { TimeComponent } from './time';
-import { BatteryComponent } from './battery';
-import { WifiStrComponent } from './wifi-str';
-import { SignalStrComponent } from './signal-str';
 import { AppsGridComponent } from './apps-grid';
 
 @Component({
   imports: [
     RouterModule,
     PhoneFrameComponent,
+    StatusBarComponent,
     HomeScreenFavAppsBarComponent,
     TimeComponent,
+    TimeDirective,
     BatteryComponent,
+    BatteryDirective,
     WifiStrComponent,
+    WifiStrDirective,
     SignalStrComponent,
+    SignalStrDirective,
     AppsGridComponent,
     TodayViewComponent,
     AppLibraryComponent,
     LockScreenBoxComponent,
-  ],
+    STATUS_BAR_IMPORTS,
+],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
