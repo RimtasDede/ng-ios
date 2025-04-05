@@ -1,20 +1,19 @@
 import { argsToTemplate, type Meta, type StoryObj } from '@storybook/angular';
 
-import { BatteryComponent } from './battery.component';
+import { WifiStrComponent } from './wifi-str.component';
 
 
-const meta: Meta<BatteryComponent> = {
-  component: BatteryComponent,
-  title: 'Battery',
+const meta: Meta<WifiStrComponent> = {
+  component: WifiStrComponent,
+  title: 'Wifi Strenght',
   argTypes: {
-    percentage: {
+    value: {
       control: {
         type: 'number',
         min: 0,
-        max: 100,
+        max: 3,
       }
     },
-    isCharging: { control: 'boolean' },
   },
   render: args => ({
     props: args,
@@ -28,7 +27,7 @@ const meta: Meta<BatteryComponent> = {
       </style>
 
       <div>
-        <ios-battery ${argsToTemplate(args)} />
+        <ios-wifi-str ${argsToTemplate(args)} />
       </div>
     `,
   }),
@@ -36,11 +35,10 @@ const meta: Meta<BatteryComponent> = {
 
 export default meta;
 
-type Story = StoryObj<BatteryComponent>;
+type Story = StoryObj<WifiStrComponent>;
 
 export const Primary: Story = {
   args: {
-    percentage: 100,
-    isCharging: false,
+    value: 3,
   },
 };

@@ -5,3 +5,4 @@ export * from './lib/keypad/keypad.component';
 export * from './lib/pagination/pagination.component';
 export * from './lib/passcode-dots/passcode-dots.component';
 export * from './lib/slider';
+export * from './lib/wifi-str';
