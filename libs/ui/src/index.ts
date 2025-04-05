@@ -1,3 +1,4 @@
+export * from './lib/battery';
 export * from './lib/home-indicator/home-indicator.component';
 export * from './lib/home-screen-fav-apps-bar/home-screen-fav-apps-bar.component';
 export * from './lib/keypad/keypad.component';
