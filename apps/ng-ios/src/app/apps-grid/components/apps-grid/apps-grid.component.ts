@@ -45,7 +45,7 @@ export class AppsGridComponent {
   @Output() panBeforeFirstPage = new EventEmitter<any>();
   @Output() panAfterLastPage = new EventEmitter<any>();
 
-  iosScreen = inject(IosScreenService);
+  iosScreenService = inject(IosScreenService);
 
   @ViewChild('appsGrid') appsGrid!: ElementRef;
   @ViewChildren('appsGridPanel') appsGridPanels!: QueryList<ElementRef>;
@@ -77,7 +77,7 @@ export class AppsGridComponent {
       return;
     }
 
-    const pageWidth = this.iosScreen.state().width;
+    const pageWidth = this.iosScreenService.width();
     const x = this.currPage * pageWidth * -1 + e.deltaX;
 
     // prevent swipe to out of pages
@@ -98,7 +98,7 @@ export class AppsGridComponent {
       return;
     }
 
-    const pageWidth = this.iosScreen.state().width;
+    const pageWidth = this.iosScreenService.width();
     const x = this.currPage * pageWidth * -1 + e.deltaX;
 
     // prevent swipe to out of pages
@@ -119,8 +119,7 @@ export class AppsGridComponent {
       return;
     }
 
-    const screenState = this.iosScreen.state();
-    const pageWidth = screenState.width;
+    const pageWidth = this.iosScreenService.width();
     const halfPageWidth = pageWidth / 2;
     const appsGrid = this.appsGrid.nativeElement as HTMLElement;
     const move = e.deltaX;
@@ -202,14 +201,13 @@ export class AppsGridComponent {
    * @param x Horizontal swipe number in px
    */
   private canSwipeApps(x: number): boolean {
-    const pageWidth = this.iosScreen.state().width;
+    const pageWidth = this.iosScreenService.width();
 
     return x < 0 && x > this.totalPages * pageWidth * -1;
   }
 
   private swipe(e: HammerInput): void {
-    const screenState = this.iosScreen.state();
-    const pageWidth = screenState.width;
+    const pageWidth = this.iosScreenService.width();
     const x = this.currPage * pageWidth * -1 + e.deltaX;
     const move = e.deltaX;
     const direction = move > 0 ? 1 : -1;

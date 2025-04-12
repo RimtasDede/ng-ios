@@ -7,6 +7,8 @@ export class IosLockService {
 
   readonly isLocked = signal<boolean>(false);
 
+  readonly passCodeMin = 4;
+  readonly passCodeMax = 10;
   readonly passCode = signal<PassCode>([1, 2, 3, 4, 5, 6]);
 
   constructor() {

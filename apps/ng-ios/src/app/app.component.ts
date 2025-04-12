@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Renderer2, ViewChild, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { IosWallpaperService } from '@ng-ios/ios-services';
+import { StateManagerComponent, IosWallpaperService } from '@ng-ios/ios-services';
 import { StatusBarComponent, TimeDirective, SignalStrDirective, BatteryDirective, WifiStrDirective, STATUS_BAR_IMPORTS } from '@ng-ios/status-bar';
 import { TodayViewComponent } from '@ng-ios/today-view';
 import { AppLibraryComponent } from '@ng-ios/app-library';
@@ -21,6 +21,7 @@ import { AppsGridComponent } from './apps-grid';
 @Component({
   imports: [
     RouterModule,
+    StateManagerComponent,
     PhoneFrameComponent,
     StatusBarComponent,
     HomeScreenFavAppsBarComponent,

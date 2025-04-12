@@ -1,4 +1,4 @@
-import { Provider } from '@angular/core';
+import { StateManagerComponent } from './lib/components/state-manager/state-manager.component';
 
 import { WallpaperDirective } from './lib/directives/wallpaper/wallpaper.directive';
 
@@ -11,7 +11,12 @@ import { IosSignalService } from './lib/services/ios-signal.service';
 import { IosWallpaperService } from './lib/services/ios-wallpaper.service';
 import { IosWifiService } from './lib/services/ios-wifi.service';
 
+
+export * from './lib/providers';
+
 export {
+  StateManagerComponent,
+
   WallpaperDirective,
   IosBatteryService,
   IosCommonService,
@@ -24,14 +29,3 @@ export {
 
   PassCode,
 };
-
-export const IOS_SERVICE_PROVIDERS: Provider[] = [
-  IosBatteryService,
-  IosCommonService,
-  IosDateTimeService,
-  IosLockService,
-  IosScreenService,
-  IosSignalService,
-  IosWallpaperService,
-  IosWifiService,
-];

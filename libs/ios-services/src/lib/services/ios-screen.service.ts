@@ -1,44 +1,44 @@
 import { Injectable, signal } from '@angular/core';
 
-export interface IosScreenState {
+
+/**
+ * iPhone screen parameters
+ */
+@Injectable()
+export class IosScreenService {
+
   /**
    * Screen position from top
    */
-  top: number;
+  readonly top = signal<number>(0);
 
   /**
    * Screen position from left
    */
-  left: number;
+  readonly left = signal<number>(0);
 
   /**
    * Screen width
    */
-  width: number;
+  readonly width = signal<number>(0);
 
   /**
    * Screen height
    */
-  height: number;
-}
-
-@Injectable()
-export class IosScreenService {
-
-  readonly state = signal<IosScreenState>({
-    top: 0,
-    left: 0,
-    width: 0,
-    height: 0,
-  });
+  readonly height = signal<number>(0);
 
   constructor() {
     setTimeout(() => {
-      this.state.set(this.getScreenState());
+      const { top, left, width, height } = this.getScreenState();
+
+      this.top.set(top);
+      this.left.set(left);
+      this.width.set(width);
+      this.height.set(height);
     });
   }
 
-  private getScreenState(): IosScreenState {
+  private getScreenState() {
     const {
       offsetTop,
       offsetLeft,

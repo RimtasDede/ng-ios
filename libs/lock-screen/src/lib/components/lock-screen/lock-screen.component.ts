@@ -105,7 +105,8 @@ export class LockScreenComponent implements AfterViewInit {
   private screenBox = viewChild<ElementRef<HTMLElement>>('screenBox');
 
   disableAnimations = true;
-  screen = this.iosScreenService.state;
+  screenWidth = this.iosScreenService.width;
+  screenHeight = this.iosScreenService.height;
   displayUnlock = false;
   wallpapers = this.iosWallpaperService.all;
   activeWallpaper = this.iosWallpaperService.active;
