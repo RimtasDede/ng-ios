@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@ng-ios/animations": ["libs/animations/src/index.ts"],
       "@ng-ios/app-library": ["libs/app-library/src/index.ts"],
       "@ng-ios/application": ["libs/application/src/index.ts"],
       "@ng-ios/ios-services": ["libs/ios-services/src/index.ts"],

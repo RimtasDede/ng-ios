@@ -3,36 +3,39 @@
   display: block;
   width: 100%;
   height: 100%;
+  background-color: #000;
   overflow: hidden;
 }
 
 // When component is in transition, he should be without background to let handle backdrop effect for parent
 :host(.in-transition) {
-  // background-color: transparent;
+  background-color: transparent;
 }
 
-// :host(.in-customization-mode) {
-//   .lock-screen-wallpaper-box {
-//     animation: resizeAnimation 300ms ease-in-out forwards;
-//   }
-// }
-
-// :host(.is-customization-mode-toggled:not(.in-customization-mode)) {
-//   .lock-screen-wallpaper-box {
-//     animation: resizeAnimation 300ms ease-in-out forwards reverse;
-//   }
-// }
-
-.main-screen-box {
+.screen-box {
   width: 100%;
   height: 100%;
-  scale: calc(1/0.7);
+}
+
+.status-bar {
+  position: absolute;
+  z-index: 1;
 }
 
 .customization-mode-box {
   width: 100%;
   height: 100%;
   background-color: #000;
+
+  .lock-screen-wallpaper-box {
+    border-radius: 32px;
+    scale: 0.7;
+
+    .home-indicator {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
 
   & > div:nth-child(1) {
     height: 15%;
@@ -43,8 +46,6 @@
 
     lib-slider {
       height: 100%;
-      scale: calc(1/0.7);
-      transition: scale 300ms ease-in-out;
     }
   }
 
@@ -64,6 +65,4 @@
   height: 100%;
   background-size: cover;
   background-position: top center;
-  border-radius: 32px;
-  scale: 0.7;
 }

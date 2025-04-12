@@ -3,55 +3,77 @@
 @let activeWpIndex = activeWallpaperIndex();
 @let inCustomizationMode = customizationMode();
 
-@if (inCustomizationMode) {
-  <div class="customization-mode-box">
-    <div></div>
+<div
+  #screenBox
+  class="screen-box"
+>
+  @if (!inCustomizationMode) {
+    <lib-status-bar
+      @renderFadeInOut
+      class="status-bar"
+    >
+      <lib-status-bar-left>
+        <ios-time />
+      </lib-status-bar-left>
 
-    <div>
-      <lib-slider
-        #slider
-        [initialSlide]="activeWpIndex"
-        [slidesGap]="0"
-        [padding]="12"
-        [overflowHidden]="false"
-      >
-        @for (wallpaper of wallpapers(); track $index) {
-          @if (
-            inCustomizationMode
-            || wallpaper === activeWp
-          ) {
-            <ng-container
-              *libSliderSlide="wallpaper"
-              [ngTemplateOutlet]="screenTemplate"
-              [ngTemplateOutletContext]="{
-                width: screenState.width + 'px',
-                height: screenState.height + 'px',
-                wallpaper: inTransition() ? null : wallpaper,
-              }"
-            />
+      <lib-status-bar-right>
+        <ios-signal-str />
+        <ios-wifi-str />
+        <ios-battery />
+      </lib-status-bar-right>
+    </lib-status-bar>
+  }
+
+  @if (inCustomizationMode) {
+    <div class="customization-mode-box">
+      <div></div>
+
+      <div @animateChild>
+        <lib-slider
+          @renderScaleInOut
+          [initialSlide]="activeWpIndex"
+          [slidesGap]="0"
+          [padding]="12"
+          [overflowHidden]="false"
+        >
+          @for (wallpaper of wallpapers(); track $index) {
+            @if (
+              inCustomizationMode
+              || wallpaper === activeWp
+            ) {
+              <ng-container
+                *libSliderSlide="wallpaper"
+                [ngTemplateOutlet]="screenTemplate"
+                [ngTemplateOutletContext]="{
+                  width: screenState.width + 'px',
+                  height: screenState.height + 'px',
+                  wallpaper: inTransition() ? null : wallpaper,
+                }"
+              />
+            }
           }
-        }
-      </lib-slider>
+        </lib-slider>
+      </div>
+
+      <div></div>
+    </div>
+  } @else {
+    <div @delayedIn>
+      <ng-container
+        [ngTemplateOutlet]="screenTemplate"
+        [ngTemplateOutletContext]="{
+          wallpaper: inTransition() ? null : activeWp,
+        }"
+      />
     </div>
 
-    <div></div>
-  </div>
-} @else {
-  <div class="main-screen-box">
-    <ng-container
-      [ngTemplateOutlet]="screenTemplate"
-      [ngTemplateOutletContext]="{
-        wallpaper: inTransition() ? null : activeWp,
-      }"
-    />
-  </div>
-
-  @if (displayUnlock) {
-    <lib-unlock-screen-panel
-      (hide)="hideUnlock()"
-    />
+    @if (displayUnlock) {
+      <lib-unlock-screen-panel
+        (hide)="hideUnlock()"
+      />
+    }
   }
-}
+</div>
 
 
 <ng-template
@@ -61,7 +83,6 @@
   let-wallpaper="wallpaper"
 >
   <div
-    #wpBox
     class="lock-screen-wallpaper-box"
     [style]="{
       'width': width,
@@ -73,6 +94,7 @@
     <lib-lock-screen-panel />
 
     <lib-home-indicator
+      class="home-indicator"
       (m-panup)="homeIndicatorPanUp($any($event))"
       (m-panend)="resetPanUpState($event)"
     />

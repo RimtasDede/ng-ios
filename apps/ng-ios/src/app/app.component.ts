@@ -42,6 +42,9 @@ import { AppsGridComponent } from './apps-grid';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[@.disabled]': 'false',
+  },
 })
 export class AppComponent {
 
