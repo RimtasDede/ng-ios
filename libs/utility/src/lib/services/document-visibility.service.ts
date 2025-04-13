@@ -4,7 +4,7 @@ import { BehaviorSubject, fromEvent } from 'rxjs';
 /**
  * Help check do browser is minimised or tab is inactive
  */
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class DocumentVisibilityService {
 
   private visibilitySubject = new BehaviorSubject<boolean>(!document.hidden);
