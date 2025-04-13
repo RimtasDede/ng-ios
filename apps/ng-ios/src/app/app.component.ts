@@ -2,18 +2,12 @@ import { ChangeDetectionStrategy, Component, ElementRef, Renderer2, ViewChild, i
 import { RouterModule } from '@angular/router';
 
 import { StateManagerComponent, IosWallpaperService } from '@ng-ios/ios-services';
-import { StatusBarComponent, TimeDirective, SignalStrDirective, BatteryDirective, WifiStrDirective, STATUS_BAR_IMPORTS } from '@ng-ios/status-bar';
-import { TodayViewComponent } from '@ng-ios/today-view';
-import { AppLibraryComponent } from '@ng-ios/app-library';
-import { LockScreenBoxComponent } from '@ng-ios/lock-screen';
-import { MoveEvent } from '@ng-ios/touch';
 import {
   HomeScreenFavAppsBarComponent,
-  TimeComponent,
-  BatteryComponent,
-  WifiStrComponent,
-  SignalStrComponent,
 } from '@ng-ios/ui';
+import { StatusBarGlobalComponent } from '@ng-ios/status-bar-global';
+import { TodayViewComponent } from '@ng-ios/today-view';
+import { AppLibraryComponent } from '@ng-ios/app-library';
 
 import { PhoneFrameComponent } from './phone-frame';
 import { AppsGridComponent } from './apps-grid';
@@ -23,21 +17,11 @@ import { AppsGridComponent } from './apps-grid';
     RouterModule,
     StateManagerComponent,
     PhoneFrameComponent,
-    StatusBarComponent,
     HomeScreenFavAppsBarComponent,
-    TimeComponent,
-    TimeDirective,
-    BatteryComponent,
-    BatteryDirective,
-    WifiStrComponent,
-    WifiStrDirective,
-    SignalStrComponent,
-    SignalStrDirective,
     AppsGridComponent,
     TodayViewComponent,
     AppLibraryComponent,
-    LockScreenBoxComponent,
-    STATUS_BAR_IMPORTS,
+    StatusBarGlobalComponent,
 ],
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -199,19 +183,6 @@ export class AppComponent {
 
   resetScaleHomeApps() {
     this.scaleHomeApps(1);
-  }
-
-  lockScreenVerticalPan(e: CustomEvent<MoveEvent>) {
-    this.lockScreenDeltaY = e.detail.deltaY;
-  }
-
-  lockScreenVerticalPanRelease(e: CustomEvent<MoveEvent>) {
-    this.lockScreenReleaseDeltaY = e.detail.deltaY;
-  }
-
-  lockScreenClose() {
-    this.lockScreenDeltaY = undefined;
-    this.lockScreenReleaseDeltaY = undefined;
   }
 
 }

@@ -6,6 +6,8 @@
   id="phone-frame"
   class="phone-frame"
 >
+  <lib-status-bar-global />
+
   <!-- Today View -->
   <div
     #todayViewBox
@@ -25,7 +27,7 @@
   </div>
 
   <div class="home">
-    <lib-status-bar>
+    <!-- <lib-status-bar>
       <lib-status-bar-left
         (m-panup)="lockScreenVerticalPan($any($event))"
         (m-pandown)="lockScreenVerticalPan($any($event))"
@@ -39,7 +41,7 @@
         <ios-wifi-str />
         <ios-battery />
       </lib-status-bar-right>
-    </lib-status-bar>
+    </lib-status-bar> -->
 
     <div #homeApps class="home-apps">
       <div class="home-apps__apps">
@@ -57,14 +59,14 @@
     </div>
   </div>
 
-  @if (lockScreenDeltaY) {
+  <!-- @if (lockScreenDeltaY) {
     <lib-lock-screen-box
       [open]="false"
       [deltaY]="lockScreenDeltaY"
       [swipeRelease]="lockScreenReleaseDeltaY"
       (close)="lockScreenClose()"
     />
-  }
+  } -->
 
   <div #blurOverlay class="home-blur-overlay"></div>
 

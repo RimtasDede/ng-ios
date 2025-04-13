@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { animate, group, query, style, transition, trigger } from '@angular/animations';
 
 import { IosScreenService, IosWallpaperService } from '@ng-ios/ios-services';
-import { BatteryComponent, HomeIndicatorComponent, SignalStrComponent, SliderComponent, SliderSlideDirective, TimeComponent, WifiStrComponent } from '@ng-ios/ui';
+import { HomeIndicatorComponent, SliderComponent, SliderSlideDirective } from '@ng-ios/ui';
 import { animateChildAnimation, delayedInAnimation, renderFadeInOutAnimation } from '@ng-ios/animations';
 import { MoveEvent } from '@ng-ios/touch';
 import { STATUS_BAR_IMPORTS } from '@ng-ios/status-bar';
@@ -23,10 +23,6 @@ const UNLOCK_SWIPE_DELTAY_BP = -28;
     SliderComponent,
     SliderSlideDirective,
     STATUS_BAR_IMPORTS,
-    TimeComponent,
-    SignalStrComponent,
-    WifiStrComponent,
-    BatteryComponent,
   ],
   templateUrl: './lock-screen.component.html',
   styleUrl: './lock-screen.component.scss',
