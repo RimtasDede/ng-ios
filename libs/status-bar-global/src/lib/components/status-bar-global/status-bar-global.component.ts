@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { STATUS_BAR_IMPORTS } from '@ng-ios/status-bar';
-import { LockScreenBoxComponent } from '@ng-ios/lock-screen';
+import { LockScreenBoxComponent, LockScreenService } from '@ng-ios/lock-screen';
 import { MoveEvent } from '@ng-ios/touch';
+import { IosLockService } from '@ng-ios/ios-services';
 
 
 @Component({
@@ -19,21 +20,22 @@ import { MoveEvent } from '@ng-ios/touch';
 })
 export class StatusBarGlobalComponent {
 
-  lockScreenDeltaY?: number;
-  lockScreenReleaseDeltaY?: number;
+  private readonly iosLockService = inject(IosLockService);
+  private readonly lockScreenService = inject(LockScreenService);
 
+  isLocked = this.iosLockService.isLocked;
+  lockScreenDeltaY = this.lockScreenService.deltaY;
 
   lockScreenVerticalPan(e: CustomEvent<MoveEvent>) {
-    this.lockScreenDeltaY = e.detail.deltaY;
+    this.lockScreenService.deltaY.set(e.detail.deltaY);
   }
 
   lockScreenVerticalPanRelease(e: CustomEvent<MoveEvent>) {
-    this.lockScreenReleaseDeltaY = e.detail.deltaY;
+    this.lockScreenService.swipeRelease.set(e.detail.deltaY);
   }
 
   lockScreenClose() {
-    this.lockScreenDeltaY = undefined;
-    this.lockScreenReleaseDeltaY = undefined;
+    this.lockScreenService.deltaY.set(undefined);
   }
 
 }

@@ -13,11 +13,9 @@
   </lib-status-bar-right>
 </lib-status-bar>
 
-@if (lockScreenDeltaY) {
+@if (lockScreenDeltaY() || isLocked()) {
   <lib-lock-screen-box
-    [open]="false"
-    [deltaY]="lockScreenDeltaY"
-    [swipeRelease]="lockScreenReleaseDeltaY"
+    [open]="isLocked()"
     (close)="lockScreenClose()"
   />
 }
