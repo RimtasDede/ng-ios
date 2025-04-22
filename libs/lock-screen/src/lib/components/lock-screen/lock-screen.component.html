@@ -88,7 +88,13 @@
       'height': height,
       'background-image': wallpaper ? 'url(' + wallpaper + ')' : ''
     }"
-    (m-press)="inCustomizationMode ? leaveCustomizationMode(wallpaper) : enterCustomizationMode()"
+    (m-press)="
+      isLocked()
+      ? null
+      : inCustomizationMode
+        ? leaveCustomizationMode(wallpaper)
+        : enterCustomizationMode()
+    "
   >
     <lib-lock-screen-panel />
 
