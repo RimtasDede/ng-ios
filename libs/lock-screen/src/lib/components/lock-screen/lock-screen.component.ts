@@ -2,12 +2,13 @@ import { ChangeDetectionStrategy, Component, ElementRef, inject, Renderer2, sign
 import { CommonModule } from '@angular/common';
 import { animate, group, query, style, transition, trigger } from '@angular/animations';
 
-import { IosScreenService, IosWallpaperService } from '@ng-ios/ios-services';
+import { IosLockService, IosScreenService, IosWallpaperService } from '@ng-ios/ios-services';
 import { HomeIndicatorComponent, SliderComponent, SliderSlideDirective } from '@ng-ios/ui';
 import { animateChildAnimation, delayedInAnimation, renderFadeInOutAnimation } from '@ng-ios/animations';
 import { MoveEvent } from '@ng-ios/touch';
 import { STATUS_BAR_IMPORTS } from '@ng-ios/status-bar';
 
+import { LockScreenService } from '../../services/lock-screen.service';
 import { LockScreenPanelComponent } from '../lock-screen-panel/lock-screen-panel.component';
 import { UnlockScreenPanelComponent } from '../unlock-screen-panel/unlock-screen-panel.component';
 
@@ -97,12 +98,15 @@ export class LockScreenComponent implements AfterViewInit {
   private readonly renderer = inject(Renderer2);
   private readonly iosScreenService = inject(IosScreenService);
   private readonly iosWallpaperService = inject(IosWallpaperService);
+  private readonly iosLockService = inject(IosLockService);
+  private readonly lockScreenService = inject(LockScreenService);
 
   private screenBox = viewChild<ElementRef<HTMLElement>>('screenBox');
 
   disableAnimations = true;
   screenWidth = this.iosScreenService.width;
   screenHeight = this.iosScreenService.height;
+  isLocked = this.iosLockService.isLocked;
   displayUnlock = false;
   wallpapers = this.iosWallpaperService.all;
   activeWallpaper = this.iosWallpaperService.active;
@@ -150,6 +154,18 @@ export class LockScreenComponent implements AfterViewInit {
     this.customizationMode.set(false);
 
     this.iosWallpaperService.active.set(wallpaper);
+  }
+
+  lockScreenVerticalPan(e: CustomEvent<MoveEvent>) {
+    const deltaY = this.screenHeight() + e.detail.deltaY;
+
+    this.lockScreenService.deltaY.set(deltaY);
+  }
+
+  lockScreenVerticalPanRelease(e: CustomEvent<MoveEvent>) {
+    const deltaY = this.screenHeight() + e.detail.deltaY;
+
+    this.lockScreenService.swipeRelease.set(deltaY);
   }
 
 }

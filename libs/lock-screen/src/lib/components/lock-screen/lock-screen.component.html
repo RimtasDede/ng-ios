@@ -94,8 +94,9 @@
 
     <lib-home-indicator
       class="home-indicator"
-      (m-panup)="homeIndicatorPanUp($any($event))"
-      (m-panend)="resetPanUpState($event)"
+      (m-panup)="isLocked() ? homeIndicatorPanUp($any($event)) : lockScreenVerticalPan($any($event))"
+      (m-pandown)="isLocked() ? homeIndicatorPanUp($any($event)) : lockScreenVerticalPan($any($event))"
+      (m-panend)="isLocked() ? resetPanUpState($event) : lockScreenVerticalPanRelease($any($event))"
     />
   </div>
 </ng-template>

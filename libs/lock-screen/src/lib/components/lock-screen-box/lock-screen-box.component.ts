@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, inject, Input, Output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { animate, group, keyframes, query, style, AnimationBuilder, AnimationFactory, AnimationPlayer } from '@angular/animations';
 import { toObservable } from '@angular/core/rxjs-interop';
@@ -102,16 +102,12 @@ export class LockScreenBoxComponent {
   /**
    * Is initially opened
    */
-  @Input() set open(value: boolean | undefined) {
-    const isOpened = value || false;
-
-    this.isOpened.set(isOpened);
-  }
+  open = input<boolean>(false);
 
   /**
    * Lock screen is hidden (swiped up)
    */
-  @Output() close = new EventEmitter<void>();
+  close = output<void>();
 
   private readonly host = inject(ElementRef);
   private readonly animationBuilder = inject(AnimationBuilder);
@@ -120,15 +116,20 @@ export class LockScreenBoxComponent {
 
 
   isOpened = signal<boolean>(false);
+  private screenHeight = this.iosScreenService.height;
+  private animationId?: number;
   private cubicBezierEaseOutInverse = createCubicBezierEaseOutInverse();
   private animation: AnimationFactory = this.animationBuilder.build(slideDownAnimation);
   private animationReverse: AnimationFactory = this.animationBuilder.build(slideDownReverseAnimation);
   private animationPlayer?: AnimationPlayer;
   private swipe$ = toObservable(this.lockScreenService.deltaY);
   private swipeRelease$ = toObservable(this.lockScreenService.swipeRelease);
-  private screenHeight = this.iosScreenService.height;
 
   constructor() {
+    effect(() => {
+      this.isOpened.set(this.open());
+    });
+
     // swipe bottom
     this.swipe$
       .pipe(
@@ -139,11 +140,13 @@ export class LockScreenBoxComponent {
           return;
         }
 
+        this.isOpened.set(false);
+
         if (!this.animationPlayer) {
           this.animationPlayer = this.animation.create(this.host.nativeElement);
         }
 
-        requestAnimationFrame(() => {
+        this.animationId = requestAnimationFrame(() => {
           const position = this.cubicBezierEaseOutInverse(deltaY / this.screenHeight());
 
           this.animationPlayer?.setPosition(position);
@@ -160,10 +163,15 @@ export class LockScreenBoxComponent {
 
         if (finishAnimateToBottom) {
           this.animationPlayer?.onDone(() => {
+            this.animationPlayer = undefined;
             this.isOpened.set(true);
           });
           this.animationPlayer?.play();
         } else {
+          if (this.animationId) {
+            cancelAnimationFrame(this.animationId);
+          }
+
           this.animationPlayer = this.animationReverse.create(this.host.nativeElement);
           const position = this.cubicBezierEaseOutInverse((this.screenHeight() - deltaY) / this.screenHeight());
 
