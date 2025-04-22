@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { animate, style, transition, trigger } from '@angular/animations';
@@ -109,12 +109,13 @@ export class StateManagerComponent implements OnInit {
 
   isOpen = false;
 
-
-  ngOnInit(): void {
-    setTimeout(() => {
+  constructor() {
+    effect(() => {
       this.fillState();
     });
+  }
 
+  ngOnInit(): void {
     this.updateChanges([
       {
         key: 'batteryPercentage',
@@ -191,7 +192,7 @@ export class StateManagerComponent implements OnInit {
       signalStrength: this.iosSignalService.signalStrength(),
       wallpaper: this.iosWallpaperService.active(),
       wifiStrength: this.iosWifiService.signalStrength(),
-    });
+    }, { emitEvent: false });
   }
 
   private updateChanges(arr: { key: string, updateFn: (_: any) => void }[]): void {
