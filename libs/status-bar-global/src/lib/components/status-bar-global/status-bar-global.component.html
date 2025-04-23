@@ -3,6 +3,7 @@
     (m-panup)="lockScreenVerticalPan($any($event))"
     (m-pandown)="lockScreenVerticalPan($any($event))"
     (m-panend)="lockScreenVerticalPanRelease($any($event))"
+    (m-swipedown)="openLockScreen($any($event))"
   >
     <lib-status-bar-time />
   </lib-status-bar-left>
@@ -13,7 +14,7 @@
   </lib-status-bar-right>
 </lib-status-bar>
 
-@if (lockScreenDeltaY() || isLocked()) {
+@if (lockScreenDeltaY || isLocked()) {
   <lib-lock-screen-box
     [open]="isLocked()"
     (close)="lockScreenClose()"

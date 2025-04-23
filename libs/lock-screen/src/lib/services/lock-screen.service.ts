@@ -1,18 +1,13 @@
 import { Injectable, signal } from '@angular/core';
 
+import { MoveEvent } from '@ng-ios/touch';
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class LockScreenService {
 
-  /**
-   * How much in pixels lock screen is swiped down
-   */
-  readonly deltaY = signal<number | undefined>(0);
-
-  /**
-   * Lock screen swipe bottom release event
-   */
-  readonly swipeRelease = signal<number>(0);
+  readonly swipe = signal<MoveEvent | undefined>(undefined);
 
 }

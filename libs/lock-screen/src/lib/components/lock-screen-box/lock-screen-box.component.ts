@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, OnDestroy, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { animate, group, keyframes, query, style, AnimationBuilder, AnimationFactory, AnimationPlayer } from '@angular/animations';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { filter, skip } from 'rxjs';
+import { filter, map, pairwise, Subscription, takeUntil } from 'rxjs';
 
-import { IosScreenService, WallpaperDirective } from '@ng-ios/ios-services';
 import { createCubicBezierEaseOutInverse } from '@ng-ios/utility';
+import { MoveEvent, MoveEventType } from '@ng-ios/touch';
+import { IosScreenService, WallpaperDirective } from '@ng-ios/ios-services';
 
 import { LockScreenComponent } from '../lock-screen/lock-screen.component';
 import { LockScreenService } from '../../services/lock-screen.service';
@@ -97,7 +98,7 @@ const slideDownReverseAnimation = group([
     '[class.opened]': 'isOpened()',
   },
 })
-export class LockScreenBoxComponent {
+export class LockScreenBoxComponent implements OnDestroy {
 
   /**
    * Is initially opened
@@ -122,68 +123,97 @@ export class LockScreenBoxComponent {
   private animation: AnimationFactory = this.animationBuilder.build(slideDownAnimation);
   private animationReverse: AnimationFactory = this.animationBuilder.build(slideDownReverseAnimation);
   private animationPlayer?: AnimationPlayer;
-  private swipe$ = toObservable(this.lockScreenService.deltaY);
-  private swipeRelease$ = toObservable(this.lockScreenService.swipeRelease);
+  private swipe$ = toObservable(this.lockScreenService.swipe)
+    .pipe(
+      map(e => {
+        if (e) {
+          if (e.deltaY < 0) {
+            e.deltaY = 0;
+          }
+
+          if (e.deltaY > this.screenHeight()) {
+            e.deltaY = this.screenHeight();
+          }
+        }
+
+        return e;
+      }),
+    );
+  private swipeSub: Subscription;
 
   constructor() {
     effect(() => {
       this.isOpened.set(this.open());
     });
 
-    // swipe bottom
-    this.swipe$
+    this.swipeSub = this.swipe$
       .pipe(
-        filter(deltaY => !!deltaY),
+        pairwise(),
+        filter(([ePrev]) => ePrev?.type !== MoveEventType.SwipeUp && ePrev?.type !== MoveEventType.SwipeDown),
+        map(([, eCurr]) => eCurr),
+        filter((e): e is MoveEvent => !!e),
       )
-      .subscribe(deltaY => {
-        if (!deltaY) {
-          return;
-        }
+      .subscribe(e => {
+        if (e.type === MoveEventType.PanUp || e.type === MoveEventType.PanDown) {
+          this.swipeScreen(e.deltaY);
+        } else if (e.type === MoveEventType.PanEnd) {
+          const finishAnimateToBottom = this.screenHeight() / 2 < e.deltaY;
 
-        this.isOpened.set(false);
-
-        if (!this.animationPlayer) {
-          this.animationPlayer = this.animation.create(this.host.nativeElement);
-        }
-
-        this.animationId = requestAnimationFrame(() => {
-          const position = this.cubicBezierEaseOutInverse(deltaY / this.screenHeight());
-
-          this.animationPlayer?.setPosition(position);
-        });
-      });
-
-    // swipe release
-    this.swipeRelease$
-      .pipe(
-        skip(1),
-      )
-      .subscribe(deltaY => {
-        const finishAnimateToBottom = this.screenHeight() / 2 < deltaY;
-
-        if (finishAnimateToBottom) {
-          this.animationPlayer?.onDone(() => {
-            this.animationPlayer = undefined;
-            this.isOpened.set(true);
-          });
-          this.animationPlayer?.play();
-        } else {
-          if (this.animationId) {
-            cancelAnimationFrame(this.animationId);
+          if (finishAnimateToBottom) {
+            this.openScreen();
+          } else {
+            this.closeScreen(e.deltaY);
           }
-
-          this.animationPlayer = this.animationReverse.create(this.host.nativeElement);
-          const position = this.cubicBezierEaseOutInverse((this.screenHeight() - deltaY) / this.screenHeight());
-
-          this.animationPlayer.onDone(() => {
-            this.animationPlayer = undefined;
-            this.close.emit();
-          });
-
-          this.animationPlayer.setPosition(position);
-          this.animationPlayer.play();
+        } else if (e.type === MoveEventType.SwipeUp) {
+          this.closeScreen(e.deltaY);
+        } else if (e.type === MoveEventType.SwipeDown) {
+          this.openScreen();
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.swipeSub.unsubscribe();
+  }
+
+
+  private swipeScreen(deltaY: number): void {
+    this.isOpened.set(false);
+
+    if (!this.animationPlayer) {
+      this.animationPlayer = this.animation.create(this.host.nativeElement);
+    }
+
+    this.animationId = requestAnimationFrame(() => {
+      const position = this.cubicBezierEaseOutInverse(deltaY / this.screenHeight());
+
+      this.animationPlayer?.setPosition(position);
+    });
+  }
+
+  private openScreen(): void {
+    this.animationPlayer?.onDone(() => {
+      this.animationPlayer = undefined;
+      this.isOpened.set(true);
+    });
+    this.animationPlayer?.play();
+  }
+
+  private closeScreen(deltaY: number): void {
+    if (this.animationId) {
+      cancelAnimationFrame(this.animationId);
+    }
+
+    this.animationPlayer = this.animationReverse.create(this.host.nativeElement);
+    const position = this.cubicBezierEaseOutInverse((this.screenHeight() - deltaY) / this.screenHeight());
+
+    this.animationPlayer.onDone(() => {
+      this.animationPlayer = undefined;
+      this.close.emit();
+    });
+
+    this.animationPlayer.setPosition(position);
+    this.animationPlayer.play();
   }
 
 }

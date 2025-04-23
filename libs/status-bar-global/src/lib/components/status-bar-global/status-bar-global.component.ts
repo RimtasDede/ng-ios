@@ -24,18 +24,25 @@ export class StatusBarGlobalComponent {
   private readonly lockScreenService = inject(LockScreenService);
 
   isLocked = this.iosLockService.isLocked;
-  lockScreenDeltaY = this.lockScreenService.deltaY;
+  lockScreenDeltaY = 0;
 
   lockScreenVerticalPan(e: CustomEvent<MoveEvent>) {
-    this.lockScreenService.deltaY.set(e.detail.deltaY);
+    this.lockScreenDeltaY = e.detail.deltaY;
+    this.lockScreenService.swipe.set(e.detail);
   }
 
   lockScreenVerticalPanRelease(e: CustomEvent<MoveEvent>) {
-    this.lockScreenService.swipeRelease.set(e.detail.deltaY);
+    setTimeout(() => {
+      this.lockScreenService.swipe.set(e.detail);
+    });
   }
 
   lockScreenClose() {
-    this.lockScreenService.deltaY.set(undefined);
+    this.lockScreenDeltaY = 0;
+  }
+
+  openLockScreen(e: CustomEvent<MoveEvent>) {
+    this.lockScreenService.swipe.set(e.detail);
   }
 
 }

@@ -159,13 +159,30 @@ export class LockScreenComponent implements AfterViewInit {
   lockScreenVerticalPan(e: CustomEvent<MoveEvent>) {
     const deltaY = this.screenHeight() + e.detail.deltaY;
 
-    this.lockScreenService.deltaY.set(deltaY);
+    this.lockScreenService.swipe.set({
+      ...e.detail,
+      deltaY,
+    });
   }
 
   lockScreenVerticalPanRelease(e: CustomEvent<MoveEvent>) {
     const deltaY = this.screenHeight() + e.detail.deltaY;
 
-    this.lockScreenService.swipeRelease.set(deltaY);
+    setTimeout(() => {
+      this.lockScreenService.swipe.set({
+        ...e.detail,
+        deltaY,
+      });
+    });
+  }
+
+  closeLockScreen(e: CustomEvent<MoveEvent>) {
+    const deltaY = this.screenHeight() + e.detail.deltaY;
+
+    this.lockScreenService.swipe.set({
+      ...e.detail,
+      deltaY,
+    });
   }
 
 }
