@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, 
 import { CommonModule } from '@angular/common';
 import { animate, group, keyframes, query, style, AnimationBuilder, AnimationFactory, AnimationPlayer } from '@angular/animations';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { filter, map, pairwise, Subscription, takeUntil } from 'rxjs';
+import { filter, map, pairwise, Subscription } from 'rxjs';
 
 import { createCubicBezierEaseOutInverse } from '@ng-ios/utility';
 import { MoveEvent, MoveEventType } from '@ng-ios/touch';

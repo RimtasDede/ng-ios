@@ -104,6 +104,7 @@
       (m-pandown)="isLocked() ? homeIndicatorPanUp($any($event)) : lockScreenVerticalPan($any($event))"
       (m-panend)="isLocked() ? resetPanUpState($event) : lockScreenVerticalPanRelease($any($event))"
       (m-swipeup)="closeLockScreen($any($event))"
+      (m-press.stop-propagation)="null"
     />
   </div>
 </ng-template>

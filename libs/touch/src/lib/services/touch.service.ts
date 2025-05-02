@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { inject, Injectable, Renderer2 } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import { MoveEvent, MoveEventNullableType, MoveEventType, TouchOptions, TouchPressOptions } from '../types';
@@ -19,7 +19,6 @@ export class TouchService {
     threshold: 0,
     swipeVelocity: 0.3,
   };
-  // private readonly renderer = inject(Renderer2);
 
   private documentListenersAdded = false;
   private isMouseDown = false;

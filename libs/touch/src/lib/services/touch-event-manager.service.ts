@@ -6,25 +6,6 @@ import { MoveEvent, MoveEventType } from '../types';
 import { TouchService } from './touch.service';
 
 
-const TOUCH_EVENTS: MoveEventType[] = [
-  MoveEventType.Pan,
-  MoveEventType.PanStart,
-  MoveEventType.PanUp,
-  MoveEventType.PanLeft,
-  MoveEventType.PanRight,
-  MoveEventType.PanDown,
-  MoveEventType.PanEnd,
-
-  MoveEventType.Swipe,
-  MoveEventType.SwipeUp,
-  MoveEventType.SwipeLeft,
-  MoveEventType.SwipeRight,
-  MoveEventType.SwipeDown,
-
-  MoveEventType.Press,
-  MoveEventType.PressUp,
-];
-
 const TOUCH_PAN_EVENTS: MoveEventType[] = [
   MoveEventType.Pan,
   MoveEventType.PanStart,
@@ -43,6 +24,17 @@ const TOUCH_SWIPE_EVENTS: MoveEventType[] = [
   MoveEventType.SwipeDown,
 ];
 
+const TOUCH_PRESS_EVENTS: MoveEventType[] = [
+  MoveEventType.Press,
+  MoveEventType.PressUp,
+];
+
+const TOUCH_EVENTS: MoveEventType[] = [
+  ...TOUCH_PAN_EVENTS,
+  ...TOUCH_SWIPE_EVENTS,
+  ...TOUCH_PRESS_EVENTS,
+];
+
 
 @Injectable()
 export class TouchEventManagerService extends EventManagerPlugin {
@@ -56,16 +48,35 @@ export class TouchEventManagerService extends EventManagerPlugin {
   }
 
   supports(eventName: string): boolean {
-    return (TOUCH_EVENTS as string[]).includes(eventName);
+    const supports = (TOUCH_EVENTS as string[]).includes(eventName.split('.')[0]);
+
+    return supports;
   }
 
-  addEventListener(element: HTMLElement, eventName: MoveEventType, handler: Function): Function {
-    const customHandler = (event: Event) => handler(event);
+  addEventListener(element: HTMLElement, eventString: MoveEventType, handler: Function): Function {
+    const [ eventName, stopPropagation ] = eventString.split('.');
+
+    if (stopPropagation && stopPropagation !== 'stop-propagation') {
+      console.warn(`Invalid event "${eventName}" stop propagation flag name.`);
+    }
+
+    const stopProp = stopPropagation === 'stop-propagation';
+    const customHandler = (event: Event) => {
+      if (stopProp) {
+        event.stopPropagation();
+      }
+
+      handler(event);
+    };
 
     element.addEventListener(eventName, customHandler);
 
-    element.addEventListener('mousedown', e => {
-      this.touchService.mouseDown(e);
+    element.addEventListener('mousedown', event => {
+      if (stopProp && eventName === MoveEventType.Press) {
+        event.stopPropagation();
+      }
+
+      this.touchService.mouseDown(event);
 
       const sub = this.touchService.event$
         .subscribe(e => {
