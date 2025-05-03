@@ -1,0 +1,84 @@
+:host {
+  display: block;
+  background-color: #000;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.clock {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 88%;
+  height: 88%;
+  background-color: #fff;
+  border-radius: 50%;
+  margin: auto;
+}
+
+.number {
+  position: absolute;
+  display: block;
+  width: 8px;
+  text-align: center;
+  font-size: 8px;
+}
+
+.hour-arrow {
+  position: absolute;
+  top: 48.5%;
+  left: 50%;
+  width: 28%;
+  height: 2%;
+  background-color: #000;
+  transform-origin: 0% 30%;
+  rotate: 90deg;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: -60%;
+    right: 0;
+    display: block;
+    width: 70%;
+    height: 200%;
+    background-color: #000;
+    border-radius: 30%;
+  }
+}
+
+.minute-arrow {
+  position: absolute;
+  top: 48.5%;
+  left: 50%;
+  width: 46%;
+  height: 2%;
+  background-color: #000;
+  transform-origin: 0% 30%;
+  rotate: 20deg;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: -60%;
+    right: 0;
+    display: block;
+    width: 80%;
+    height: 200%;
+    background-color: #000;
+    border-radius: 30%;
+  }
+}
+
+.second-arrow {
+  position: absolute;
+  top: 49%;
+  left: 42%;
+  width: 50%;
+  height: 2%;
+  background-color: #ffa500;
+  transform-origin: 17% 70%;
+}

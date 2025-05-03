@@ -2,12 +2,11 @@ import { ChangeDetectionStrategy, Component, ElementRef, Renderer2, ViewChild, i
 import { RouterModule } from '@angular/router';
 
 import { StateManagerComponent, IosWallpaperService } from '@ng-ios/ios-services';
-import {
-  HomeScreenFavAppsBarComponent,
-} from '@ng-ios/ui';
+import { HomeScreenFavAppsBarComponent } from '@ng-ios/ui';
 import { StatusBarGlobalComponent } from '@ng-ios/status-bar-global';
 import { TodayViewComponent } from '@ng-ios/today-view';
 import { AppLibraryComponent } from '@ng-ios/app-library';
+import { AppPoolComponent } from '@ng-ios/application';
 
 import { PhoneFrameComponent } from './phone-frame';
 import { AppsGridComponent } from './apps-grid';
@@ -22,6 +21,7 @@ import { AppsGridComponent } from './apps-grid';
     TodayViewComponent,
     AppLibraryComponent,
     StatusBarGlobalComponent,
+    AppPoolComponent,
 ],
   selector: 'app-root',
   templateUrl: './app.component.html',

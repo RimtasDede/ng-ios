@@ -268,4 +268,8 @@ export class AppsGridComponent {
     console.log('open search');
   }
 
+  isString(val: any): val is string {
+    return typeof val === 'string';
+  }
+
 }

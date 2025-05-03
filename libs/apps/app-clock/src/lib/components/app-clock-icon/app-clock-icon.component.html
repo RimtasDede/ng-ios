@@ -1,0 +1,11 @@
+<div #clock class="clock">
+  @for (num of numbers; track $index) {
+    <span #number class="number">
+      {{ num }}
+    </span>
+  }
+
+  <div #hourArrow class="hour-arrow"></div>
+  <div #minuteArrow class="minute-arrow"></div>
+  <div #secondArrow class="second-arrow"></div>
+</div>

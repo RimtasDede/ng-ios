@@ -1,94 +1,121 @@
-export const apps = [
+import { AppCategory, Application } from '@ng-ios/application';
+
+import { AppClockIconComponent } from '@ng-ios/app-clock';
+
+export const apps: Application[][] = [
   [
     {
+      category: AppCategory.Other,
       label: 'Calendar',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Photos',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Camera',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Test 4 4 4 4 4 4 4',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Test 5',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Calendar',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Photos',
       icon: '',
     },
     {
+      category: AppCategory.Other,
+      label: 'Clock',
+      icon: AppClockIconComponent,
+    },
+    {
+      category: AppCategory.Other,
+      label: 'Test 4 4 4 4 4 4 4',
+      icon: '',
+    },
+    {
+      category: AppCategory.Other,
+      label: 'Test 5',
+      icon: '',
+    },
+    {
+      category: AppCategory.Other,
+      label: 'Calendar',
+      icon: '',
+    },
+    {
+      category: AppCategory.Other,
+      label: 'Photos',
+      icon: '',
+    },
+    {
+      category: AppCategory.Other,
       label: 'Camera',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Test 4 4 4 4 4 4 4',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Test 5',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Calendar',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Photos',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Camera',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Test 4 4 4 4 4 4 4',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Test 5',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Calendar',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Photos',
       icon: '',
     },
     {
-      label: 'Camera',
-      icon: '',
-    },
-    {
-      label: 'Test 4 4 4 4 4 4 4',
-      icon: '',
-    },
-    {
-      label: 'Test 5',
-      icon: '',
-    },
-    {
-      label: 'Calendar',
-      icon: '',
-    },
-    {
-      label: 'Photos',
-      icon: '',
-    },
-    {
+      category: AppCategory.Other,
       label: 'Camera',
       icon: '',
     },
@@ -96,50 +123,62 @@ export const apps = [
 
   [
     {
+      category: AppCategory.Other,
       label: 'Calendar',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Photos',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Camera',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Test 4 4 4 4 4 4 4',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Test 5',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Calendar',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Photos',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Camera',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Test 4 4 4 4 4 4 4',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Test 5',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Calendar',
       icon: '',
     },
     {
+      category: AppCategory.Other,
       label: 'Photos',
       icon: '',
     },
@@ -147,6 +186,7 @@ export const apps = [
 
   [
     {
+      category: AppCategory.Other,
       label: 'Photos',
       icon: '',
     },
@@ -154,6 +194,7 @@ export const apps = [
 
   [
     {
+      category: AppCategory.Other,
       label: 'Photos',
       icon: '',
     },
@@ -161,6 +202,7 @@ export const apps = [
 
   [
     {
+      category: AppCategory.Other,
       label: 'Photos',
       icon: '',
     },
