@@ -1,11 +1,24 @@
-<div #clock class="clock">
-  @for (num of numbers; track $index) {
-    <span #number class="number">
-      {{ num }}
-    </span>
-  }
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" style="background-color: rgb(28, 28, 30);">
+  <ellipse style="fill: #fff;" cx="250" cy="250" rx="217" ry="217"></ellipse>
+  <g style="color: rgb(28, 28, 30); font-size: 60px;">
+    <text x="325.419" y="120.287">1</text>
+    <text x="389.669" y="184.429">2</text>
+    <text x="414.307" y="272.17">3</text>
+    <text x="387.771" y="359.234">4</text>
+    <text x="323.14" y="423.069">5</text>
+    <text x="233.318" y="447.921">6</text>
+    <text x="145.495" y="423.069">7</text>
+    <text x="78.692" y="359.106">8</text>
+    <text x="50.036" y="271.574">9</text>
+    <text x="67.648" y="187.196">10</text>
+    <text x="131.243" y="121.217">11</text>
+    <text x="214.708" y="94.521">12</text>
+  </g>
 
-  <div #hourArrow class="hour-arrow"></div>
-  <div #minuteArrow class="minute-arrow"></div>
-  <div #secondArrow class="second-arrow"></div>
-</div>
+  <path id="second-arrow" [style]="{ 'rotate': minuteAngle() + 'deg' }" style="fill: rgb(28, 28, 30); transform-box: fill-box; transform-origin: 50% 100%;" d="M 250.001 51.201 C 255.007 51.202 259.064 55.259 259.064 60.265 L 259.064 219.183 C 259.064 222.705 257.055 225.758 254.12 227.259 L 254.12 250 L 245.88 250 L 245.88 227.258 C 242.946 225.758 240.937 222.705 240.937 219.183 L 240.937 60.265 C 240.937 55.259 244.995 51.201 250.001 51.201 Z"></path>
+  <path id="second-arrow" [style]="{ 'rotate': hourAngle() + 'deg' }" style="fill: rgb(28, 28, 30); transform-box: fill-box; transform-origin: 50% 100%;" d="M 250 131.349 C 255.006 131.349 259.064 135.407 259.064 140.413 L 259.064 219.183 C 259.064 222.705 257.055 225.758 254.12 227.259 L 254.12 250 L 245.88 250 L 245.88 227.258 C 242.946 225.758 240.937 222.705 240.937 219.183 L 240.937 140.413 C 240.937 135.407 244.994 131.35 250 131.349 Z"></path>
+  <ellipse style="fill: rgb(28, 28, 30);" cx="250" cy="250" rx="12" ry="12"></ellipse>
+  <ellipse style="fill: rgb(255, 149, 0);" cx="250" cy="250" rx="8" ry="8"></ellipse>
+  <rect id="second-arrow" [style]="{ 'rotate': secondAngle() + 'deg' }" style="fill: rgb(255, 149, 0); transform-box: fill-box; transform-origin: 50% 100%;" x="247" y="46" width="6" height="204"></rect>
+  <ellipse style="fill: #fff;" cx="250" cy="250" rx="3" ry="3"></ellipse>
+</svg>

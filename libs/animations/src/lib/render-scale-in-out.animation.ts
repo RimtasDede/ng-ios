@@ -8,6 +8,7 @@ export const renderScaleInOutAnimation = (params: {
 
   return trigger('renderScaleInOut', [
     transition(':enter', [
+      style({ scale: scaleFrom }),
       animate(
         '300ms ease-in',
         style({ scale: scaleTo }),

@@ -1,1 +1,17 @@
-<p>app-window works!</p>
+<div class="window">
+  <div class="window-height">
+    <lib-status-bar-global />
+
+    <div class="app-box">
+      <ng-content />
+    </div>
+
+    @if (app(); as app) {
+      <div class="app-icon">
+        <ng-container *ngComponentOutlet="app.icon"></ng-container>
+      </div>
+    }
+  </div>
+</div>
+
+<div class="window-overlay"></div>

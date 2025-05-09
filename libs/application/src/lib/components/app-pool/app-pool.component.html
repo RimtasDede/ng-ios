@@ -1,1 +1,7 @@
-<p>app-pool works!</p>
+<div>
+  @for (poolApp of poolApps(); track $index) {
+    <lib-app-window [app]="poolApp">
+      <ng-container *ngComponentOutlet="poolApp.app" />
+    </lib-app-window>
+  }
+</div>

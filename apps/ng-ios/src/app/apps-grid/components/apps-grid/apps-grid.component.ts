@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { SvgIconComponent } from 'angular-svg-icon';
 
-import { Application } from '@ng-ios/application';
+import { ApplicationInstalled, AppPoolService } from '@ng-ios/application';
 import { IosScreenService } from '@ng-ios/ios-services';
 import { PaginationComponent } from '@ng-ios/ui';
 
@@ -45,12 +45,13 @@ export class AppsGridComponent {
   @Output() panBeforeFirstPage = new EventEmitter<any>();
   @Output() panAfterLastPage = new EventEmitter<any>();
 
-  iosScreenService = inject(IosScreenService);
+  private readonly iosScreenService = inject(IosScreenService);
+  private readonly appPoolService = inject(AppPoolService);
 
   @ViewChild('appsGrid') appsGrid!: ElementRef;
   @ViewChildren('appsGridPanel') appsGridPanels!: QueryList<ElementRef>;
 
-  applications: Application[][] = apps;
+  applications: ApplicationInstalled[][] = apps;
   totalPages = this.applications.length - 1;
   currPage = 0;
 
@@ -192,8 +193,12 @@ export class AppsGridComponent {
   }
 
 
-  openApp(): void {
-    console.log('open app event');
+  openApp(app: ApplicationInstalled, iconElement: HTMLElement): void {
+    console.log('open app', app);
+
+    const { x, y } = iconElement.getBoundingClientRect();
+
+    this.appPoolService.open(app, { x, y });
   }
 
   /**
@@ -266,10 +271,6 @@ export class AppsGridComponent {
 
   openSearch() {
     console.log('open search');
-  }
-
-  isString(val: any): val is string {
-    return typeof val === 'string';
   }
 
 }

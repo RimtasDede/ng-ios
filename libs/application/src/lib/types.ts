@@ -3,8 +3,21 @@ import { Type } from '@angular/core';
 export interface Application {
   category: AppCategory;
   label: string;
-  icon: string | Type<any>; // svg string | component class
+
+  /**
+   * SVG string or component class
+   */
+  icon: Type<any>;
+
+  /**
+   * Application component
+   */
+  app: Type<any>;
   contextMenu?: [];
+}
+
+export interface ApplicationInstalled extends Application {
+  id: string;
 }
 
 export enum AppCategory {
