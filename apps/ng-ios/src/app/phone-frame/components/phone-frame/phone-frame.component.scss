@@ -26,7 +26,7 @@ $phone-vertical-frame: calc(110 / 1962 * 100%);
 .screen {
   position: relative;
   top: calc($phone-vertical-frame / 2);
-  left: calc($phone-horizontal-frame / 2);
+  left: calc($phone-horizontal-frame / 2 + 1px);
   width: calc(100% - $phone-horizontal-frame);
   height: calc(100% - $phone-vertical-frame);
   background-position: top center;
