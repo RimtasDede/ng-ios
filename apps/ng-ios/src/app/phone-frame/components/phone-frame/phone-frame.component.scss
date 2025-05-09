@@ -3,11 +3,11 @@ $phone-vertical-frame: calc(110 / 1962 * 100%);
 
 :host {
   display: block;
-  max-width: 100%;
-  max-height: 100%;
-  width: calc(978 / 1962 * 100vh);
-  height: calc(1962 / 978 * 100vw);
+  width: 100%;
+  max-width: 452px;
+  max-height: 906px;
   overflow: hidden;
+  aspect-ratio: 978 / 1962;
 }
 
 .iphone {
@@ -25,8 +25,8 @@ $phone-vertical-frame: calc(110 / 1962 * 100%);
 
 .screen {
   position: relative;
-  top: calc($phone-vertical-frame / 2 + 0px);
-  left: calc($phone-horizontal-frame / 2);;
+  top: calc($phone-vertical-frame / 2);
+  left: calc($phone-horizontal-frame / 2);
   width: calc(100% - $phone-horizontal-frame);
   height: calc(100% - $phone-vertical-frame);
   background-position: top center;
