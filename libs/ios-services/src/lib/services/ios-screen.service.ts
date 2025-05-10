@@ -39,18 +39,14 @@ export class IosScreenService {
   }
 
   private getScreenState() {
-    const {
-      offsetTop,
-      offsetLeft,
-      offsetWidth,
-      offsetHeight,
-    } = document.getElementById('iphone-screen') as HTMLElement;
+    const screen = document.getElementById('iphone-screen') as HTMLElement;
+    const { width, height, x, y } = screen.getBoundingClientRect();
 
     return {
-      top: offsetTop,
-      left: offsetLeft,
-      width: offsetWidth,
-      height: offsetHeight,
+      top: x,
+      left: y,
+      width,
+      height,
     };
   }
 

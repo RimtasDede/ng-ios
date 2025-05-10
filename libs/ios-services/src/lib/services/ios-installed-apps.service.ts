@@ -1,13 +1,15 @@
-import { AppCategory, ApplicationInstalled } from '@ng-ios/application';
+import { Injectable, signal } from '@angular/core';
 
+import { AppCategory, ApplicationInstalled } from '@ng-ios/types';
 import { AppVoidComponent, AppVoidIconComponent } from '@ng-ios/app-void';
 import { AppClockComponent, AppClockIconComponent } from '@ng-ios/app-clock';
 import { AppSettingsComponent, AppSettingsIconComponent } from '@ng-ios/app-settings';
 
-export const apps: ApplicationInstalled[][] = [
+export const appsGrid: ApplicationInstalled[][] = [
   [
     {
       id: 'a1',
+      idGrid: 'app-grid_a1',
       category: AppCategory.Other,
       label: 'Calendar',
       icon: AppVoidIconComponent,
@@ -15,6 +17,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a2',
+      idGrid: 'app-grid_a2',
       category: AppCategory.Other,
       label: 'Photos',
       icon: AppVoidIconComponent,
@@ -22,6 +25,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a3',
+      idGrid: 'app-grid_a3',
       category: AppCategory.Other,
       label: 'Camera',
       icon: AppVoidIconComponent,
@@ -29,6 +33,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a4',
+      idGrid: 'app-grid_a4',
       category: AppCategory.Other,
       label: 'Test 4 4 4 4 4 4 4',
       icon: AppVoidIconComponent,
@@ -36,6 +41,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a5',
+      idGrid: 'app-grid_a5',
       category: AppCategory.Other,
       label: 'Test 5',
       icon: AppVoidIconComponent,
@@ -43,6 +49,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a6',
+      idGrid: 'app-grid_a6',
       category: AppCategory.Other,
       label: 'Calendar',
       icon: AppVoidIconComponent,
@@ -50,6 +57,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a7',
+      idGrid: 'app-grid_a7',
       category: AppCategory.Other,
       label: 'Photos',
       icon: AppVoidIconComponent,
@@ -57,6 +65,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'app-clock',
+      idGrid: 'app-grid_clock',
       category: AppCategory.Other,
       label: 'Clock',
       icon: AppClockIconComponent,
@@ -64,6 +73,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a9',
+      idGrid: 'app-grid_a9',
       category: AppCategory.Other,
       label: 'Test 4 4 4 4 4 4 4',
       icon: AppVoidIconComponent,
@@ -71,6 +81,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a10',
+      idGrid: 'app-grid_a10',
       category: AppCategory.Other,
       label: 'Test 5',
       icon: AppVoidIconComponent,
@@ -78,6 +89,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a11',
+      idGrid: 'app-grid_a11',
       category: AppCategory.Other,
       label: 'Calendar',
       icon: AppVoidIconComponent,
@@ -85,6 +97,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'app-settings',
+      idGrid: 'app-grid_settings',
       category: AppCategory.Other,
       label: 'Settings',
       icon: AppSettingsIconComponent,
@@ -92,6 +105,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a13',
+      idGrid: 'app-grid_a13',
       category: AppCategory.Other,
       label: 'Camera',
       icon: AppVoidIconComponent,
@@ -99,6 +113,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a14',
+      idGrid: 'app-grid_a14',
       category: AppCategory.Other,
       label: 'Test 4 4 4 4 4 4 4',
       icon: AppVoidIconComponent,
@@ -106,6 +121,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a15',
+      idGrid: 'app-grid_a15',
       category: AppCategory.Other,
       label: 'Test 5',
       icon: AppVoidIconComponent,
@@ -113,6 +129,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a16',
+      idGrid: 'app-grid_a16',
       category: AppCategory.Other,
       label: 'Calendar',
       icon: AppVoidIconComponent,
@@ -120,6 +137,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a17',
+      idGrid: 'app-grid_a17',
       category: AppCategory.Other,
       label: 'Photos',
       icon: AppVoidIconComponent,
@@ -127,6 +145,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a18',
+      idGrid: 'app-grid_a18',
       category: AppCategory.Other,
       label: 'Camera',
       icon: AppVoidIconComponent,
@@ -134,6 +153,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a19',
+      idGrid: 'app-grid_a19',
       category: AppCategory.Other,
       label: 'Test 4 4 4 4 4 4 4',
       icon: AppVoidIconComponent,
@@ -141,6 +161,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a20',
+      idGrid: 'app-grid_a20',
       category: AppCategory.Other,
       label: 'Test 5',
       icon: AppVoidIconComponent,
@@ -148,6 +169,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a21',
+      idGrid: 'app-grid_a21',
       category: AppCategory.Other,
       label: 'Calendar',
       icon: AppVoidIconComponent,
@@ -155,6 +177,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a22',
+      idGrid: 'app-grid_a22',
       category: AppCategory.Other,
       label: 'Photos',
       icon: AppVoidIconComponent,
@@ -162,6 +185,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a23',
+      idGrid: 'app-grid_a23',
       category: AppCategory.Other,
       label: 'Camera',
       icon: AppVoidIconComponent,
@@ -172,6 +196,7 @@ export const apps: ApplicationInstalled[][] = [
   [
     {
       id: 'a24',
+      idGrid: 'app-grid_a24',
       category: AppCategory.Other,
       label: 'Calendar',
       icon: AppVoidIconComponent,
@@ -179,6 +204,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a25',
+      idGrid: 'app-grid_a25',
       category: AppCategory.Other,
       label: 'Photos',
       icon: AppVoidIconComponent,
@@ -186,6 +212,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a26',
+      idGrid: 'app-grid_a26',
       category: AppCategory.Other,
       label: 'Camera',
       icon: AppVoidIconComponent,
@@ -193,6 +220,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a27',
+      idGrid: 'app-grid_a27',
       category: AppCategory.Other,
       label: 'Test 4 4 4 4 4 4 4',
       icon: AppVoidIconComponent,
@@ -200,6 +228,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a28',
+      idGrid: 'app-grid_a28',
       category: AppCategory.Other,
       label: 'Test 5',
       icon: AppVoidIconComponent,
@@ -207,6 +236,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a29',
+      idGrid: 'app-grid_a29',
       category: AppCategory.Other,
       label: 'Calendar',
       icon: AppVoidIconComponent,
@@ -214,6 +244,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a30',
+      idGrid: 'app-grid_a29',
       category: AppCategory.Other,
       label: 'Photos',
       icon: AppVoidIconComponent,
@@ -221,6 +252,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a31',
+      idGrid: 'app-grid_a31',
       category: AppCategory.Other,
       label: 'Camera',
       icon: AppVoidIconComponent,
@@ -228,6 +260,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a32',
+      idGrid: 'app-grid_a32',
       category: AppCategory.Other,
       label: 'Test 4 4 4 4 4 4 4',
       icon: AppVoidIconComponent,
@@ -235,6 +268,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a33',
+      idGrid: 'app-grid_a33',
       category: AppCategory.Other,
       label: 'Test 5',
       icon: AppVoidIconComponent,
@@ -242,6 +276,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a34',
+      idGrid: 'app-grid_a34',
       category: AppCategory.Other,
       label: 'Calendar',
       icon: AppVoidIconComponent,
@@ -249,6 +284,7 @@ export const apps: ApplicationInstalled[][] = [
     },
     {
       id: 'a35',
+      idGrid: 'app-grid_a35',
       category: AppCategory.Other,
       label: 'Photos',
       icon: AppVoidIconComponent,
@@ -259,6 +295,7 @@ export const apps: ApplicationInstalled[][] = [
   [
     {
       id: 'a36',
+      idGrid: 'app-grid_a36',
       category: AppCategory.Other,
       label: 'Photos',
       icon: AppVoidIconComponent,
@@ -269,6 +306,7 @@ export const apps: ApplicationInstalled[][] = [
   [
     {
       id: 'a37',
+      idGrid: 'app-grid_a37',
       category: AppCategory.Other,
       label: 'Photos',
       icon: AppVoidIconComponent,
@@ -279,6 +317,7 @@ export const apps: ApplicationInstalled[][] = [
   [
     {
       id: 'a38',
+      idGrid: 'app-grid_a38',
       category: AppCategory.Other,
       label: 'Photos',
       icon: AppVoidIconComponent,
@@ -286,3 +325,41 @@ export const apps: ApplicationInstalled[][] = [
     },
   ],
 ];
+
+const defaultApps: ApplicationInstalled[] = [
+  {
+    id: 'app-settings',
+    idGrid: 'app-grid_settings',
+    category: AppCategory.Other,
+    label: 'Settings',
+    icon: AppSettingsIconComponent,
+    app: AppSettingsComponent,
+  },
+  {
+    id: 'app-clock',
+    idGrid: 'app-grid_clock',
+    category: AppCategory.Other,
+    label: 'Clock',
+    icon: AppClockIconComponent,
+    app: AppClockComponent,
+  },
+  {
+    id: 'app-void',
+    idGrid: 'app-grid_void',
+    category: AppCategory.Other,
+    label: 'Photos',
+    icon: AppVoidIconComponent,
+    app: AppVoidComponent,
+  },
+];
+
+
+@Injectable()
+export class IosInstalledAppsService {
+
+  readonly apps = signal<ApplicationInstalled[]>([
+    ...defaultApps,
+  ]);
+  readonly appsGrid = signal<ApplicationInstalled[][]>(appsGrid);
+
+}

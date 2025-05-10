@@ -18,6 +18,7 @@ export interface Application {
 
 export interface ApplicationInstalled extends Application {
   id: string;
+  idGrid: string;
 }
 
 export enum AppCategory {

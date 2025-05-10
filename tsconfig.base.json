@@ -27,6 +27,7 @@
       "@ng-ios/status-bar-global": ["libs/status-bar-global/src/index.ts"],
       "@ng-ios/today-view": ["libs/today-view/src/index.ts"],
       "@ng-ios/touch": ["libs/touch/src/index.ts"],
+      "@ng-ios/types": ["libs/types/src/index.ts"],
       "@ng-ios/ui": ["libs/ui/src/index.ts"],
       "@ng-ios/utility": ["libs/utility/src/index.ts"]
     }

@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 
-import { ApplicationInstalled } from '../types';
+import { ApplicationInstalled } from '@ng-ios/types';
 
 
 @Injectable({

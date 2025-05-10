@@ -6,10 +6,12 @@
       <ng-content />
     </div>
 
-    @if (app(); as app) {
-      <div class="app-icon">
-        <ng-container *ngComponentOutlet="app.icon"></ng-container>
-      </div>
+    @if (isIconVisible()) {
+      @if (app(); as app) {
+        <div class="app-icon">
+          <ng-container *ngComponentOutlet="app.icon"></ng-container>
+        </div>
+      }
     }
   </div>
 </div>

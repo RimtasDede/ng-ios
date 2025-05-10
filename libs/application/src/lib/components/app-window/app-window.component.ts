@@ -1,11 +1,10 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, inject, input } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, inject, input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { animate, AnimationBuilder, AnimationFactory, AnimationPlayer, group, keyframes, query, style } from '@angular/animations';
 
+import { ApplicationInstalled } from '@ng-ios/types';
 import { IosScreenService } from '@ng-ios/ios-services';
 import { StatusBarGlobalComponent } from '@ng-ios/status-bar-global';
-
-import { ApplicationInstalled } from '../../types';
 
 
 const scaleInAnimationMeta = (
@@ -101,25 +100,51 @@ export class AppWindowComponent implements AfterViewInit {
   private readonly animationBuilder = inject(AnimationBuilder);
   private readonly iosScreenService = inject(IosScreenService);
 
-
+  isIconVisible = signal(true);
   private animationPlayer?: AnimationPlayer;
 
   ngAfterViewInit(): void {
     this.scaleIn();
   }
 
+  private getGridIconParams(): {
+    width: number,
+    absPosX: number,
+    absPosY: number,
+    borderRadius: number,
+  } {
+    const appIconId = this.app().idGrid;
+    const appIcon = document.getElementById(appIconId)!.querySelector('.app__icon')!;
+    const { x, y, width } = appIcon.getBoundingClientRect();
+    const borderRadius = window.getComputedStyle(appIcon).borderRadius;
+
+    return {
+      width,
+      absPosX: x + width / 2 - this.iosScreenService.top(),
+      absPosY: y + width / 2 - this.iosScreenService.left(),
+      borderRadius: parseFloat(borderRadius),
+    };
+  }
+
   private scaleIn() {
+    const {
+      width: iconWidth,
+      absPosX: iconX,
+      absPosY: iconY,
+      borderRadius: iconRadius,
+    } = this.getGridIconParams();
     // center
-    const iconX = 333;
-    const iconY = 305;
-    const iconRadius = 15;
+    // const iconX = 333;
+    // const iconY = 305;
+    // const iconRadius = 15;
+
     // top left corner
     // const iconX = 302;
     // const iconY = 273;
 
     const screenW = this.iosScreenService.width();
     const screenH = this.iosScreenService.height();
-    const scaleFrom = 62 / screenW;
+    const scaleFrom = iconWidth / screenW;
     const translateX = iconX - screenW / 2;
     const translateY = iconY - screenH / 2;
     const heightFrom = 100 * (screenW / screenH);
@@ -139,6 +164,10 @@ export class AppWindowComponent implements AfterViewInit {
     if (!this.animationPlayer) {
       this.animationPlayer = animation.create(this.host.nativeElement);
     }
+
+    this.animationPlayer.onDone(() => {
+      this.isIconVisible.set(false);
+    });
 
     this.animationPlayer.play();
     // this.animationPlayer.pause();

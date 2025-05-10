@@ -1,8 +1,8 @@
 <div #appsGrid class="apps-grid">
-  @for (apps of applications; track $index) {
+  @for (apps of applications(); track $index) {
     <div #appsGridPanel class="apps-grid__panel">
       @for (app of apps; track $index) {
-        <div class="apps-grid__panel__app">
+        <div [id]="app.idGrid" class="apps-grid__panel__app">
           <div class="app" (tap)="openApp(app, appIcon)">
             <div #appIcon class="app__icon">
               <ng-container *ngComponentOutlet="app.icon" />
@@ -36,7 +36,7 @@
     (@fadeOut.done)="
       paginationVisibility === 'hidden' ? searchBtnVisibility = 'visible' : null;
     "
-    [pagesTotal]="totalPages"
+    [pagesTotal]="totalPages()"
     [currentPage]="currPage"
   />
 </div>

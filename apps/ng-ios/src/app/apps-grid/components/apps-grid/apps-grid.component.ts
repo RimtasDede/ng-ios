@@ -1,13 +1,12 @@
-import { Component, ElementRef, EventEmitter, HostListener, inject, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, computed, ElementRef, EventEmitter, HostListener, inject, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { SvgIconComponent } from 'angular-svg-icon';
 
-import { ApplicationInstalled, AppPoolService } from '@ng-ios/application';
-import { IosScreenService } from '@ng-ios/ios-services';
+import { ApplicationInstalled } from '@ng-ios/types';
+import { AppPoolService } from '@ng-ios/application';
+import { IosInstalledAppsService, IosScreenService } from '@ng-ios/ios-services';
 import { PaginationComponent } from '@ng-ios/ui';
-
-import { apps } from './data';
 
 
 @Component({
@@ -45,14 +44,15 @@ export class AppsGridComponent {
   @Output() panBeforeFirstPage = new EventEmitter<any>();
   @Output() panAfterLastPage = new EventEmitter<any>();
 
-  private readonly iosScreenService = inject(IosScreenService);
   private readonly appPoolService = inject(AppPoolService);
+  private readonly iosScreenService = inject(IosScreenService);
+  private readonly iosInstalledAppsService = inject(IosInstalledAppsService);
 
   @ViewChild('appsGrid') appsGrid!: ElementRef;
   @ViewChildren('appsGridPanel') appsGridPanels!: QueryList<ElementRef>;
 
-  applications: ApplicationInstalled[][] = apps;
-  totalPages = this.applications.length - 1;
+  applications = this.iosInstalledAppsService.appsGrid;
+  totalPages = computed(() => this.applications().length - 1);
   currPage = 0;
 
   /**
@@ -146,7 +146,7 @@ export class AppsGridComponent {
     if (
       Math.abs(move) >= halfPageWidth
       && (
-        (this.totalPages === this.currPage && direction > 0)
+        (this.totalPages() === this.currPage && direction > 0)
         || (this.currPage === 0 && direction < 0)
       )
     ) {
@@ -172,7 +172,7 @@ export class AppsGridComponent {
   swipeLeft(e: HammerInput) {
     if (
       this.isPageAnimating
-      && this.currPage === this.totalPages
+      && this.currPage === this.totalPages()
     ) {
       return;
     }
@@ -208,7 +208,7 @@ export class AppsGridComponent {
   private canSwipeApps(x: number): boolean {
     const pageWidth = this.iosScreenService.width();
 
-    return x < 0 && x > this.totalPages * pageWidth * -1;
+    return x < 0 && x > this.totalPages() * pageWidth * -1;
   }
 
   private swipe(e: HammerInput): void {
