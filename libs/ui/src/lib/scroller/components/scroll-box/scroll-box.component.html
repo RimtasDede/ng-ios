@@ -1,0 +1,38 @@
+<div
+  #contentBox
+  class="content-box"
+  (m-panstart)="panStart()"
+  (m-panup)="pan($any($event))"
+  (m-pandown)="pan($any($event))"
+  (m-panend)="panEnd($any($event))"
+  (mousedown)="pressDown()"
+  (mouseup)="pressUp()"
+>
+  <div
+    #content
+    class="content"
+    [style]="{
+      'translate': '0 ' + translateY() + 'px'
+    }"
+  >
+    <ng-content />
+  </div>
+
+  <div
+    #scrollContainer
+    class="scroll-bar-container"
+  >
+    <div
+      #scrollBar
+      class="scroll-bar"
+      [class]="{
+        'scroll-bar--visible': isScrollInProgress()
+      }"
+      [style]="{
+        'height': (contentBox.offsetHeight / content.offsetHeight) * 100 + '%',
+        'translate': '0 ' + translateYscroll() + 'px'
+      }"
+    ></div>
+  </div>
+
+</div>

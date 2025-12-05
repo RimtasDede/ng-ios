@@ -101,7 +101,10 @@ export class TouchEventManagerService extends EventManagerPlugin {
             this.dispatchEvent(element, e.type, e);
           }
 
-          if (e.type === MoveEventType.PanEnd) {
+          if (
+            e.type === MoveEventType.PanEnd
+            || e.type === MoveEventType.PressUp
+          ) {
             sub.unsubscribe();
           }
         });

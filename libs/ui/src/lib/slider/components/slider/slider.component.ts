@@ -124,7 +124,7 @@ export class SliderComponent implements OnInit, AfterContentInit {
       valueStart: currTranslateX,
       valueEnd: sl,
       easing: easeOut,
-      valueUpdate: val => this.trackTranslateX.set(val),
+      valueUpdate: ({ value }) => this.trackTranslateX.set(value),
     }).start();
 
     // const startTime = performance.now();

@@ -122,10 +122,12 @@ export class TouchService {
       });
     }
 
-    this.event$.next({
-      ...moveEvent,
-      type: MoveEventType.PanEnd,
-    });
+    if (this.prevMoveEvent) {
+      this.event$.next({
+        ...moveEvent,
+        type: MoveEventType.PanEnd,
+      });
+    }
 
     this.documentListenersAdded = false;
     this.isMouseDown = false;

@@ -21,8 +21,15 @@ export interface AnimationOptions {
 
   /**
    * Function that will be called to update animating value
+   *
+   * @param value Animatable value
+   * @param progress Animation progress from 0 to 1
    */
-  valueUpdate: (_: number) => void;
+  valueUpdate: (obj: {
+    value: number,
+    progress: number,
+    durationLeft: number,
+  }) => void;
 }
 
 export interface AnimationObject {
@@ -44,7 +51,7 @@ export interface AnimationObject {
  *   valueStart: 0,
  *   valueEnd: 500,
  *   easing: easeOut,
- *   valueUpdate: value => {
+ *   valueUpdate: ({value}) => {
  *     // update value logic
  *   },
  * });
@@ -55,6 +62,7 @@ export function createAnimation(options: AnimationOptions): AnimationObject {
   const { duration, valueStart, valueEnd, easing, valueUpdate } = options;
   const startTime = performance.now();
   let animationId: number;
+  let isStopped = false;
 
   return {
     start: () => {
@@ -62,13 +70,14 @@ export function createAnimation(options: AnimationOptions): AnimationObject {
         function animate() {
           const currentTime = performance.now();
           const elapsed = currentTime - startTime;
+          const durationLeft = duration - elapsed;
           const progress = Math.min(elapsed / duration, 1);
           const easedProgress = easing(progress);
           const value = valueStart + (valueEnd - valueStart) * easedProgress;
 
-          valueUpdate(value);
+          valueUpdate({ value, progress, durationLeft });
 
-          if (progress < 1) {
+          if (progress < 1 && !isStopped) {
             animationId = requestAnimationFrame(animate);
           } else {
             resolve();
@@ -81,6 +90,7 @@ export function createAnimation(options: AnimationOptions): AnimationObject {
     stop: () => {
       if (animationId) {
         cancelAnimationFrame(animationId);
+        isStopped = true;
       }
     },
   };
