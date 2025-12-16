@@ -1,0 +1,14 @@
+:host {
+  font-size: 10px;
+  max-width: 80%;
+  max-height: 2em;
+  line-height: 10px;
+  color: #808080;
+  letter-spacing: 1px;
+  text-align: center;
+  overflow: hidden;
+}
+
+:host-context(ios-app-tab.active) {
+  color: #F19E24;
+}

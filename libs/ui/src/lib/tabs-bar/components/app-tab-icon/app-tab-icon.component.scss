@@ -1,0 +1,13 @@
+:host {
+  display: flex;
+  align-items: center;
+  max-width: 28px;
+  height: 38px;
+  color: #808080;
+  fill: #808080;
+}
+
+:host-context(ios-app-tab.active) {
+  color: #F19E24;
+  fill: #F19E24;
+}

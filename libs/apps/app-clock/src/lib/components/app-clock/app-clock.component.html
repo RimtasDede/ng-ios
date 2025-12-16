@@ -1,1 +1,39 @@
 <p>AppClock works!</p>
+
+<ios-app-tabs>
+  <ios-app-tab>
+    <ios-app-tab-icon>
+      <icon-globe />
+    </ios-app-tab-icon>
+    <ios-app-tab-label>
+      World clock
+    </ios-app-tab-label>
+  </ios-app-tab>
+
+  <ios-app-tab>
+    <ios-app-tab-icon>
+      <icon-alarm />
+    </ios-app-tab-icon>
+    <ios-app-tab-label>
+      Alarms
+    </ios-app-tab-label>
+  </ios-app-tab>
+
+  <ios-app-tab>
+    <ios-app-tab-icon>
+      <icon-stopwatch />
+    </ios-app-tab-icon>
+    <ios-app-tab-label>
+      Stopwatch
+    </ios-app-tab-label>
+  </ios-app-tab>
+
+  <ios-app-tab [active]="true">
+    <ios-app-tab-icon>
+      <icon-timers />
+    </ios-app-tab-icon>
+    <ios-app-tab-label>
+      Timers
+    </ios-app-tab-label>
+  </ios-app-tab>
+</ios-app-tabs>

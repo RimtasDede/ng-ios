@@ -3,9 +3,7 @@ $phone-vertical-frame: calc(110 / 1962 * 100%);
 
 :host {
   display: block;
-  width: 100%;
-  max-width: 452px;
-  max-height: 906px;
+  max-height: 100%;
   overflow: hidden;
   aspect-ratio: 978 / 1962;
 }
@@ -31,5 +29,6 @@ $phone-vertical-frame: calc(110 / 1962 * 100%);
   height: calc(100% - $phone-vertical-frame);
   background-position: top center;
   background-size: cover;
+  border-radius: 40px;
   overflow: hidden;
 }
