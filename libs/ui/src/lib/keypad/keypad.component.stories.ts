@@ -11,7 +11,9 @@ export default meta;
 type Story = StoryObj<KeypadComponent>;
 
 export const Primary: Story = {
-  args: {},
+  args: {
+    type: 'unlock',
+  },
 };
 
 export const Heading: Story = {

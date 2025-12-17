@@ -176,7 +176,7 @@ export class KeypadComponent implements OnChanges {
     {
       id: PressId.KeyAsterisk,
       type: 'icon',
-      icon: '/icons/asterisk.svg',
+      icon: 'icons/asterisk.svg',
       fontSize: 24,
     },
     {
@@ -188,13 +188,13 @@ export class KeypadComponent implements OnChanges {
     {
       id: PressId.KeyHash,
       type: 'icon',
-      icon: '/icons/hash.svg',
+      icon: 'icons/hash.svg',
       fontSize: 30,
     },
     {
       id: PressId.KeyCall,
       type: 'icon',
-      icon: '/icons/call.svg',
+      icon: 'icons/call.svg',
       fontSize: 30,
       class: 'key--call-key',
     },
@@ -232,7 +232,6 @@ export class KeypadComponent implements OnChanges {
   }
 
   onKeyPress(key: Key) {
-    // console.log('key', key);
     this.keyPress.emit(key.id);
   }
 

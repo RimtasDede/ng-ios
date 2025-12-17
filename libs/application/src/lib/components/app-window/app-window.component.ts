@@ -5,6 +5,7 @@ import { animate, AnimationBuilder, AnimationFactory, AnimationPlayer, group, ke
 import { ApplicationInstalled } from '@ng-ios/types';
 import { IosScreenService } from '@ng-ios/ios-services';
 import { StatusBarGlobalComponent } from '@ng-ios/status-bar-global';
+import { HomeIndicatorComponent } from '@ng-ios/ui';
 
 
 const scaleInAnimationMeta = (
@@ -80,13 +81,13 @@ const scaleInAnimationMeta = (
     ),
   ]);
 }
-// const scaleOutAnimation =
 
 @Component({
   selector: 'lib-app-window',
   imports: [
     CommonModule,
     StatusBarGlobalComponent,
+    HomeIndicatorComponent,
   ],
   templateUrl: './app-window.component.html',
   styleUrl: './app-window.component.scss',

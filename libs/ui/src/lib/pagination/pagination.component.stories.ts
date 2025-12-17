@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { PaginationComponent } from './pagination.component';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
+
+import { PaginationComponent } from './pagination.component';
 
 const meta: Meta<PaginationComponent> = {
   component: PaginationComponent,
@@ -12,8 +13,8 @@ type Story = StoryObj<PaginationComponent>;
 
 export const Primary: Story = {
   args: {
-    pagesTotal: 0,
-    currentPage: 0,
+    pagesTotal: 10,
+    currentPage: 1,
     maxWidth: 4,
   },
 };
