@@ -1,6 +1,4 @@
-@use './styles/index' with (
-  $fonts-path: ''
-);
+@use './styles/index';
 
 html, body {
   height: 100%;

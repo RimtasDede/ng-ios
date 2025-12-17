@@ -1,3 +1,4 @@
+import { APP_BASE_HREF } from '@angular/common';
 import { ApplicationConfig, importProvidersFrom, provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { HammerModule } from '@angular/platform-browser';
@@ -13,6 +14,10 @@ import { appRoutes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    {
+      provide: APP_BASE_HREF,
+      useFactory: () => document.querySelector('base')?.getAttribute('href') ?? '/'
+    },
     provideExperimentalZonelessChangeDetection(),
     provideRouter(appRoutes),
     provideAnimations(),

@@ -5,7 +5,8 @@
   "scripts": {
     "start": "nx serve ng-ios",
     "start-test": "nx serve test --port=4201",
-    "sb-ui": "nx storybook ui"
+    "sb-ui": "nx storybook ui",
+    "host": "npx http-server dist/apps -p 8080"
   },
   "private": true,
   "dependencies": {

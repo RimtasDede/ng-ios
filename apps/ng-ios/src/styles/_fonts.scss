@@ -3,7 +3,7 @@
 // regular
 @font-face {
   font-family: 'SF Pro';
-  src: url('#{$fonts-path}/fonts/SFPRODISPLAYREGULAR.OTF') format('opentype');
+  src: url('~apps/ng-ios/public/fonts/SFPRODISPLAYREGULAR.OTF') format('opentype');
   font-weight: normal;
   font-style: normal;
 }
@@ -11,7 +11,7 @@
 // bold
 @font-face {
   font-family: 'SF Pro';
-  src: url('#{$fonts-path}/fonts/SFPRODISPLAYBOLD.OTF') format('opentype');
+  src: url('~apps/ng-ios/public/fonts/SFPRODISPLAYBOLD.OTF') format('opentype');
   font-weight: bold;
   font-style: normal;
 }
@@ -19,7 +19,7 @@
 // black italic
 @font-face {
   font-family: 'SF Pro';
-  src: url('#{$fonts-path}/fonts/SFPRODISPLAYBLACKITALIC.OTF') format('opentype');
+  src: url('~apps/ng-ios/public/fonts/SFPRODISPLAYBLACKITALIC.OTF') format('opentype');
   font-weight: 900;
   font-style: italic;
 }
@@ -27,7 +27,7 @@
 // heavy italic
 @font-face {
   font-family: 'SF Pro';
-  src: url('#{$fonts-path}/fonts/SFPRODISPLAYHEAVYITALIC.OTF') format('opentype');
+  src: url('~apps/ng-ios/public/fonts/SFPRODISPLAYHEAVYITALIC.OTF') format('opentype');
   font-weight: 800;
   font-style: italic;
 }
@@ -35,7 +35,7 @@
 // light italic
 @font-face {
   font-family: 'SF Pro';
-  src: url('#{$fonts-path}/fonts/SFPRODISPLAYLIGHTITALIC.OTF') format('opentype');
+  src: url('~apps/ng-ios/public/fonts/SFPRODISPLAYLIGHTITALIC.OTF') format('opentype');
   font-weight: 300;
   font-style: italic;
 }
@@ -43,7 +43,7 @@
 // medium
 @font-face {
   font-family: 'SF Pro';
-  src: url('#{$fonts-path}/fonts/SFPRODISPLAYMEDIUM.OTF') format('opentype');
+  src: url('~apps/ng-ios/public/fonts/SFPRODISPLAYMEDIUM.OTF') format('opentype');
   font-weight: 500;
   font-style: normal;
 }
@@ -51,7 +51,7 @@
 // semi bold italic
 @font-face {
   font-family: 'SF Pro';
-  src: url('#{$fonts-path}/fonts/SFPRODISPLAYSEMIBOLDITALIC.OTF') format('opentype');
+  src: url('~apps/ng-ios/public/fonts/SFPRODISPLAYSEMIBOLDITALIC.OTF') format('opentype');
   font-weight: 600;
   font-style: italic;
 }
@@ -59,7 +59,7 @@
 // thin italic
 @font-face {
   font-family: 'SF Pro';
-  src: url('#{$fonts-path}/fonts/SFPRODISPLAYTHINITALIC.OTF') format('opentype');
+  src: url('~apps/ng-ios/public/fonts/SFPRODISPLAYTHINITALIC.OTF') format('opentype');
   font-weight: 100;
   font-style: italic;
 }
@@ -67,7 +67,7 @@
 // ultra light italic
 @font-face {
   font-family: 'SF Pro';
-  src: url('#{$fonts-path}/fonts/SFPRODISPLAYULTRALIGHTITALIC.OTF') format('opentype');
+  src: url('~apps/ng-ios/public/fonts/SFPRODISPLAYULTRALIGHTITALIC.OTF') format('opentype');
   font-weight: 200;
   font-style: italic;
 }
